@@ -85,7 +85,7 @@ const createUser = (fields, signInAfterCreate, success, failure) => {
       .signUp(fields)
       .then(() => {
         if (signInAfterCreate) {
-          authRequests.signIn(fields.username, fields.Password)
+          authRequests.signIn(fields.username, fields.password)
             .then((token) => {
               dispatch({ type: ActionTypes.SET_TOKEN, payload: token });
               localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);

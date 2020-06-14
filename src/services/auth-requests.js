@@ -43,10 +43,6 @@ const signOut = () => {
  */
 const signUp = (fields) => {
   return new Promise((resolve, reject) => {
-    if (fields.AdminUser) {
-      fields.AdminUser = Boolean(fields.AdminUser);
-    }
-
     axios.post(`${URL}/sign-up`, fields, generateHeaders(fields.username, fields.password))
       .then((response) => {
         resolve(response.data.response);

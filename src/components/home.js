@@ -20,13 +20,22 @@ class Home extends React.Component {
 
           <p>curr user</p>
           {JSON.stringify(this.props.user)}
+
+
           {Object.keys(this.props.user).length === 0
             ? (
-              <NavLink to={ROUTES.LOGIN}>
-                <div>
-                  <p>Sign In</p>
-                </div>
-              </NavLink>
+              <div>
+                <NavLink to={ROUTES.LOGIN}>
+                  <div>
+                    <p>Sign In</p>
+                  </div>
+                </NavLink>
+                <NavLink to={ROUTES.SIGN_UP}>
+                  <div>
+                    <p>Sign Up</p>
+                  </div>
+                </NavLink>
+              </div>
             )
             : (
               <div onClick={this.props.signOut} role="button" tabIndex={0}>

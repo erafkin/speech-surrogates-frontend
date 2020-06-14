@@ -6,6 +6,8 @@ import { getUser, getAllUsers } from './state/actions';
 
 
 import SignIn from './components/signin';
+import SignUp from './components/signup';
+
 import Home from './components/home';
 
 
@@ -31,6 +33,7 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route path={ROUTES.LOGIN} component={SignIn} />
+            <Route path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.HOME} component={Home} />
             <Route component={FallBack} />
           </Switch>
