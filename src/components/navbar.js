@@ -15,28 +15,33 @@ class Navbar extends React.Component {
 
     render() {
       return (
-        <div>
-          <p className="words">Hello{this.props.user.first_name !== undefined ? `, ${this.props.user.first_name}` : ''}</p>
-          {Object.keys(this.props.user).length === 0
-            ? (
-              <div className="button-container">
-                <NavLink to={ROUTES.LOGIN}>
-                  <div className="button" role="button" tabIndex={0}>
-                    <p>Sign In</p>
-                  </div>
-                </NavLink>
-                <NavLink to={ROUTES.SIGN_UP}>
-                  <div className="button" role="button" tabIndex={0}>
-                    <p>Sign Up</p>
-                  </div>
-                </NavLink>
-              </div>
-            )
-            : (
-              <div onClick={this.props.signOut} role="button" tabIndex={0} className="button">
-                <p>Sign Out</p>
-              </div>
-            )}
+        <div className="navbar">
+          <div className="heading">
+            Surrogate Languages
+          </div>
+          <div className="content">
+            <p className="words">{this.props.user.first_name !== undefined ? `Welcome, ${this.props.user.first_name}` : ''}</p>
+            {Object.keys(this.props.user).length === 0
+              ? (
+                <div className="button-container">
+                  <NavLink to={ROUTES.LOGIN}>
+                    <div className="button">
+                      Sign In
+                    </div>
+                  </NavLink>
+                  <NavLink to={ROUTES.SIGN_UP}>
+                    <div className="button">
+                      Sign Up
+                    </div>
+                  </NavLink>
+                </div>
+              )
+              : (
+                <div onClick={this.props.signOut} role="button" tabIndex={0} className="button">
+                  Sign Out
+                </div>
+              )}
+          </div>
 
 
         </div>
