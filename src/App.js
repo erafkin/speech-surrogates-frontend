@@ -4,11 +4,10 @@ import { connect } from 'react-redux';
 import { LOCAL_STORAGE_TOKEN_KEY, ROUTES, LOCAL_STORAGE_USERNAME_KEY } from './constants';
 import { getUser, getAllUsers } from './state/actions';
 
-
+import Navbar from './components/navbar';
+import Home from './components/home';
 import SignIn from './components/signin';
 import SignUp from './components/signup';
-
-import Home from './components/home';
 
 
 const FallBack = () => {
@@ -31,10 +30,11 @@ class App extends React.Component {
     return (
       <Router>
         <div>
+          <Navbar />
           <Switch>
             <Route path={ROUTES.LOGIN} component={SignIn} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route path={ROUTES.HOME} component={Home} />
+            <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}
             <Route component={FallBack} />
           </Switch>
         </div>
