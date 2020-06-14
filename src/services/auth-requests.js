@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { API_URL, LOCAL_STORAGE_TOKEN_KEY, LOCAL_STORAGE_USERNAME_KEY } from '../constants/index';
 
-const URL = `${API_URL}/authentication`;
+const URL = `${API_URL}/auth`;
 
 // creates an authorization header to attach to request
 const generateHeaders = (username, password) => {
