@@ -20,11 +20,13 @@
 .content {
     text-align: right;
     display: inline-block;
-    width: 85vw;
+    width: 80vw;
 }
 .heading {
-    width: 10vw;
+    width: 15vw;
     display: inline-block;
+    font-size: 16pt;
+    font-weight: 700;
 }
 
 a:visited {

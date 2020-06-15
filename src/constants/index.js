@@ -7,6 +7,9 @@ const ROUTES = {
   LOGIN: '/login',
   SIGN_UP: '/sign-up',
   ADMIN: '/admin',
+  BLOG: '/blog',
+  NEW_BLOG: '/new-blog',
+
 };
 
 export {

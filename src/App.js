@@ -8,6 +8,8 @@ import Navbar from './components/navbar';
 import Home from './components/home';
 import SignIn from './components/signin';
 import SignUp from './components/signup';
+import Blog from './components/blog';
+import IndivBlog from './components/new-blog';
 
 
 const FallBack = () => {
@@ -23,7 +25,6 @@ class App extends React.Component {
     if (token && token.length > 0 && username && username.length > 0) {
       this.props.getUser(token, username);
     }
-    this.props.getAllUsers();
   }
 
   render() {
@@ -32,6 +33,8 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path={ROUTES.NEW_BLOG} component={IndivBlog} />
+            <Route path={ROUTES.BLOG} component={Blog} />
             <Route path={ROUTES.LOGIN} component={SignIn} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}

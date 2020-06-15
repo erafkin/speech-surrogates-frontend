@@ -12,11 +12,22 @@ import {
   signOut,
 } from './user-actions';
 
+import {
+  ActionTypes as blogActionTypes,
+  getBlog,
+  getAllBlogs,
+  updateBlog,
+  createBlog,
+} from './blog-actions';
+
 // combine all action types
 const ActionTypes = {};
 
 Object.keys(userActionTypes).forEach((key) => {
   ActionTypes[key] = userActionTypes[key];
+});
+Object.keys(blogActionTypes).forEach((key) => {
+  ActionTypes[key] = blogActionTypes[key];
 });
 
 // export all action types in one object, as well as each action
@@ -30,4 +41,8 @@ export {
   getAllUsers,
   signIn,
   signOut,
+  getBlog,
+  getAllBlogs,
+  updateBlog,
+  createBlog,
 };
