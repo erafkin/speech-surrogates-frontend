@@ -9,7 +9,6 @@ import '../styles/blog.css';
 class NewBlog extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.blog);
     this.state = {
       title: this.props.blog.title === undefined ? '' : this.props.blog.title,
       body: this.props.blog.body === undefined ? '' : this.props.blog.body,
@@ -38,10 +37,7 @@ class NewBlog extends React.Component {
   };
 
   submit = () => {
-    console.log(this.props.blog._id);
-
     if (this.props.blog._id !== undefined) {
-      console.log('update');
       this.props.updateBlog(
         {
           ...this.props.blog,
@@ -54,8 +50,6 @@ class NewBlog extends React.Component {
         this.onFailureCallback,
       );
     } else {
-      console.log('create');
-
       this.props.createBlog(
         {
           title: this.state.title,
