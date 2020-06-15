@@ -37,22 +37,29 @@ const getAllBlogs = () => {
   };
 };
 
-const updateBlog = (blog) => {
+
+const updateBlog = (b, u, success, failure) => {
   return (dispatch, getState) => {
     blogRequests
-      .updateBlog(getState().user.token, blog)
+      .updateBlog(getState().user.token, { id: b._id, blog: b, user: u })
       .then((response) => {
         dispatch({ type: ActionTypes.SET_BLOG, payload: response });
+        if (success !== undefined) {
+          success();
+        }
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
       });
   };
 };
 const createBlog = (b, u, success, failure) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     blogRequests
-      .createBlog({ blog: b, user: u })
+      .createBlog({ token: getState().user.token, blog: b, user: u })
       .then((response) => {
         dispatch({ type: ActionTypes.SET_BLOG, payload: response });
         if (success !== undefined) {
@@ -68,6 +75,11 @@ const createBlog = (b, u, success, failure) => {
   };
 };
 
+const setBlog = (b) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_BLOG, payload: b });
+  };
+};
 
 export {
   ActionTypes,
@@ -75,5 +87,6 @@ export {
   getAllBlogs,
   updateBlog,
   createBlog,
+  setBlog,
 
 };

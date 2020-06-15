@@ -3,11 +3,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createBlog } from '../state/actions';
+import { createBlog, updateBlog } from '../state/actions';
+import '../styles/blog.css';
 
 class NewBlog extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.blog);
     this.state = {
       title: this.props.blog.title === undefined ? '' : this.props.blog.title,
       body: this.props.blog.body === undefined ? '' : this.props.blog.body,
@@ -36,29 +38,47 @@ class NewBlog extends React.Component {
   };
 
   submit = () => {
-    this.props.createBlog(
-      {
-        title: this.state.title,
-        body: this.state.body,
-        author: `${this.props.user.first_name} ${this.props.user.last_name}`,
-      },
-      this.props.user,
-      this.onSuccessCallback,
-      this.onFailureCallback,
-    );
+    console.log(this.props.blog._id);
+
+    if (this.props.blog._id !== undefined) {
+      console.log('update');
+      this.props.updateBlog(
+        {
+          ...this.props.blog,
+          title: this.state.title,
+          body: this.state.body,
+
+        },
+        this.props.user,
+        this.onSuccessCallback,
+        this.onFailureCallback,
+      );
+    } else {
+      console.log('create');
+
+      this.props.createBlog(
+        {
+          title: this.state.title,
+          body: this.state.body,
+          author: `${this.props.user.first_name} ${this.props.user.last_name}`,
+        },
+        this.props.user,
+        this.onSuccessCallback,
+        this.onFailureCallback,
+      );
+    }
   }
 
   render() {
     return (
       <div>
-        <p>a new blog post</p>
         <div>
-          Title:
-          <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} />
+          <p>Title:</p>
+          <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
 
           <p>Body:</p>
-          <input type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} />
-
+          <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" />
+          <br />
           <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
             submit
           </div>
@@ -79,6 +99,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createBlog: (blog, user, success, failure) => {
       dispatch(createBlog(blog, user, success, failure));
+    },
+    updateBlog: (blog, user, success, failure) => {
+      dispatch(updateBlog(blog, user, success, failure));
     },
   };
 };

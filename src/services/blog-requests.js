@@ -41,9 +41,9 @@ const getBlog = (id) => {
  * @param {string} id the id to update in the database
  * @param {object} blog values to change for the blog
  */
-const updateBlog = (token, id, blog) => {
+const updateBlog = (token, fields) => {
   return new Promise((resolve, reject) => {
-    axios.put(`${URL}/${id}`, blog, { headers: { Authorization: `Bearer ${token}` } })
+    axios.put(`${URL}/${fields.id}`, fields, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         resolve(response.data.response);
       })
@@ -59,7 +59,7 @@ const updateBlog = (token, id, blog) => {
  */
 const createBlog = (fields) => {
   return new Promise((resolve, reject) => {
-    axios.post(URL, fields)
+    axios.post(URL, fields, { headers: { Authorization: `Bearer ${fields.token}` } })
       .then((response) => {
         resolve(response);
       })

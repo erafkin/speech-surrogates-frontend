@@ -18,6 +18,7 @@ import {
   getAllBlogs,
   updateBlog,
   createBlog,
+  setBlog,
 } from './blog-actions';
 
 // combine all action types
@@ -45,4 +46,5 @@ export {
   getAllBlogs,
   updateBlog,
   createBlog,
+  setBlog,
 };

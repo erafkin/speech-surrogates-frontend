@@ -27,7 +27,7 @@ class Blog extends React.Component {
               }
         <div>
           {this.props.blogs.map((b) => {
-            return (<IndivBlog blog={b} key={b._id} />);
+            return (<IndivBlog blog={b} key={b._id} isAdmin={this.props.user.type === 'admin'} />);
           })}
 
         </div>
