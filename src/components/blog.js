@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import { ROUTES } from '../constants';
+import { ROUTES } from '../constants/index';
 import { getAllBlogs, updateBlog, setBlog } from '../state/actions';
 import IndivBlog from './indiv-blog';
 
@@ -15,8 +15,8 @@ class Blog extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.props.user.type === 'admin'
+      <div className="container">
+        {(this.props.user.type === 'admin' || this.props.user.type === 'contributer')
           ? (
             <NavLink to={ROUTES.NEW_BLOG}>
               <div className="button">
@@ -26,14 +26,14 @@ class Blog extends React.Component {
           )
           : <div />
               }
-        <div>
+        <div className="postContainer">
           {this.props.blogs.map((b) => {
-            if (this.props.user.type === 'admin' || b.visible) {
+            if ((this.props.user.type === 'admin' || this.props.user.type === 'contributer') || b.visible) {
               return (
-                <div key={`${b._id}main`}>
+                <div key={`${b._id}main`} className="post">
 
                   <IndivBlog blog={b} key={b._id} user={this.props.user} visible={b.visible} />
-                  {this.props.user.type === 'admin'
+                  {(this.props.user.type === 'admin' || this.props.user.type === 'contributer')
                     ? (
                       <div key={`${b._id}div`}>
                         <NavLink to={ROUTES.NEW_BLOG} onClick={() => { this.props.setBlog(b); }}>

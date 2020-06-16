@@ -11,7 +11,7 @@ const BlogReducer = (state = initialState, action) => {
       return { ...state, blog: action.payload };
 
     case ActionTypes.SET_BLOGS:
-      return { ...state, allBlogs: action.payload };
+      return { ...state, allBlogs: action.payload.reverse() };
 
     default:
       return state;

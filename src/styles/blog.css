@@ -1,3 +1,6 @@
+.container{
+    padding: 10px;
+}
 .newBody{
     height: 50vh;
     margin: 10px;
@@ -8,4 +11,12 @@
     margin: 10px;
     width: 50vw;
 }
+.post{
+    width: 70vw;
+}
+.postContainer{
+    align-items: center;
+    padding-left: 15vw;
+    padding-right: 15vw;
 
+}

@@ -65,7 +65,7 @@ class NewBlog extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div>
           <p>Title:</p>
           <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />

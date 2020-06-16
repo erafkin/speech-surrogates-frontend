@@ -10,6 +10,7 @@ import {
   getAllUsers,
   signIn,
   signOut,
+  resetPassword,
 } from './user-actions';
 
 import {
@@ -19,6 +20,7 @@ import {
   updateBlog,
   createBlog,
   setBlog,
+
 } from './blog-actions';
 
 // combine all action types
@@ -47,4 +49,5 @@ export {
   updateBlog,
   createBlog,
   setBlog,
+  resetPassword,
 };

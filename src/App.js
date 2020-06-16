@@ -10,6 +10,9 @@ import SignIn from './components/signin';
 import SignUp from './components/signup';
 import Blog from './components/blog';
 import IndivBlog from './components/new-blog';
+import AdminPanel from './components/admin-panel';
+import About from './components/about';
+import SpeechSurrogates from './components/speech-surrogates';
 
 
 const FallBack = () => {
@@ -33,6 +36,9 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path={ROUTES.SPEECH_SURROGATES} component={SpeechSurrogates} />
+            <Route path={ROUTES.ABOUT} component={About} />
+            <Route path={ROUTES.ADMIN} component={AdminPanel} />
             <Route path={ROUTES.NEW_BLOG} component={IndivBlog} />
             <Route path={ROUTES.BLOG} component={Blog} />
             <Route path={ROUTES.LOGIN} component={SignIn} />

@@ -44,6 +44,8 @@ const SignIn = (props) => {
           <div className="button" onClick={() => props.signIn(username, password, onSuccessCallback, onFailureCallback)} role="button" tabIndex={0}>
             Sign In
           </div>
+          {/* <p id="signup-link">Click <NavLink to={ROUTES.RESET_PASSWORD}>Forgot your password</NavLink></p> */}
+
         </div>
       </div>
     </Fade>

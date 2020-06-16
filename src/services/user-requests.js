@@ -43,13 +43,9 @@ const getUser = (token, username) => {
  * @param {string} username the username to update in the database
  * @param {object} fields values to change for the user
  */
-const updateUser = (token, username, fields) => {
+const updateUser = (token, u) => {
   return new Promise((resolve, reject) => {
-    if (fields.AdminUser) {
-      fields.AdminUser = Boolean(fields.AdminUser);
-    }
-
-    axios.put(`${URL}/${username}`, fields, { headers: { Authorization: `Bearer ${token}` } })
+    axios.put(`${URL}/${u._id}`, { user: u }, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         resolve(response.data.response);
       })
@@ -76,9 +72,27 @@ const deleteUser = (token, username) => {
   });
 };
 
+/**
+ * retrieve single user object by username
+ * @param {string} email username to retrieve
+  * @param {string} user username to retrieve
+ */
+const resetPassword = (token, e, u) => {
+  return new Promise((resolve, reject) => {
+    axios.post(`${URL}/reset-password`, { email: e, username: u })
+      .then((response) => {
+        resolve(response.data.response);
+      })
+      .catch((error) => {
+        reject(error.response.data);
+      });
+  });
+};
+
 export {
   getAllUsers,
   getUser,
   updateUser,
   deleteUser,
+  resetPassword,
 };

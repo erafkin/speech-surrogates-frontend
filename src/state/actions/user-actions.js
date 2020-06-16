@@ -139,22 +139,11 @@ const createUser = (fields, signInAfterCreate, success, failure) => {
 };
 
 // make an asyncronous request to the server to update user fields, then get the user data
-const updateUser = (fields) => {
+const updateUser = (user) => {
   return (dispatch, getState) => {
     userRequests
-      .updateUser(getState().user.token, fields.username, fields)
+      .updateUser(getState().user.token, user)
       .then((updatedUser) => {
-        if (fields.username === getState().user.user.username) {
-          userRequests
-            .getUser(getState().user.token, fields.username)
-            .then((response) => {
-              dispatch({ type: ActionTypes.SET_USER_DATA, payload: response });
-            })
-            .catch((error) => {
-              dispatch({ type: ActionTypes.API_ERROR, payload: error });
-            });
-        }
-
         userRequests
           .getAllUsers(localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) || getState().user.token)
           .then((response) => {
@@ -169,6 +158,7 @@ const updateUser = (fields) => {
       });
   };
 };
+
 
 const deleteUser = (username) => {
   return (dispatch, getState) => {
@@ -201,6 +191,15 @@ const clearUserData = () => {
   };
 };
 
+const resetPassword = (email, username) => {
+  return (dispatch) => {
+    userRequests.getAllUsers(email, username)
+      .then((response) => {
+        dispatch({ type: ActionTypes.CLEAR_USER_DATA, payload: {} });
+      });
+  };
+};
+
 // get all user objects from the database
 const getAllUsers = () => {
   return (dispatch, getState) => {
@@ -225,4 +224,5 @@ export {
   getAllUsers,
   signIn,
   signOut,
+  resetPassword,
 };
