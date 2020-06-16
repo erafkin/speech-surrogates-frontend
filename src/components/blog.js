@@ -16,7 +16,7 @@ class Blog extends React.Component {
   render() {
     return (
       <div className="container">
-        {(this.props.user.type === 'admin' || this.props.user.type === 'contributer')
+        {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
           ? (
             <NavLink to={ROUTES.NEW_BLOG}>
               <div className="button">
@@ -28,12 +28,12 @@ class Blog extends React.Component {
               }
         <div className="postContainer">
           {this.props.blogs.map((b) => {
-            if ((this.props.user.type === 'admin' || this.props.user.type === 'contributer') || b.visible) {
+            if ((this.props.user.type === 'admin' || this.props.user.type === 'contributor') || b.visible) {
               return (
                 <div key={`${b._id}main`} className="post">
 
                   <IndivBlog blog={b} key={b._id} user={this.props.user} visible={b.visible} />
-                  {(this.props.user.type === 'admin' || this.props.user.type === 'contributer')
+                  {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
                     ? (
                       <div key={`${b._id}div`}>
                         <NavLink to={ROUTES.NEW_BLOG} onClick={() => { this.props.setBlog(b); }}>

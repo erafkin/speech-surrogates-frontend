@@ -29,7 +29,7 @@ class AdminPanel extends React.Component {
             </tr>
             {this.props.users.map((user) => {
               let newRole = 'none';
-              if (user.type === 'none') newRole = 'contributer';
+              if (user.type === 'none') newRole = 'contributor';
               return (
                 <tr key={user._id}>
                   <td>{user.first_name}</td>
