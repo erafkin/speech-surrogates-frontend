@@ -16,7 +16,7 @@ const Navbar = (props) => {
         <NavLink to={ROUTES.HOME}>
 
           <div className="heading">
-            Surrogate Languages
+            Speech Surrogates
           </div>
         </NavLink>
         <NavLink to={ROUTES.HOME}>
