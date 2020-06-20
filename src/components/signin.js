@@ -30,6 +30,7 @@ const SignIn = (props) => {
     }
   };
 
+
   return (
     <Fade>
       <div id="sign-in-container">
@@ -40,8 +41,21 @@ const SignIn = (props) => {
           <p>Username:</p>
           <input value={username} onChange={e => setUsername(e.target.value)} />
           <p>Password:</p>
-          <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
-          <div className="button" onClick={() => props.signIn(username, password, onSuccessCallback, onFailureCallback)} role="button" tabIndex={0}>
+          <input value={password}
+            onChange={e => setPassword(e.target.value)}
+            type="password"
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') props.signIn(username, password, onSuccessCallback, onFailureCallback);
+            }}
+          />
+          <div className="button"
+            onClick={() => props.signIn(username, password, onSuccessCallback, onFailureCallback)}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') props.signIn(username, password, onSuccessCallback, onFailureCallback);
+            }}
+          >
             Sign In
           </div>
           {/* <p id="signup-link">Click <NavLink to={ROUTES.RESET_PASSWORD}>Forgot your password</NavLink></p> */}

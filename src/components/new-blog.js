@@ -110,12 +110,14 @@ class NewBlog extends React.Component {
           <p>Body:</p>
           <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" />
           <br />
+          <p>Keywords:</p>
           <CreatableSelect
             isMulti
             onChange={this.handleChange}
             options={keywordOptions}
             value={values}
           />
+          <br />
 
           <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
             submit

@@ -52,8 +52,20 @@ const SignUp = (props) => {
           <p>First Name:</p>
           <input value={firstName} onChange={e => setFirstName(e.target.value)} />
           <p>Last Name:</p>
-          <input value={lastName} onChange={e => setLastName(e.target.value)} />
-          <div className="button" onClick={signUp} role="button" tabIndex={0}>
+          <input value={lastName}
+            onChange={e => setLastName(e.target.value)}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') signUp();
+            }}
+          />
+          <div className="button"
+            onClick={signUp}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') signUp();
+            }}
+          >
             Sign Up
           </div>
         </div>

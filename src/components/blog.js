@@ -97,7 +97,7 @@ class Blog extends React.Component {
           {this.state.keyword === '' ? <div />
             : (
               <div>
-                <p style={{ display: 'inline-block' }}>Keyword selected: {this.state.keyword}</p>
+                <p style={{ display: 'inline-block', margin: '5px' }}>Keyword selected: {this.state.keyword}</p>
                 <div className="button" role="button" tabIndex={0} onClick={() => this.changeKeyword('')}>
                   clear
                 </div>
