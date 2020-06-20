@@ -3,6 +3,8 @@ import * as blogRequests from '../../services/blog-requests';
 const ActionTypes = {
   SET_BLOG: 'SET_BLOG',
   SET_BLOGS: 'SET_BLOGS',
+  SET_KEYWORDS: 'SET_KEYWORDS',
+
 
   // flag to handle any errors that arise
   API_ERROR: 'API_ERROR',
@@ -30,6 +32,19 @@ const getAllBlogs = () => {
       .getAllBlogs()
       .then((response) => {
         dispatch({ type: ActionTypes.SET_BLOGS, payload: response });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      });
+  };
+};
+
+const getAllKeywords = () => {
+  return (dispatch) => {
+    blogRequests
+      .getAllKeywords()
+      .then((response) => {
+        dispatch({ type: ActionTypes.SET_KEYWORDS, payload: response });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
@@ -88,5 +103,6 @@ export {
   updateBlog,
   createBlog,
   setBlog,
+  getAllKeywords,
 
 };

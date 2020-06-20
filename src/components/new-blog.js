@@ -3,8 +3,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import CreatableSelect from 'react-select/creatable';
+
 import { createBlog, updateBlog } from '../state/actions';
 import '../styles/blog.css';
+
 
 class NewBlog extends React.Component {
   constructor(props) {
@@ -12,6 +15,7 @@ class NewBlog extends React.Component {
     this.state = {
       title: this.props.blog.title === undefined ? '' : this.props.blog.title,
       body: this.props.blog.body === undefined ? '' : this.props.blog.body,
+      keywords: this.props.blog.keywords === undefined ? [] : this.props.blog.keywords,
     };
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.onFailureCallback = this.onFailureCallback.bind(this);
@@ -43,7 +47,7 @@ class NewBlog extends React.Component {
           ...this.props.blog,
           title: this.state.title,
           body: this.state.body,
-
+          keywords: this.state.keywords,
         },
         this.props.user,
         this.onSuccessCallback,
@@ -55,6 +59,7 @@ class NewBlog extends React.Component {
           title: this.state.title,
           body: this.state.body,
           author: `${this.props.user.first_name} ${this.props.user.last_name}`,
+          keywords: this.state.keywords,
         },
         this.props.user,
         this.onSuccessCallback,
@@ -63,7 +68,39 @@ class NewBlog extends React.Component {
     }
   }
 
+  handleChange = (newValue) => {
+    const newKeywords = [];
+    if (newValue === null) {
+      this.setState({
+        keywords: [],
+      });
+    } else {
+      newValue.forEach((val) => {
+        newKeywords.push(val.value);
+      });
+      console.log(newKeywords);
+      this.setState({
+        keywords: newKeywords,
+      });
+    }
+  };
+
   render() {
+    const keywordOptions = [];
+    this.props.keywords.forEach((word) => {
+      keywordOptions.push({
+        value: word.name,
+        label: word.name,
+      });
+    });
+
+    const values = [];
+    this.state.keywords.forEach((word) => {
+      values.push({
+        value: word,
+        label: word,
+      });
+    });
     return (
       <div className="container">
         <div>
@@ -73,9 +110,16 @@ class NewBlog extends React.Component {
           <p>Body:</p>
           <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" />
           <br />
+          <CreatableSelect
+            isMulti
+            onChange={this.handleChange}
+            options={keywordOptions}
+          />
+
           <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
             submit
           </div>
+
         </div>
       </div>
     );
@@ -86,6 +130,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.user.user,
     blog: state.blog.blog,
+    keywords: state.blog.keywords,
+
   };
 };
 

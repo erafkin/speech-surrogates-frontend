@@ -5,11 +5,25 @@ import { API_URL } from '../constants';
 const URL = `${API_URL}/blog`;
 
 /**
- * retrieve all user objects in the database
+ * retrieve all blog objects in the database
  */
 const getAllBlogs = () => {
   return new Promise((resolve, reject) => {
     axios.get(URL)
+      .then((response) => {
+        resolve(response.data.response);
+      })
+      .catch((error) => {
+        reject(error.response.data);
+      });
+  });
+};
+/**
+ * retrieve all keyword objects in the database
+ */
+const getAllKeywords = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${URL}/keywords`)
       .then((response) => {
         resolve(response.data.response);
       })
@@ -75,4 +89,5 @@ export {
   getBlog,
   updateBlog,
   createBlog,
+  getAllKeywords,
 };
