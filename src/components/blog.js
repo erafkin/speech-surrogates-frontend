@@ -23,6 +23,12 @@ class Blog extends React.Component {
     this.props.getAllKeywords();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.blog !== this.props.blog) {
+      window.location.reload(false);
+    }
+  }
+
   changeKeyword = (word) => {
     this.setState({
       keyword: word,
@@ -63,7 +69,6 @@ class Blog extends React.Component {
                             { ...b, visible: !b.visible },
                             this.props.user,
                           );
-                          window.location.reload(false); // force a reload, im not sure why it wasn't happening
                         }}
                           role="button"
                           tabIndex={0}

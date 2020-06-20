@@ -58,6 +58,7 @@ const updateBlog = (b, u, success, failure) => {
     blogRequests
       .updateBlog(getState().user.token, { id: b._id, blog: b, user: u })
       .then((response) => {
+        console.log(response);
         dispatch({ type: ActionTypes.SET_BLOG, payload: response });
         if (success !== undefined) {
           success();

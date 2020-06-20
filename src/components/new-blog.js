@@ -114,6 +114,7 @@ class NewBlog extends React.Component {
             isMulti
             onChange={this.handleChange}
             options={keywordOptions}
+            value={values}
           />
 
           <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
