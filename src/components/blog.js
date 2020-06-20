@@ -40,15 +40,60 @@ class Blog extends React.Component {
       <div className="container">
         {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
           ? (
-            <NavLink to={ROUTES.NEW_BLOG}>
-              <div className="button">
-                new post
+            <div className="keywords">
+
+              <NavLink to={ROUTES.NEW_BLOG}>
+                <div className="button">
+                  new post
+                </div>
+              </NavLink>
+              <div>
+                <p>Keywords:</p>
+                {this.props.keywords.map((kw) => {
+                  return (
+                    <div onClick={() => { this.changeKeyword(kw.name); }}
+                      role="button"
+                      tabIndex={0}
+                      key={kw.name}
+                      style={{
+                        textDecoration: 'underline', color: 'blue',
+                      }}
+                    >
+                      {kw.name}
+                    </div>
+                  );
+                })}
               </div>
-            </NavLink>
+            </div>
+
           )
-          : <div />
-              }
+          : (
+            <div>
+              <p>Keywords:</p>
+              {this.props.keywords.map((kw) => {
+                if (kw.postCount !== 0) {
+                  return (
+                    <div onClick={() => { this.changeKeyword(kw.name); }}
+                      role="button"
+                      tabIndex={0}
+                      key={kw.name}
+                      style={{
+                        textDecoration: 'underline', color: 'blue',
+                      }}
+                    >
+                      {kw.name}
+                    </div>
+                  );
+                } else {
+                  return <div />;
+                }
+              })}
+            </div>
+          )
+          }
+
         <div className="postContainer">
+
           {this.state.keyword === '' ? <div />
             : (
               <div>
@@ -99,22 +144,7 @@ class Blog extends React.Component {
           })
           }
         </div>
-        <div style={{ display: 'inline-block' }}>
-          {this.props.keywords.map((kw) => {
-            return (
-              <div onClick={() => { this.changeKeyword(kw.name); }}
-                role="button"
-                tabIndex={0}
-                key={kw.name}
-                style={{
-                  display: 'inline-block', margin: '5px', textDecoration: 'underline', color: 'blue',
-                }}
-              >
-                {kw.name}
-              </div>
-            );
-          })}
-        </div>
+
       </div>
     );
   }

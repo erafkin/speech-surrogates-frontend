@@ -1,11 +1,18 @@
 .container{
     padding: 10px;
     display: inline-block;
+    width: 95vw;
 }
 .newBody{
     height: 50vh;
     margin: 10px;
     width: 50vw;
+}
+
+.keywords {
+    display: inline-block;
+    top:0;
+    vertical-align: top;
 }
 
 .title{
@@ -16,8 +23,10 @@
     width: 70vw;
 }
 .postContainer{
+    display: inline-block;
+
     align-items: center;
-    padding-left: 15vw;
-    padding-right: 15vw;
+    padding-left: 10vw;
+    width: 75vw;
 
 }
