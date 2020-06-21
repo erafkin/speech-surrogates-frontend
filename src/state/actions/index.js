@@ -21,6 +21,7 @@ import {
   createBlog,
   setBlog,
   getAllKeywords,
+  commentBlog,
 
 } from './blog-actions';
 
@@ -52,4 +53,5 @@ export {
   setBlog,
   resetPassword,
   getAllKeywords,
+  commentBlog,
 };

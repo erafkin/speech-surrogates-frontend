@@ -67,6 +67,18 @@ const updateBlog = (token, fields) => {
   });
 };
 
+const comment = (fields) => {
+  return new Promise((resolve, reject) => {
+    axios.put(`${URL}/${fields.id}/comment`, fields)
+      .then((response) => {
+        resolve(response.data.response);
+      })
+      .catch((error) => {
+        reject(error.response.data);
+      });
+  });
+};
+
 /**
  * update blog object by id
  * @param {object} fields values to change for the blog
@@ -90,4 +102,5 @@ export {
   updateBlog,
   createBlog,
   getAllKeywords,
+  comment,
 };

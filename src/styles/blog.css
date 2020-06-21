@@ -49,6 +49,20 @@ textarea{
     padding: 5px;
     margin: 10px;
     margin-left: 0;
-    display: inline-block;
+}
+#admin{
     width: 80%;
+    display: inline-block;
+
+}
+
+.submit{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 5px;
+    width: 5vw;
+    text-align: center;
 }

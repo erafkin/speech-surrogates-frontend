@@ -72,6 +72,26 @@ const updateBlog = (b, u, success, failure) => {
       });
   };
 };
+
+const commentBlog = (b, u, success, failure) => {
+  return (dispatch, getState) => {
+    blogRequests
+      .comment({ id: b._id, blog: b, user: u })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.SET_BLOG, payload: response });
+        if (success !== undefined) {
+          success();
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
+      });
+  };
+};
 const createBlog = (b, u, success, failure) => {
   return (dispatch, getState) => {
     blogRequests
@@ -105,5 +125,6 @@ export {
   createBlog,
   setBlog,
   getAllKeywords,
+  commentBlog,
 
 };

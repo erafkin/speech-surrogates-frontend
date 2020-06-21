@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import { ROUTES } from '../constants/index';
 import {
-  getAllBlogs, updateBlog, setBlog, getAllKeywords,
+  getAllBlogs, updateBlog, setBlog, getAllKeywords, commentBlog,
 } from '../state/actions';
 import IndivBlog from './indiv-blog';
 
@@ -147,16 +147,20 @@ class Blog extends React.Component {
                       }
                     <p>Comment:</p>
                     <textarea type="text" name="comment" value={this.state.comment} onChange={this.handleCommentChange} className="comment" />
-                    <div className="button"
+                    <div className="submit"
                       onClick={() => {
                         const newComments = b.comments;
+                        let name = 'Anonymous';
+                        if (Object.keys(this.props.user).length !== 0) {
+                          name = `${this.props.user.first_name} ${this.props.user.last_name}`;
+                        }
                         newComments.splice(0, 0, {
-                          author: `${this.props.user.first_name} ${this.props.user.last_name}`,
+                          author: name,
                           body: this.state.comment,
                           date: Date.now(),
                           visible: true,
                         });
-                        this.props.updateBlog({
+                        this.props.commentBlog({
                           ...b,
                           comments: newComments,
                         },
@@ -179,7 +183,7 @@ class Blog extends React.Component {
                       } else if (this.props.user.type === 'contributor' || this.props.user.type === 'admin') {
                         return (
                           <div>
-                            <div key={comment.body} className="comment-container">
+                            <div key={comment.body} className="comment-container" id="admin">
                               <p>{comment.author}</p>
                               <p className="date">{new Date(comment.date).toDateString()}</p>
                               <p>{comment.body}</p>
@@ -198,7 +202,7 @@ class Blog extends React.Component {
                           </div>
                         );
                       } else {
-                        return <div />;
+                        return <div key={comment.body} />;
                       }
                     })}
                   </div>
@@ -238,6 +242,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateBlog: (b, u) => {
       dispatch(updateBlog(b, u));
+    },
+    commentBlog: (b, u) => {
+      dispatch(commentBlog(b, u));
     },
   };
 };
