@@ -6,7 +6,15 @@ const IndivBlog = (props) => {
     <div className="navbar">
       <h1>{props.blog.title}</h1>
       <h2>{props.blog.author}</h2>
-      {(props.user.type === 'admin' || props.user.type === 'contributor') ? <p>Post visible: {JSON.stringify(props.visible)}</p> : <div />}
+      {(props.user.type === 'admin' || props.user.type === 'contributor')
+        ? (
+          <p>Post visible: {
+      props.visible
+        ? <span style={{ color: 'green' }}>true</span>
+        : <span style={{ color: 'red' }}>false</span>}
+          </p>
+        )
+        : <div />}
       <h3>{new Date(props.blog.date).toDateString()}</h3>
       <div>Keywords: {props.blog.keywords.map((word) => {
         return (

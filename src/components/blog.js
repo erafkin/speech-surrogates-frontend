@@ -167,17 +167,34 @@ class Blog extends React.Component {
                     >
                       submit
                     </div>
-                    {b.comments.map((comment) => {
-                      if (comment.visible) {
+                    {b.comments.map((comment, index) => {
+                      if ((this.props.user.type === 'none' || Object.keys(this.props.user).length === 0) && comment.visible) {
                         return (
-                          <div key={comment.body}
-                            style={{
-                              borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', padding: '5px', margin: '10px', marginLeft: 0,
-                            }}
-                          >
+                          <div key={comment.body} className="comment-container">
                             <p>{comment.author}</p>
-                            <p>{new Date(comment.date).toDateString()}</p>
+                            <p className="date">{new Date(comment.date).toDateString()}</p>
                             <p>{comment.body}</p>
+                          </div>
+                        );
+                      } else if (this.props.user.type === 'contributor' || this.props.user.type === 'admin') {
+                        return (
+                          <div>
+                            <div key={comment.body} className="comment-container">
+                              <p>{comment.author}</p>
+                              <p className="date">{new Date(comment.date).toDateString()}</p>
+                              <p>{comment.body}</p>
+                            </div>
+                            <div onClick={() => {
+                              b.comments.splice(index, 1, { ...comment, visible: !comment.visible });
+                              this.props.updateBlog(b,
+                                this.props.user);
+                            }}
+                              role="button"
+                              tabIndex={0}
+                              className="button"
+                            >
+                              {comment.visible ? 'Hide comment' : 'Show comment'}
+                            </div>
                           </div>
                         );
                       } else {
