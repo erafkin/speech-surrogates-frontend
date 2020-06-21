@@ -78,7 +78,6 @@ class NewBlog extends React.Component {
       newValue.forEach((val) => {
         newKeywords.push(val.value);
       });
-      console.log(newKeywords);
       this.setState({
         keywords: newKeywords,
       });

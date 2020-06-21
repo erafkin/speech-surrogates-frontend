@@ -14,8 +14,11 @@ class Blog extends React.Component {
     super(props);
     this.state = {
       keyword: '',
+      comment: '',
+
     };
     this.changeKeyword = this.changeKeyword.bind(this);
+    this.handleCommentChange = this.handleCommentChange.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +37,11 @@ class Blog extends React.Component {
       keyword: word,
     });
   }
+
+  handleCommentChange = (e) => {
+    this.setState({ comment: e.target.value });
+  }
+
 
   render() {
     return (
@@ -137,6 +145,45 @@ class Blog extends React.Component {
                       )
                       : <div key={`${b._id}div`} />
                       }
+                    {b.comments.map((comment) => {
+                      if (comment.visible) {
+                        return (
+                          <div key={comment.body}
+                            style={{
+                              borderWidth: '1px', borderStyle: 'solid', borderColor: 'black', padding: '5px', margin: '10px', marginLeft: 0,
+                            }}
+                          >
+                            <p>{comment.author}</p>
+                            <p>{new Date(comment.date).toDateString()}</p>
+                            <p>{comment.body}</p>
+                          </div>
+                        );
+                      } else {
+                        return <div />;
+                      }
+                    })}
+                    <p>Comment:</p>
+                    <textarea type="text" name="comment" value={this.state.comment} onChange={this.handleCommentChange} className="comment" />
+                    <div className="button"
+                      onClick={() => {
+                        const newComments = b.comments;
+                        newComments.push({
+                          author: `${this.props.user.first_name} ${this.props.user.last_name}`,
+                          body: this.state.comment,
+                          date: Date.now(),
+                          visible: true,
+                        });
+                        this.props.updateBlog({
+                          ...b,
+                          comments: newComments,
+                        },
+                        this.props.user);
+                      }}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      submit
+                    </div>
                   </div>
                 );
               } else return (<div key={`${b._id}div`} />);
