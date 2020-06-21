@@ -2,6 +2,8 @@
     padding: 10px;
     display: inline-block;
     width: 95vw;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 .newBody{
     height: 50vh;
@@ -28,5 +30,15 @@
     align-items: center;
     padding-left: 10vw;
     width: 75vw;
+}
 
+.comment {
+    width: 99%;
+    height: 10vh;
+}
+.date{
+    
+}
+textarea{
+    font-family: Arial, Helvetica, sans-serif;
 }
