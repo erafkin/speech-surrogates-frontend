@@ -29,8 +29,9 @@ const About = () => {
 
       </p>
       <p>
-        2020 marks the start of a new <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1943896&HistoricalAwards=false" target="_blank" rel="noopener noreferrer">NSF CAREER grant</a>
-        focused on musical surrogate languages.
+        2020 marks the
+        start of a new <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1943896&HistoricalAwards=false" target="_blank" rel="noopener noreferrer"> NSF CAREER grant</a> focused on
+        musical surrogate languages.
         This site is designed as a resource for both academics and the broader public interested in
         learning more and keeping up to date with our findings. We will be linking primary audio and video,
         in addition to keeping a blog, open to guest contributors. Blog entries are tagged for target audience,

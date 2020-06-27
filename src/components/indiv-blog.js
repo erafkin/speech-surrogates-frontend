@@ -32,6 +32,7 @@ const IndivBlog = (props) => {
         );
       })}
       </div>
+      {/* eslint-disable-next-line new-cap */}
       <div>{ReactHtmlParser(props.blog.body)}</div>
     </div>
   );
