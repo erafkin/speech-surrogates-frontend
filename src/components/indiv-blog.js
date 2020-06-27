@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/navbar.css';
+import ReactHtmlParser from 'react-html-parser';
 
 const IndivBlog = (props) => {
   return (
@@ -31,7 +32,7 @@ const IndivBlog = (props) => {
         );
       })}
       </div>
-      <p>{props.blog.body}</p>
+      <div>{ReactHtmlParser(props.blog.body)}</div>
     </div>
   );
 };

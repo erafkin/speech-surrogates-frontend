@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import { createBlog, updateBlog } from '../state/actions';
 import '../styles/blog.css';
-
+import TextEditor from './text-editor';
 
 class NewBlog extends React.Component {
   constructor(props) {
@@ -25,7 +25,8 @@ class NewBlog extends React.Component {
   }
 
   handleBodyChange = (e) => {
-    this.setState({ body: e.target.value });
+    console.log(e);
+    this.setState({ body: e });
   }
 
   handleTitleChange = (e) => {
@@ -107,7 +108,8 @@ class NewBlog extends React.Component {
           <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
 
           <p>Body:</p>
-          <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" />
+          {/* <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" /> */}
+          <TextEditor body={this.state.body} handleBodyChange={this.handleBodyChange} />
           <br />
           <p>Keywords:</p>
           <CreatableSelect
