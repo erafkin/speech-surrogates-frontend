@@ -11,16 +11,13 @@ import ReactPlayer from 'react-player';
 const LanguagePage = (props) => {
   return (
     <div>
-      <div>{props.match.params.lang_name}</div>
-      <div>{props.grantLanguage.blurb}</div>
+      <h1>{props.match.params.lang_name}</h1>
+      <p>{props.grantLanguage.blurb}</p>
       {props.grantLanguage.multimedia.map((url) => {
         return (
           <ReactPlayer url={url} key={url} controls />
-
         );
       })}
-
-
     </div>
   );
 };

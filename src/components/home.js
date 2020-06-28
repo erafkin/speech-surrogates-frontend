@@ -9,12 +9,13 @@ import LanguageNav from './language-nav';
 const Home = (props) => {
   return (
     <div>
-      <p>Welcome to the Surrogate Languages website</p>
+      <h2>Welcome to the Surrogate Languages website</h2>
       <NavLink to={ROUTES.BLOG}>
         <div className="button">
           blog
         </div>
       </NavLink>
+      <h3>Grant Languages</h3>
       <LanguageNav />
     </div>
   );
