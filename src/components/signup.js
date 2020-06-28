@@ -62,9 +62,6 @@ const SignUp = (props) => {
             onClick={signUp}
             role="button"
             tabIndex={0}
-            onKeyPress={(event) => {
-              if (event.key === 'Enter') signUp();
-            }}
           >
             Sign Up
           </div>

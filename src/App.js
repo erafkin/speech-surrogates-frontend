@@ -13,6 +13,7 @@ import IndivBlog from './components/new-blog';
 import AdminPanel from './components/admin-panel';
 import About from './components/about';
 import SpeechSurrogates from './components/speech-surrogates';
+import LanguagePage from './components/language';
 
 
 const FallBack = () => {
@@ -36,6 +37,7 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path={ROUTES.LANGUAGES} component={LanguagePage} />
             <Route path={ROUTES.SPEECH_SURROGATES} component={SpeechSurrogates} />
             <Route path={ROUTES.ABOUT} component={About} />
             <Route path={ROUTES.ADMIN} component={AdminPanel} />

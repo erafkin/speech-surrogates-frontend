@@ -3,6 +3,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../constants';
+import LanguageNav from './language-nav';
 
 
 const Home = (props) => {
@@ -14,6 +15,7 @@ const Home = (props) => {
           blog
         </div>
       </NavLink>
+      <LanguageNav />
     </div>
   );
 };

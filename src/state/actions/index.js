@@ -25,6 +25,15 @@ import {
 
 } from './blog-actions';
 
+import {
+  ActionTypes as grantLanguageActionTypes,
+  getGrantLanguage,
+  getAllGrantLanguages,
+  setGrantLanguage,
+
+} from './grant-languages-actions';
+
+
 // combine all action types
 const ActionTypes = {};
 
@@ -33,6 +42,9 @@ Object.keys(userActionTypes).forEach((key) => {
 });
 Object.keys(blogActionTypes).forEach((key) => {
   ActionTypes[key] = blogActionTypes[key];
+});
+Object.keys(grantLanguageActionTypes).forEach((key) => {
+  ActionTypes[key] = grantLanguageActionTypes[key];
 });
 
 // export all action types in one object, as well as each action
@@ -54,4 +66,7 @@ export {
   resetPassword,
   getAllKeywords,
   commentBlog,
+  getAllGrantLanguages,
+  getGrantLanguage,
+  setGrantLanguage,
 };
