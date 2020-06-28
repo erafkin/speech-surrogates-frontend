@@ -2,7 +2,9 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAllUsers, updateUser } from '../state/actions';
+import { NavLink } from 'react-router-dom';
+import { ROUTES } from '../constants';
+import { getAllUsers, updateUser, setGrantLanguage } from '../state/actions';
 import '../styles/admin.css';
 
 
@@ -51,6 +53,12 @@ class AdminPanel extends React.Component {
           </tbody>
 
         </table>
+        <br />
+        <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
+          <div className="button">
+            New Grant Language Page
+          </div>
+        </NavLink>
       </div>
     );
   }
@@ -69,6 +77,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateUser: (user) => {
       dispatch(updateUser(user));
+    },
+    setGrantLanguage: (lang) => {
+      dispatch(setGrantLanguage(lang));
     },
   };
 };

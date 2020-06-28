@@ -2,10 +2,11 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { } from '../state/actions';
 import '../styles/navbar.css';
 import ReactPlayer from 'react-player';
+import { ROUTES } from '../constants';
 
 
 const LanguagePage = (props) => {
@@ -18,6 +19,16 @@ const LanguagePage = (props) => {
           <ReactPlayer url={url} key={url} controls />
         );
       })}
+      {props.user.type === 'admin' || props.user.type === 'contributor'
+        ? (
+          <NavLink to={ROUTES.NEW_LANG}>
+            <div className="button">
+              Edit Page
+            </div>
+          </NavLink>
+        )
+        : <div />
+    }
     </div>
   );
 };
@@ -25,6 +36,7 @@ const LanguagePage = (props) => {
 const mapStateToProps = (state) => {
   return {
     grantLanguage: state.grantLanguage.grantLanguage,
+    user: state.user.user,
   };
 };
 

@@ -14,6 +14,7 @@ import AdminPanel from './components/admin-panel';
 import About from './components/about';
 import SpeechSurrogates from './components/speech-surrogates';
 import LanguagePage from './components/language';
+import NewGrantLanguage from './components/new-grant-lang';
 
 
 const FallBack = () => {
@@ -37,6 +38,7 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path={ROUTES.NEW_LANG} component={NewGrantLanguage} />
             <Route path={ROUTES.LANGUAGES} component={LanguagePage} />
             <Route path={ROUTES.SPEECH_SURROGATES} component={SpeechSurrogates} />
             <Route path={ROUTES.ABOUT} component={About} />

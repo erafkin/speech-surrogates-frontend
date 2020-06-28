@@ -25,7 +25,6 @@ class NewBlog extends React.Component {
   }
 
   handleBodyChange = (e) => {
-    console.log(e);
     this.setState({ body: e });
   }
 
@@ -108,7 +107,6 @@ class NewBlog extends React.Component {
           <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
 
           <p>Body:</p>
-          {/* <textarea type="text" name="body" value={this.state.body} onChange={this.handleBodyChange} className="newBody" /> */}
           <TextEditor body={this.state.body} handleBodyChange={this.handleBodyChange} />
           <br />
           <p>Keywords:</p>

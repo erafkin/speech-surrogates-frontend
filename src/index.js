@@ -12,6 +12,8 @@ import App from './App';
 const enhancers = [];
 const middleware = [thunk];
 
+// all of this persisting stuff is so that the redux state does not clear/refresh on reload.
+
 const persistConfig = {
   key: 'root',
   storage,
@@ -31,6 +33,7 @@ const composedEnhancers = compose(
   applyMiddleware(...middleware),
   ...enhancers,
 );
+
 const store = createStore(persistedReducer, { }, composedEnhancers);
 const persistor = persistStore(store);
 // we now wrap App in a Provider
