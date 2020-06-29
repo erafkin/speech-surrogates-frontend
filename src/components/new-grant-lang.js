@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { } from '../state/actions';
+import { createGrantLanguage } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
 
@@ -37,7 +37,7 @@ class NewGrantLanguage extends React.Component {
   }
 
   onSuccessCallback = () => {
-    this.props.history.push('/blog');
+    this.props.history.push('/');
   };
 
   onFailureCallback = (error) => {
@@ -45,10 +45,20 @@ class NewGrantLanguage extends React.Component {
   };
 
   submit = () => {
-    if (this.props.blog._id !== undefined) {
+    if (this.props.grantLanguage._id !== undefined) {
       // update page
     } else {
       // create page
+      this.props.createGrantLanguage(
+        {
+          name: this.state.name,
+          blurb: this.state.blurb,
+          multimedia: this.state.links,
+        },
+        this.props.user,
+        this.onSuccessCallback,
+        this.onFailureCallback,
+      );
     }
   }
 
@@ -114,12 +124,15 @@ class NewGrantLanguage extends React.Component {
 const mapStateToProps = (state) => {
   return {
     grantLanguage: state.grantLanguage.grantLanguage,
+    user: state.user.user,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    createGrantLanguage: (lang, user, success, failure) => {
+      dispatch(createGrantLanguage(lang, user, success, failure));
+    },
   };
 };
 

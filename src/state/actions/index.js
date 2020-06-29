@@ -30,6 +30,8 @@ import {
   getGrantLanguage,
   getAllGrantLanguages,
   setGrantLanguage,
+  createGrantLanguage,
+  updateGrantLanguage,
 
 } from './grant-languages-actions';
 
@@ -69,4 +71,6 @@ export {
   getAllGrantLanguages,
   getGrantLanguage,
   setGrantLanguage,
+  createGrantLanguage,
+  updateGrantLanguage,
 };

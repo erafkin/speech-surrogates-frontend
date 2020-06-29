@@ -40,9 +40,50 @@ const setGrantLanguage = (lang) => {
   };
 };
 
+const createGrantLanguage = (g, u, success, failure) => {
+  return (dispatch, getState) => {
+    grantLanguageRequests
+      .createGrantLanguage({ token: getState().user.token, grantLanguage: g, user: u })
+      .then((response) => {
+        dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response });
+        if (success !== undefined) {
+          success();
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
+      });
+  };
+};
+
+
+const updateGrantLanguage = (g, u, success, failure) => {
+  return (dispatch, getState) => {
+    grantLanguageRequests
+      .updateGrantLanguage(getState().user.token, { id: g._id, grantLanguage: g, user: u })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response });
+        if (success !== undefined) {
+          success();
+        }
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
+      });
+  };
+};
 export {
   ActionTypes,
   getGrantLanguage,
   getAllGrantLanguages,
   setGrantLanguage,
+  createGrantLanguage,
+  updateGrantLanguage,
 };

@@ -6,6 +6,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import { } from '../state/actions';
 import '../styles/navbar.css';
 import ReactPlayer from 'react-player';
+import ReactHtmlParser from 'react-html-parser';
 import { ROUTES } from '../constants';
 
 
@@ -13,7 +14,8 @@ const LanguagePage = (props) => {
   return (
     <div>
       <h1>{props.match.params.lang_name}</h1>
-      <p>{props.grantLanguage.blurb}</p>
+      {/* eslint-disable-next-line new-cap */}
+      <div>{ReactHtmlParser(props.grantLanguage.blurb)}</div>
       {props.grantLanguage.multimedia.map((url) => {
         return (
           <ReactPlayer url={url} key={url} controls />
