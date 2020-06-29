@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { createGrantLanguage } from '../state/actions';
+import { createGrantLanguage, updateGrantLanguage } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
 
@@ -47,6 +47,17 @@ class NewGrantLanguage extends React.Component {
   submit = () => {
     if (this.props.grantLanguage._id !== undefined) {
       // update page
+      this.props.updateGrantLanguage(
+        {
+          ...this.props.grantLanguage,
+          name: this.state.name,
+          blurb: this.state.blurb,
+          multimedia: this.state.links,
+        },
+        this.props.user,
+        this.onSuccessCallback,
+        this.onFailureCallback,
+      );
     } else {
       // create page
       this.props.createGrantLanguage(
@@ -132,6 +143,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createGrantLanguage: (lang, user, success, failure) => {
       dispatch(createGrantLanguage(lang, user, success, failure));
+    },
+    updateGrantLanguage: (lang, user, success, failure) => {
+      dispatch(updateGrantLanguage(lang, user, success, failure));
     },
   };
 };
