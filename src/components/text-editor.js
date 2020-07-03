@@ -26,8 +26,7 @@ const TextEditor = (props) => {
     useSplitMode: false,
     colorPickerDefaultTab: 'background',
     imageDefaultWidth: 100,
-    removeButtons: ['source', 'fullsize', 'about', 'outdent', 'indent', 'video', 'print', 'table', 'fontsize', 'superscript', 'subscript', 'file', 'cut', 'selectall'],
-    disablePlugins: ['paste', 'stat'],
+    removeButtons: ['source', 'fullsize', 'about', 'outdent', 'indent', 'video', 'print', 'file', 'cut', 'selectall'],
     events: {},
     textIcons: false,
     uploader: {

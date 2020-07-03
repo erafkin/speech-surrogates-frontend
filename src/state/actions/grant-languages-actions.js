@@ -65,7 +65,6 @@ const updateGrantLanguage = (g, u, success, failure) => {
     grantLanguageRequests
       .updateGrantLanguage(getState().user.token, { id: g._id, grantLanguage: g, user: u })
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response });
         if (success !== undefined) {
           success();

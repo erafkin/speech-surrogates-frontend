@@ -115,8 +115,10 @@ class NewGrantLanguage extends React.Component {
             </div>
           );
         })}
-        <input type="text" name="new-link" value={this.state.newLink} onChange={this.handleLinkChange} className="title" />
+        <p>Blurb about the multimedia:</p>
         <TextEditor body={this.state.newLinkBlurb} handleBodyChange={this.handleLinkBlurbChange} />
+        <p>URL:</p>
+        <input type="text" name="new-link" value={this.state.newLink} onChange={this.handleLinkChange} className="title" />
         <div className="button"
           role="button"
           tabIndex={0}
@@ -131,7 +133,7 @@ class NewGrantLanguage extends React.Component {
         </div>
 
         <br />
-        <div className="button" onClick={() => { this.submit(); }} role="button" tabIndex={0}>
+        <div className="button" onMouseDown={() => { this.submit(); }} role="button" tabIndex={0}>
           submit
         </div>
       </div>

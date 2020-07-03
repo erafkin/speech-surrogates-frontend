@@ -11,6 +11,7 @@ import { ROUTES } from '../constants';
 
 
 const LanguagePage = (props) => {
+  console.log(props.grantLanguage);
   return (
     <div>
       <h1>{props.match.params.lang_name}</h1>
@@ -19,9 +20,9 @@ const LanguagePage = (props) => {
       {props.grantLanguage.multimedia.map((link) => {
         return (
           <div>
-            <ReactPlayer url={link.link} key={link.link} controls />
             {/* eslint-disable-next-line new-cap */}
             <div>{ReactHtmlParser(link.blurb)}</div>
+            <ReactPlayer url={link.link} key={link.link} controls />
           </div>
         );
       })}
