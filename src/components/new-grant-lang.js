@@ -2,10 +2,12 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
+import ReactHtmlParser from 'react-html-parser';
 
 import { createGrantLanguage, updateGrantLanguage } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
+
 
 class NewGrantLanguage extends React.Component {
   constructor(props) {
@@ -13,12 +15,14 @@ class NewGrantLanguage extends React.Component {
     this.state = {
       name: this.props.grantLanguage.name === undefined ? '' : this.props.grantLanguage.name,
       blurb: this.props.grantLanguage.blurb === undefined ? '' : this.props.grantLanguage.blurb,
-      links: this.props.grantLanguage.multimedia === undefined ? [] : this.props.grantLanguage.multimedia,
+      links: (this.props.grantLanguage.multimedia === undefined || this.props.grantLanguage.multimedia.length === 0) ? [] : this.props.grantLanguage.multimedia,
       newLink: '',
+      newLinkBlurb: '',
 
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleBlurbChange = this.handleBlurbChange.bind(this);
+    this.handleLinkBlurbChange = this.handleLinkBlurbChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
     this.onSuccessCallback = this.onSuccessCallback.bind(this);
     this.submit = this.submit.bind(this);
@@ -30,6 +34,10 @@ class NewGrantLanguage extends React.Component {
 
   handleBlurbChange = (e) => {
     this.setState({ blurb: e });
+  }
+
+  handleLinkBlurbChange = (e) => {
+    this.setState({ newLinkBlurb: e });
   }
 
   handleNameChange = (e) => {
@@ -47,6 +55,7 @@ class NewGrantLanguage extends React.Component {
   submit = () => {
     if (this.props.grantLanguage._id !== undefined) {
       // update page
+      console.log(this.state.links);
       this.props.updateGrantLanguage(
         {
           ...this.props.grantLanguage,
@@ -75,57 +84,55 @@ class NewGrantLanguage extends React.Component {
 
 
   render() {
-    const { newLink } = this.state;
+    const { newLink, newLinkBlurb, links } = this.state;
     return (
       <div className="container">
-        <div>
-          <p>Language Name:</p>
-          <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} className="title" />
+        <p>Title:</p>
+        <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} className="title" />
 
-          <p>Blurb:</p>
-          <TextEditor body={this.state.blurb} handleBodyChange={this.handleBlurbChange} />
-          <br />
-          <p>Multimedia Links:</p>
-          {this.state.links.map((link, index) => {
-            return (
-              <div key={link}>
-                <p style={{ display: 'inline-block' }}>{link}</p>
-                <div className="button"
-                  onClick={() => {
-                    const l = [...this.state.links];
-                    const l2 = l.filter(x => x !== link);
-                    this.setState({ links: l2 });
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  style={{ display: 'inline-block' }}
-                >
-                  X
-                </div>
+        <p>Blurb:</p>
+        <TextEditor body={this.state.blurb} handleBodyChange={this.handleBlurbChange} />
+        <br />
+        <p>Multimedia Links:</p>
+        {this.state.links.map((link) => {
+          return (
+            <div key={link.link}>
+              <p style={{ display: 'inline-block' }}>{link.link}</p>
+              {/* eslint-disable-next-line new-cap */}
+              <div>{ReactHtmlParser(link.blurb)}</div>
+              <div className="button"
+                onClick={() => {
+                  const l = [...this.state.links];
+                  const l2 = l.filter(x => x !== link);
+                  this.setState({ links: l2 });
+                }}
+                role="button"
+                tabIndex={0}
+                style={{ display: 'inline-block' }}
+              >
+                Remove
               </div>
-            );
-          })}
-          <div>
-            <input type="text" name="new-link" value={this.state.newLink} onChange={this.handleLinkChange} className="title" />
-            <div className="button"
-              onClick={() => {
-                this.setState(prevState => ({
-                  links: [...prevState.links, newLink],
-                }));
-              }}
-              role="button"
-              tabIndex={0}
-              style={{ display: 'inline-block' }}
-            >
-              +
             </div>
+          );
+        })}
+        <input type="text" name="new-link" value={this.state.newLink} onChange={this.handleLinkChange} className="title" />
+        <TextEditor body={this.state.newLinkBlurb} handleBodyChange={this.handleLinkBlurbChange} />
+        <div className="button"
+          role="button"
+          tabIndex={0}
+          onMouseDown={() => this.setState({
+            links: [...links, { link: newLink, blurb: newLinkBlurb }],
+            newLink: '',
+            newLinkBlurb: '',
+          })
+          }
+        >
+          Add
+        </div>
 
-          </div>
-          <br />
-          <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
-            submit
-          </div>
-
+        <br />
+        <div className="button" onClick={() => { this.submit(); }} role="button" tabIndex={0}>
+          submit
         </div>
       </div>
     );

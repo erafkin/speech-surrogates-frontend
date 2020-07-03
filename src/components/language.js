@@ -16,9 +16,13 @@ const LanguagePage = (props) => {
       <h1>{props.match.params.lang_name}</h1>
       {/* eslint-disable-next-line new-cap */}
       <div>{ReactHtmlParser(props.grantLanguage.blurb)}</div>
-      {props.grantLanguage.multimedia.map((url) => {
+      {props.grantLanguage.multimedia.map((link) => {
         return (
-          <ReactPlayer url={url} key={url} controls />
+          <div>
+            <ReactPlayer url={link.link} key={link.link} controls />
+            {/* eslint-disable-next-line new-cap */}
+            <div>{ReactHtmlParser(link.blurb)}</div>
+          </div>
         );
       })}
       {props.user.type === 'admin' || props.user.type === 'contributor'
