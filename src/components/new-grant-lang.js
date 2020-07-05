@@ -97,9 +97,9 @@ class NewGrantLanguage extends React.Component {
         {this.state.links.map((link) => {
           return (
             <div key={link.link}>
-              <p style={{ display: 'inline-block' }}>{link.link}</p>
               {/* eslint-disable-next-line new-cap */}
               <div>{ReactHtmlParser(link.blurb)}</div>
+              <p style={{ display: 'inline-block' }}>{link.link}</p>
               <div className="button"
                 onClick={() => {
                   const l = [...this.state.links];
