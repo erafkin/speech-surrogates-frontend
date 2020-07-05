@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
 
 import { createGrantLanguage, updateGrantLanguage } from '../state/actions';
 import '../styles/blog.css';
@@ -14,11 +13,7 @@ class NewGrantLanguage extends React.Component {
     super(props);
     this.state = {
       name: this.props.grantLanguage.name === undefined ? '' : this.props.grantLanguage.name,
-      blurb: this.props.grantLanguage.blurb === undefined ? '' : this.props.grantLanguage.blurb,
-      links: (this.props.grantLanguage.multimedia === undefined || this.props.grantLanguage.multimedia.length === 0) ? [] : this.props.grantLanguage.multimedia,
-      newLink: '',
-      newLinkBlurb: '',
-
+      sections: (this.props.grantLanguage.sections === undefined || this.props.grantLanguage.sections.length === 0) ? [] : this.props.grantLanguage.sections,
     };
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleBlurbChange = this.handleBlurbChange.bind(this);
@@ -28,16 +23,28 @@ class NewGrantLanguage extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  handleLinkChange = (e) => {
-    this.setState({ newLink: e.target.value });
+  handleTitleChange = (e, index) => {
+    const { sections } = this.state;
+    sections[index].title = e.target.value;
+    this.setState({ sections });
   }
 
-  handleBlurbChange = (e) => {
-    this.setState({ blurb: e });
+  handleBlurbChange = (e, index) => {
+    const { sections } = this.state;
+    sections[index].blurb = e;
+    this.setState({ sections });
   }
 
-  handleLinkBlurbChange = (e) => {
-    this.setState({ newLinkBlurb: e });
+  handleLinkBlurbChange = (e, sectionIndex, index) => {
+    const { sections } = this.state;
+    sections[sectionIndex].multimedia[index].blurb = e;
+    this.setState({ sections });
+  }
+
+  handleLinkChange = (e, sectionIndex, index) => {
+    const { sections } = this.state;
+    sections[sectionIndex].multimedia[index].link = e.target.value;
+    this.setState({ sections });
   }
 
   handleNameChange = (e) => {
@@ -60,8 +67,7 @@ class NewGrantLanguage extends React.Component {
         {
           ...this.props.grantLanguage,
           name: this.state.name,
-          blurb: this.state.blurb,
-          multimedia: this.state.links,
+          sections: this.state.sections,
         },
         this.props.user,
         this.onSuccessCallback,
@@ -72,8 +78,7 @@ class NewGrantLanguage extends React.Component {
       this.props.createGrantLanguage(
         {
           name: this.state.name,
-          blurb: this.state.blurb,
-          multimedia: this.state.links,
+          sections: this.state.sections,
         },
         this.props.user,
         this.onSuccessCallback,
@@ -84,55 +89,74 @@ class NewGrantLanguage extends React.Component {
 
 
   render() {
-    const { newLink, newLinkBlurb, links } = this.state;
+    const { sections } = this.state;
     return (
       <div className="container">
         <p>Title:</p>
         <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} className="title" />
-
-        <p>Blurb:</p>
-        <TextEditor body={this.state.blurb} handleBodyChange={this.handleBlurbChange} />
-        <br />
-        <p>Multimedia Links:</p>
-        {this.state.links.map((link) => {
+        {sections.map((section, index) => {
           return (
-            <div key={link.link}>
-              {/* eslint-disable-next-line new-cap */}
-              <div>{ReactHtmlParser(link.blurb)}</div>
-              <p style={{ display: 'inline-block' }}>{link.link}</p>
+            <div key={section.blurb}>
+              <p>Section Title:</p>
+              <input type="text" name="title" value={section.title} onChange={event => this.handleTitleChange(event, index)} className="title" />
+              <p>Section Blurb:</p>
+              <TextEditor body={section.blurb} handleBodyChange={this.handleBlurbChange} sectionIndex={index} />
+              {section.multimedia.map((link, i) => {
+                return (
+                  <div key={link.link}>
+                    <p>Multimedia Blurb:</p>
+                    <TextEditor body={link.blurb} handleBodyChange={this.handleLinkBlurbChange} sectionIndex={index} index={i} />
+                    <p>URL:</p>
+                    <input type="text" name="link" value={link.link} onChange={event => this.handleLinkChange(event, index, i)} className="title" />
+                    <div className="button"
+                      onClick={() => {
+                        const l = [...sections[index].multimedia];
+                        const l2 = l.filter(x => x !== link);
+                        sections[index].multimedia = l2;
+                        this.setState({ sections });
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      style={{ display: 'inline-block' }}
+                    >
+                      Remove Multimedia
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="button"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  sections[index].multimedia = [...sections[index].multimedia, { blurb: '', link: '' }];
+                  this.setState({ sections });
+                }}
+              >
+                Add Multimedia
+              </div>
               <div className="button"
                 onClick={() => {
-                  const l = [...this.state.links];
-                  const l2 = l.filter(x => x !== link);
-                  this.setState({ links: l2 });
+                  const s2 = sections.filter(x => x !== section);
+                  this.setState({ sections: s2 });
                 }}
                 role="button"
                 tabIndex={0}
                 style={{ display: 'inline-block' }}
               >
-                Remove
+                Remove Section
               </div>
             </div>
           );
         })}
-        <p>Blurb about the multimedia:</p>
-        <TextEditor body={this.state.newLinkBlurb} handleBodyChange={this.handleLinkBlurbChange} />
-        <p>URL:</p>
-        <input type="text" name="new-link" value={this.state.newLink} onChange={this.handleLinkChange} className="title" />
         <div className="button"
           role="button"
           tabIndex={0}
-          onMouseDown={() => this.setState({
-            links: [...links, { link: newLink, blurb: newLinkBlurb }],
-            newLink: '',
-            newLinkBlurb: '',
-          })
-          }
+          onClick={() => {
+            this.setState({ sections: [...sections, { title: '', blurb: '', multimedia: [] }] });
+          }}
         >
-          Add
+          Add Section
         </div>
-
-        <br />
         <div className="button" onMouseDown={() => { this.submit(); }} role="button" tabIndex={0}>
           submit
         </div>

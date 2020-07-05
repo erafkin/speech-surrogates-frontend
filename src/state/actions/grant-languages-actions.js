@@ -13,7 +13,7 @@ const getGrantLanguage = (id) => {
     grantLanguageRequests
       .getGrantLanguage(id)
       .then((response) => {
-        dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response });
+        dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response[0] });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });

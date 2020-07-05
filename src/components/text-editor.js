@@ -26,7 +26,7 @@ const TextEditor = (props) => {
     useSplitMode: false,
     colorPickerDefaultTab: 'background',
     imageDefaultWidth: 100,
-    removeButtons: ['source', 'fullsize', 'about', 'outdent', 'indent', 'video', 'print', 'file', 'cut', 'selectall'],
+    removeButtons: ['video', 'print', 'about'],
     events: {},
     textIcons: false,
     uploader: {
@@ -41,7 +41,15 @@ const TextEditor = (props) => {
       ref={editor}
       value={props.body}
       config={config}
-      onBlur={newContent => props.handleBodyChange(newContent)} // preferred to use only this option to update the content for performance reasons
+      onBlur={(newContent) => {
+        if (props.sectionIndex === undefined) {
+          props.handleBodyChange(newContent);
+        } else if (props.index === undefined) {
+          props.handleBodyChange(newContent, props.sectionIndex);
+        } else {
+          props.handleBodyChange(newContent, props.sectionIndex, props.index);
+        }
+      }} // preferred to use only this option to update the content for performance reasons
       onChange={(newContent) => { }}
     />
   );

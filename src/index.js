@@ -36,7 +36,7 @@ ReactDOM.render(
 // const enhancers = [];
 // const middleware = [thunk];
 
-// all of this persisting stuff is so that the redux state does not clear/refresh on reload.
+// // all of this persisting stuff is so that the redux state does not clear/refresh on reload.
 
 // const persistConfig = {
 //   key: 'root',

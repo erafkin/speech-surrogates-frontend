@@ -18,7 +18,7 @@ class LanguageNav extends React.Component {
       <div>
         {this.props.allGrantLanguages.map((lang) => {
           return (
-            <NavLink to={`/languages/${lang.name}`} key={lang._id} onClick={() => { this.props.setGrantLanguage(lang); }}>
+            <NavLink to={`/languages/${lang._id}`} key={lang._id} onClick={() => { this.props.setGrantLanguage(lang); }}>
               <div className="button">
                 {lang.name}
               </div>
