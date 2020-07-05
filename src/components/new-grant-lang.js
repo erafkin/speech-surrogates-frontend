@@ -103,11 +103,12 @@ class NewGrantLanguage extends React.Component {
               <TextEditor body={section.blurb} handleBodyChange={this.handleBlurbChange} sectionIndex={index} />
               {section.multimedia.map((link, i) => {
                 return (
-                  <div key={link.link}>
+                  <div key={`${section.blurb}link`}>
                     <p>Multimedia Blurb:</p>
                     <TextEditor body={link.blurb} handleBodyChange={this.handleLinkBlurbChange} sectionIndex={index} index={i} />
                     <p>URL:</p>
                     <input type="text" name="link" value={link.link} onChange={event => this.handleLinkChange(event, index, i)} className="title" />
+                    <br />
                     <div className="button"
                       onClick={() => {
                         const l = [...sections[index].multimedia];
@@ -124,6 +125,8 @@ class NewGrantLanguage extends React.Component {
                   </div>
                 );
               })}
+              <br />
+
               <div className="button"
                 role="button"
                 tabIndex={0}
@@ -134,6 +137,9 @@ class NewGrantLanguage extends React.Component {
               >
                 Add Multimedia
               </div>
+              <br />
+              <br />
+
               <div className="button"
                 onClick={() => {
                   const s2 = sections.filter(x => x !== section);
@@ -145,9 +151,12 @@ class NewGrantLanguage extends React.Component {
               >
                 Remove Section
               </div>
+              <br />
             </div>
           );
         })}
+        <br />
+
         <div className="button"
           role="button"
           tabIndex={0}
@@ -157,6 +166,8 @@ class NewGrantLanguage extends React.Component {
         >
           Add Section
         </div>
+        <br />
+        <br />
         <div className="button" onMouseDown={() => { this.submit(); }} role="button" tabIndex={0}>
           submit
         </div>
