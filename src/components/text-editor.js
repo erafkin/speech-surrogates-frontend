@@ -26,7 +26,7 @@ const TextEditor = (props) => {
     useSplitMode: false,
     colorPickerDefaultTab: 'background',
     imageDefaultWidth: 100,
-    removeButtons: ['video', 'print', 'about'],
+    removeButtons: ['source', 'fullsize', 'about', 'outdent', 'indent', 'video', 'print', 'file', 'cut', 'selectall'],
     events: {},
     textIcons: false,
     uploader: {
@@ -34,6 +34,8 @@ const TextEditor = (props) => {
     },
     placeholder: '',
     showXPathInStatusbar: false,
+    askBeforePasteHTML: false,
+    askBeforePasteFromWord: false,
   };
 
   return (
