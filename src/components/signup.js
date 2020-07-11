@@ -33,7 +33,7 @@ const SignUp = (props) => {
         first_name: firstName,
         last_name: lastName,
       };
-
+      document.getElementById('signup').disabled = true;
       props.createUser(fields, true, onSuccessCallback, onFailureCallback);
     }
   };
@@ -62,6 +62,7 @@ const SignUp = (props) => {
           <br />
           <br />
           <Button className="button"
+            id="signup"
             onClick={signUp}
           >
             Sign Up

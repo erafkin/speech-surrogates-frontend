@@ -11,6 +11,8 @@ import {
   signIn,
   signOut,
   resetPassword,
+  setUserBio,
+  getUserBio,
 } from './user-actions';
 
 import {
@@ -73,4 +75,6 @@ export {
   setGrantLanguage,
   createGrantLanguage,
   updateGrantLanguage,
+  setUserBio,
+  getUserBio,
 };

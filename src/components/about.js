@@ -5,7 +5,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ margin: '2vw' }}>
       <h1>About</h1>
       <p>This site is dedicated to sharing research and resources related to speech surrogates,
         especially musical surrogate languages. In 2013, I stumbled into the topic by accident during a field trip to Burkina Faso,

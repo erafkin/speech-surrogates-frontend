@@ -120,7 +120,7 @@ class NewBlog extends React.Component {
           <br />
 
           <Button className="button" onClick={() => this.submit()}>
-            submit
+            Submit
           </Button>
 
         </div>

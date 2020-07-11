@@ -144,7 +144,7 @@ class Blog extends React.Component {
                       }
                     <p>Comment:</p>
                     <textarea type="text" name="comment" value={this.state.comment} onChange={this.handleCommentChange} className="comment" />
-                    <div className="submit"
+                    <Button
                       onClick={() => {
                         const newComments = b.comments;
                         let name = 'Anonymous';
@@ -163,11 +163,9 @@ class Blog extends React.Component {
                         },
                         this.props.user);
                       }}
-                      role="button"
-                      tabIndex={0}
                     >
-                      submit
-                    </div>
+                      Submit
+                    </Button>
                     {b.comments.map((comment, index) => {
                       if ((this.props.user.type === 'none' || Object.keys(this.props.user).length === 0) && comment.visible) {
                         return (

@@ -4,6 +4,7 @@ const initialState = {
   token: '',
   user: {},
   allUsers: [],
+  userBio: {},
 };
 
 const UserInfoReducer = (state = initialState, action) => {
@@ -19,7 +20,8 @@ const UserInfoReducer = (state = initialState, action) => {
 
     case ActionTypes.SET_ALL_USERS:
       return { ...state, allUsers: action.payload };
-
+    case ActionTypes.SET_USER_BIO:
+      return { ...state, userBio: action.payload };
     default:
       return state;
   }

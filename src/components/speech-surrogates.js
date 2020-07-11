@@ -5,7 +5,7 @@ import React from 'react';
 
 const SpeechSurrogates = () => {
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ margin: '2vw' }}>
       <h1>What are speech surrogates?</h1>
       <p>
         A speech surrogate (or surrogate speech/language)

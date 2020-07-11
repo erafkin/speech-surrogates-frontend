@@ -1,13 +1,21 @@
-.homeTitle{
+.homeTitleContainer{
     color: white;
     position: absolute;
     text-align: center;
     min-height: 250px;
     width: 100vw;
+    padding-top: 6%;
+}
+.homeTitle{
     font-size: 5em;
-    padding-top: 7%;
+}
+.homeSubtitle{
+    font-size: 2em;
+
 }
 .homeImage{
     min-height: 250px;
     width: 100vw;
+    margin-top: -10px;
+
 }

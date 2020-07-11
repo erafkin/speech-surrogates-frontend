@@ -8,14 +8,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { ROUTES } from '../constants/index';
-import { signOut } from '../state/actions';
+import { signOut, setUserBio } from '../state/actions';
 import LanguageNav from './language-nav';
 
 const SSNavbar = (props) => {
   return (
 
-
-    <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
+    <Navbar bg="light" expand="lg" style={{ marginBottom: '10px' }}>
       <Navbar.Brand href={ROUTES.HOME}>Speech Surrogates</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
@@ -33,6 +32,20 @@ const SSNavbar = (props) => {
           <NavDropdown title="Grant Languages" id="basic-nav-dropdown">
             <LanguageNav />
           </NavDropdown>
+          <NavDropdown title="Contributor Bios" id="basic-nav-dropdown">
+            {props.users.map((user) => {
+              if (user.bio === undefined) {
+                return <div key={user._id} />;
+              } else {
+                return (
+                  <NavDropdown.Item as={NavLink} to={`/bios/${user.username}`} key={user.username} onClick={() => { props.setUserBio(user); }}>
+                    {user.first_name} {user.last_name}
+                  </NavDropdown.Item>
+                );
+              }
+            })}
+          </NavDropdown>
+
 
         </Nav>
         <Nav className="mr-sm-2">
@@ -45,6 +58,12 @@ const SSNavbar = (props) => {
             ? (
               <Nav.Link href={ROUTES.ADMIN}>
                 Admin
+              </Nav.Link>
+            ) : <div style={{ display: 'inline-block' }} />}
+          {Object.keys(props.user).length !== 0 && (props.user.type === 'admin' || props.user.type === 'contributer')
+            ? (
+              <Nav.Link href={ROUTES.MY_BIO}>
+                My Bio
               </Nav.Link>
             ) : <div style={{ display: 'inline-block' }} />}
           {Object.keys(props.user).length === 0
@@ -81,6 +100,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     signOut: () => {
       dispatch(signOut());
+    },
+    setUserBio: (user) => {
+      dispatch(setUserBio(user));
     },
   };
 };

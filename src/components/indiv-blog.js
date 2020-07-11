@@ -9,14 +9,14 @@ const IndivBlog = (props) => {
       <h2>{props.blog.author}</h2>
       {(props.user.type === 'admin' || props.user.type === 'contributor')
         ? (
-          <p>Post visible: {
+          <h4>Post visible: {
       props.visible
         ? <span style={{ color: 'green' }}>true</span>
         : <span style={{ color: 'red' }}>false</span>}
-          </p>
+          </h4>
         )
         : <div />}
-      <h3>{new Date(props.blog.date).toDateString()}</h3>
+      <h4 style={{ marginRight: '1vw' }}>{new Date(props.blog.date).toDateString()}</h4>
       <div>Keywords: {props.blog.keywords.map((word) => {
         return (
           <div onClick={() => { props.changeKeyword(word); }}

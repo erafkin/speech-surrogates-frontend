@@ -9,6 +9,7 @@ const ActionTypes = {
   CLEAR_USER_DATA: 'CLEAR_USER_DATA',
   SET_TOKEN: 'SET_TOKEN',
   SET_ALL_USERS: 'SET_ALL_USERS',
+  SET_USER_BIO: 'SET_USER_BIO',
 
   // flag to handle any errors that arise
   API_ERROR: 'API_ERROR',
@@ -214,6 +215,25 @@ const getAllUsers = () => {
   };
 };
 
+const setUserBio = (user) => {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_USER_BIO, payload: user });
+  };
+};
+
+const getUserBio = (token, username) => {
+  return (dispatch, getState) => {
+    userRequests
+      .getUser(token || getState().user.token, username)
+      .then((response) => {
+        dispatch({ type: ActionTypes.SET_USER_BIO, payload: response });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      });
+  };
+};
+
 export {
   ActionTypes,
   getUser,
@@ -225,4 +245,6 @@ export {
   signIn,
   signOut,
   resetPassword,
+  setUserBio,
+  getUserBio,
 };

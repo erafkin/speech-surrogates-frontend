@@ -165,7 +165,7 @@ class NewGrantLanguage extends React.Component {
         <br />
         <br />
         <Button onMouseDown={() => { this.submit(); }}>
-          submit
+          Submit
         </Button>
       </div>
     );

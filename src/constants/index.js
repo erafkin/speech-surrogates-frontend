@@ -15,6 +15,8 @@ const ROUTES = {
   SPEECH_SURROGATES: '/speech-surrogates',
   LANGUAGES: '/languages/:lang_name',
   NEW_LANG: '/new-grant-language',
+  MY_BIO: '/my-bio',
+  BIOS: '/bios/:username',
 
 };
 

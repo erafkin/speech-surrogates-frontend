@@ -8,9 +8,14 @@ const Home = (props) => {
   return (
     <div>
       <div>
-        <h1 className="homeTitle">Speech Surrogates</h1>
-
+        <div className="homeTitleContainer">
+          <h1 className="homeTitle">Speech Surrogates</h1>
+          <p className="homeSubtitle"> Encoding language through music, whistling, and other modalities</p>
+        </div>
         <img src={home} alt="balafon" className="homeImage" />
+      </div>
+      <div>
+        {/* <p>idk some other stuff</p> */}
       </div>
 
     </div>
