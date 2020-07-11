@@ -3,6 +3,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 import { getAllGrantLanguages, setGrantLanguage } from '../state/actions';
 import '../styles/navbar.css';
 
@@ -19,12 +21,9 @@ class LanguageNav extends React.Component {
         {this.props.allGrantLanguages.map((lang) => {
           return (
             <div>
-              <NavLink to={`/languages/${lang._id}`} key={lang._id} onClick={() => { this.props.setGrantLanguage(lang); }}>
-                <div className="button">
-                  {lang.name}
-                </div>
-              </NavLink>
-              <br />
+              <NavDropdown.Item as={NavLink} to={`/languages/${lang._id}`} key={lang._id} onClick={() => { this.props.setGrantLanguage(lang); }}>
+                {lang.name}
+              </NavDropdown.Item>
             </div>
           );
         })}
