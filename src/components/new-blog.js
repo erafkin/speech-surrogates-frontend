@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CreatableSelect from 'react-select/creatable';
+import Button from 'react-bootstrap/Button';
 
 import { createBlog, updateBlog } from '../state/actions';
 import '../styles/blog.css';
@@ -101,7 +102,7 @@ class NewBlog extends React.Component {
       });
     });
     return (
-      <div className="container">
+      <div className="newPageContainer">
         <div>
           <p>Title:</p>
           <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
@@ -118,9 +119,9 @@ class NewBlog extends React.Component {
           />
           <br />
 
-          <div className="button" onClick={() => this.submit()} role="button" tabIndex={0}>
+          <Button className="button" onClick={() => this.submit()}>
             submit
-          </div>
+          </Button>
 
         </div>
       </div>

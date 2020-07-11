@@ -2,6 +2,8 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+
 
 import { createGrantLanguage, updateGrantLanguage } from '../state/actions';
 import '../styles/blog.css';
@@ -91,7 +93,7 @@ class NewGrantLanguage extends React.Component {
   render() {
     const { sections } = this.state;
     return (
-      <div className="container">
+      <div className="newPageContainer">
         <p>Title:</p>
         <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} className="title" />
         {sections.map((section, index) => {
@@ -109,68 +111,62 @@ class NewGrantLanguage extends React.Component {
                     <p>URL:</p>
                     <input type="text" name="link" value={link.link} onChange={event => this.handleLinkChange(event, index, i)} className="title" />
                     <br />
-                    <div className="button"
+                    <Button variant="danger"
                       onClick={() => {
                         const l = [...sections[index].multimedia];
                         const l2 = l.filter(x => x !== link);
                         sections[index].multimedia = l2;
                         this.setState({ sections });
                       }}
-                      role="button"
-                      tabIndex={0}
+
                       style={{ display: 'inline-block' }}
                     >
                       Remove Multimedia
-                    </div>
+                    </Button>
                   </div>
                 );
               })}
               <br />
 
-              <div className="button"
-                role="button"
-                tabIndex={0}
+              <Button variant="success"
                 onClick={() => {
                   sections[index].multimedia = [...sections[index].multimedia, { blurb: '', link: '' }];
                   this.setState({ sections });
                 }}
               >
                 Add Multimedia
-              </div>
+              </Button>
               <br />
               <br />
 
-              <div className="button"
+              <Button variant="danger"
                 onClick={() => {
                   const s2 = sections.filter(x => x !== section);
                   this.setState({ sections: s2 });
                 }}
-                role="button"
-                tabIndex={0}
+
                 style={{ display: 'inline-block' }}
               >
                 Remove Section
-              </div>
+              </Button>
               <br />
             </div>
           );
         })}
         <br />
 
-        <div className="button"
-          role="button"
-          tabIndex={0}
+        <Button variant="success"
           onClick={() => {
             this.setState({ sections: [...sections, { title: '', blurb: '', multimedia: [] }] });
           }}
         >
           Add Section
-        </div>
+        </Button>
         <br />
         <br />
-        <div className="button" onMouseDown={() => { this.submit(); }} role="button" tabIndex={0}>
+        <Button onMouseDown={() => { this.submit(); }}>
           submit
-        </div>
+        </Button>
       </div>
     );
   }

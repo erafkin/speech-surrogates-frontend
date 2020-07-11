@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Fade } from 'react-reveal';
 import { ToastContainer, toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { createUser } from '../state/actions';
@@ -39,7 +40,7 @@ const SignUp = (props) => {
 
   return (
     <Fade>
-      <div id="sign-in-container">
+      <div id="sign-in-container" style={{ margin: '2vw' }}>
         <ToastContainer />
         <h3>Sign Up</h3>
         <div>
@@ -58,13 +59,13 @@ const SignUp = (props) => {
               if (event.key === 'Enter') signUp();
             }}
           />
-          <div className="button"
+          <br />
+          <br />
+          <Button className="button"
             onClick={signUp}
-            role="button"
-            tabIndex={0}
           >
             Sign Up
-          </div>
+          </Button>
         </div>
       </div>
     </Fade>

@@ -6,6 +6,7 @@ import { withRouter, NavLink } from 'react-router-dom';
 import '../styles/navbar.css';
 import ReactPlayer from 'react-player';
 import ReactHtmlParser from 'react-html-parser';
+import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
 import { getGrantLanguage } from '../state/actions';
 
@@ -27,47 +28,48 @@ class LanguagePage extends React.Component {
     return (
 
       <div>
-        <h1>{this.props.grantLanguage.title}</h1>
-        <div>
+        <h1 className="lang-title">{this.props.grantLanguage.name}</h1>
+        <div className="keywords">
+          {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
+            ? (
+              <NavLink to={ROUTES.NEW_LANG}>
+                <Button>
+                  Edit page
+                </Button>
+              </NavLink>
+            )
+            : <div />
+          }
           <p>Sections:</p>
           {this.props.grantLanguage.sections !== undefined ? this.props.grantLanguage.sections.map((section) => {
             return (
               <div>
-                <a href={`#${section.title}`}>{section.title}</a>
+                <a href={`#${section.title}`} style={{ textDecoration: 'underline', color: 'blue' }}>{section.title}</a>
                 <br />
               </div>
             );
           }) : <div />}
         </div>
-        {this.props.grantLanguage.sections !== undefined ? this.props.grantLanguage.sections.map((section) => {
-          return (
-            <div id={section.title}>
-              <h2>{section.title}</h2>
-              {/* eslint-disable-next-line new-cap */}
-              <div>{ReactHtmlParser(section.blurb)}</div>
-              {section.multimedia.map((link) => {
-                return (
-                  <div>
-                    {/* eslint-disable-next-line new-cap */}
-                    <div>{ReactHtmlParser(link.blurb)}</div>
-                    <ReactPlayer url={link.link} key={link.link} controls />
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }) : <div />}
-
-        {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
-          ? (
-            <NavLink to={ROUTES.NEW_LANG}>
-              <div className="button">
-                Edit Page
+        <div className="postContainer">
+          {this.props.grantLanguage.sections !== undefined ? this.props.grantLanguage.sections.map((section) => {
+            return (
+              <div id={section.title}>
+                <h2>{section.title}</h2>
+                {/* eslint-disable-next-line new-cap */}
+                <div>{ReactHtmlParser(section.blurb)}</div>
+                {section.multimedia.map((link) => {
+                  return (
+                    <div>
+                      {/* eslint-disable-next-line new-cap */}
+                      <div>{ReactHtmlParser(link.blurb)}</div>
+                      <ReactPlayer url={link.link} key={link.link} controls />
+                    </div>
+                  );
+                })}
               </div>
-            </NavLink>
-          )
-          : <div />
-    }
+            );
+          }) : <div />}
+        </div>
       </div>
     );
   }

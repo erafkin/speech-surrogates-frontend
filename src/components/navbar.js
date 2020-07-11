@@ -15,7 +15,7 @@ const SSNavbar = (props) => {
   return (
 
 
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
       <Navbar.Brand href={ROUTES.HOME}>Speech Surrogates</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

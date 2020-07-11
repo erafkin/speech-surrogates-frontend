@@ -1,0 +1,13 @@
+.homeTitle{
+    color: white;
+    position: absolute;
+    text-align: center;
+    min-height: 250px;
+    width: 100vw;
+    font-size: 5em;
+    padding-top: 7%;
+}
+.homeImage{
+    min-height: 250px;
+    width: 100vw;
+}

@@ -1,9 +1,10 @@
 .container{
-    padding: 10px;
-    display: inline-block;
-    width: 95vw;
+    display: inline;
     font-family: Arial, Helvetica, sans-serif;
+}
 
+.newPageContainer{
+    margin: 2vw;
 }
 .newBody{
     height: 50vh;
@@ -14,27 +15,31 @@
 .keywords {
     display: inline-block;
     top:0;
+    max-width: 10vw;
     vertical-align: top;
+    padding-left: 1vw;
 }
 
 .title{
     margin: 10px;
     width: 50vw;
 }
-.post{
-    width: 70vw;
-}
+
 .postContainer{
     display: inline-block;
-
     align-items: center;
     padding-left: 10vw;
-    width: 75vw;
+    max-width: 80vw;
+}
+.lang-title{
+    width: 98vw;
+    text-align: center;
 }
 
 .comment {
     width: 99%;
     height: 10vh;
+    display: inline-block;
 }
 .date{
     font-size: 10pt;

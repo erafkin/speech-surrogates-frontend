@@ -27,7 +27,6 @@ class LanguageNav extends React.Component {
             </div>
           );
         })}
-
       </div>
     );
   }

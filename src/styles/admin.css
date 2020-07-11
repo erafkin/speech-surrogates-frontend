@@ -16,3 +16,6 @@ table, td, th {
     background-color: #fff;
   }
   
+.adminContainer {
+  margin: 2vw;
+}

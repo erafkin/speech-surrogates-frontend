@@ -3,7 +3,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
+
 import { getAllUsers, updateUser, setGrantLanguage } from '../state/actions';
 import '../styles/admin.css';
 
@@ -17,7 +19,7 @@ class AdminPanel extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="adminContainer">
         <h2>Users</h2>
         <table>
           <tbody>
@@ -55,9 +57,9 @@ class AdminPanel extends React.Component {
         </table>
         <br />
         <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
-          <div className="button">
+          <Button>
             New Grant Language Page
-          </div>
+          </Button>
         </NavLink>
       </div>
     );

@@ -3,6 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants/index';
 import {
   getAllBlogs, updateBlog, setBlog, getAllKeywords, commentBlog,
@@ -51,9 +52,9 @@ class Blog extends React.Component {
             <div className="keywords">
 
               <NavLink to={ROUTES.NEW_BLOG}>
-                <div className="button">
+                <Button>
                   new post
-                </div>
+                </Button>
               </NavLink>
               <div>
                 <p>Keywords:</p>
@@ -63,9 +64,8 @@ class Blog extends React.Component {
                       role="button"
                       tabIndex={0}
                       key={kw.name}
-                      style={{
-                        textDecoration: 'underline', color: 'blue',
-                      }}
+                      style={{ textDecoration: 'underline', color: 'blue' }}
+
                     >
                       {kw.name}
                     </div>
@@ -85,12 +85,12 @@ class Blog extends React.Component {
                       role="button"
                       tabIndex={0}
                       key={kw.name}
-                      style={{
-                        textDecoration: 'underline', color: 'blue',
-                      }}
+                      style={{ textDecoration: 'underline', color: 'blue' }}
+
                     >
                       {kw.name}
                     </div>
+
                   );
                 } else {
                   return <div />;
@@ -106,9 +106,9 @@ class Blog extends React.Component {
             : (
               <div>
                 <p style={{ display: 'inline-block', margin: '5px' }}>Keyword selected: {this.state.keyword}</p>
-                <div className="button" role="button" tabIndex={0} onClick={() => this.changeKeyword('')}>
+                <Button onClick={() => this.changeKeyword('')}>
                   clear
-                </div>
+                </Button>
               </div>
             )
 
@@ -125,22 +125,23 @@ class Blog extends React.Component {
                       ? (
                         <div key={`${b._id}div`}>
                           <NavLink to={ROUTES.NEW_BLOG} onClick={() => { this.props.setBlog(b); }}>
-                            <div className="button" role="button" tabIndex={0}>
-                              Edit Post
-                            </div>
+                            <Button>
+                              Edit post
+                            </Button>
                           </NavLink>
-                          <div onClick={() => {
-                            this.props.updateBlog(
-                              { ...b, visible: !b.visible },
-                              this.props.user,
-                            );
-                          }}
-                            role="button"
-                            tabIndex={0}
-                            className="button"
+                          <span>&nbsp;</span>
+                          <Button
+                            variant={b.visible ? 'danger' : 'success'}
+                            onClick={() => {
+                              this.props.updateBlog(
+                                { ...b, visible: !b.visible },
+                                this.props.user,
+                              );
+                            }}
                           >
                             {b.visible ? 'Hide post' : 'Show post'}
-                          </div>
+                          </Button>
+
                         </div>
                       )
                       : <div key={`${b._id}div`} />
