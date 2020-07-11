@@ -50,33 +50,29 @@ class Blog extends React.Component {
         {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
           ? (
             <div className="keywords">
-
               <NavLink to={ROUTES.NEW_BLOG}>
                 <Button>
                   new post
                 </Button>
               </NavLink>
-              <div>
-                <p>Keywords:</p>
-                {this.props.keywords.map((kw) => {
-                  return (
-                    <div onClick={() => { this.changeKeyword(kw.name); }}
-                      role="button"
-                      tabIndex={0}
-                      key={kw.name}
-                      style={{ textDecoration: 'underline', color: 'blue' }}
-
-                    >
-                      {kw.name}
-                    </div>
-                  );
-                })}
-              </div>
+              <p>Keywords:</p>
+              {this.props.keywords.map((kw) => {
+                return (
+                  <div onClick={() => { this.changeKeyword(kw.name); }}
+                    role="button"
+                    tabIndex={0}
+                    key={kw.name}
+                    style={{ textDecoration: 'underline', color: 'blue' }}
+                  >
+                    {kw.name}
+                  </div>
+                );
+              })}
             </div>
 
           )
           : (
-            <div>
+            <div className="keywords">
               <p>Keywords:</p>
               {this.props.keywords.map((kw) => {
                 if (kw.postCount !== 0) {

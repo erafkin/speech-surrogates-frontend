@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import '../styles/navbar.css';
+import '../styles/blog.css';
 import ReactPlayer from 'react-player';
 import ReactHtmlParser from 'react-html-parser';
 import Button from 'react-bootstrap/Button';
