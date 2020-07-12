@@ -60,7 +60,7 @@ const SSNavbar = (props) => {
                 Admin
               </Nav.Link>
             ) : <div style={{ display: 'inline-block' }} />}
-          {Object.keys(props.user).length !== 0 && (props.user.type === 'admin' || props.user.type === 'contributer')
+          {Object.keys(props.user).length !== 0 && (props.user.type === 'admin' || props.user.type === 'contributor')
             ? (
               <Nav.Link href={ROUTES.MY_BIO}>
                 My Bio
