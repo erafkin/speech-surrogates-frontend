@@ -4,9 +4,9 @@ import ReactHtmlParser from 'react-html-parser';
 
 const IndivBlog = (props) => {
   return (
-    <div className="navbar">
-      <h1>{props.blog.title}</h1>
-      <h2>{props.blog.author}</h2>
+    <div>
+      <h2>{props.blog.title}</h2>
+      <h3>{props.blog.author}</h3>
       {(props.user.type === 'admin' || props.user.type === 'contributor')
         ? (
           <h4>Post visible: {

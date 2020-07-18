@@ -2,20 +2,33 @@
     color: white;
     position: absolute;
     text-align: center;
-    min-height: 250px;
+    max-height: 250px;
     width: 100vw;
-    padding-top: 6%;
+    padding-top: 3%;
 }
 .homeTitle{
-    font-size: 5em;
+    font-size: 3em;
 }
 .homeSubtitle{
     font-size: 2em;
-
+   
 }
 .homeImage{
-    min-height: 250px;
+    max-height: 250px;
     width: 100vw;
     margin-top: -10px;
 
+}
+.homeContainer {
+    margin: 3vw;
+}
+.homeBlog{
+    display: inline-block;
+    width: 78vw;
+}
+.homeNews{
+    display: inline-block;
+    width:14vw;
+    top:0;
+    vertical-align: top;
 }

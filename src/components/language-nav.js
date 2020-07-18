@@ -43,9 +43,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllGrantLanguages: () => {
       dispatch(getAllGrantLanguages());
     },
-    setGrantLanguage: (lang) => {
-      dispatch(setGrantLanguage(lang));
-    },
+    setGrantLanguage,
   };
 };
 

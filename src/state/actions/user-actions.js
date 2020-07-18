@@ -216,9 +216,7 @@ const getAllUsers = () => {
 };
 
 const setUserBio = (user) => {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SET_USER_BIO, payload: user });
-  };
+  return { type: ActionTypes.SET_USER_BIO, payload: user };
 };
 
 const getUserBio = (token, username) => {

@@ -35,9 +35,7 @@ const getAllGrantLanguages = () => {
 };
 
 const setGrantLanguage = (lang) => {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: lang });
-  };
+  return { type: ActionTypes.SET_GRANT_LANGUAGE, payload: lang };
 };
 
 const createGrantLanguage = (g, u, success, failure) => {
