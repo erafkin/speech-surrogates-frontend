@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAllBlogs } from '../state/actions';
+import { getAllBlogs, getAllNews } from '../state/actions';
 import IndivBlog from './indiv-blog';
 import { ROUTES } from '../constants';
 import '../styles/home.css';
@@ -13,6 +13,7 @@ const changeKeyword = () => {
 const Home = (props) => {
   if (Object.keys(props.blogs).length === 0) {
     props.getAllBlogs();
+    props.getAllNews();
   }
   let blog = {};
   props.blogs.forEach((b) => {
@@ -20,17 +21,18 @@ const Home = (props) => {
       blog = b;
     }
   });
-  console.log(blog);
   return (
     <div className="homeContainer">
-      <h1>Welcome to Speech Surrogates!</h1>
-      <p>This site is dedicated to sharing research and resources related to speech surrogates,especially musical surrogate
-        languages. <span> <a href={ROUTES.ABOUT} style={{ textDecoration: 'underline' }}>Read more here.</a> </span>
-      </p>
-      <p>
-        <a href={ROUTES.SPEECH_SURROGATES} className="homeLinks" style={{ textDecoration: 'underline' }}>What are speech surrogates? </a>
-      </p>
       <div className="homeBlog">
+
+        <h1>Welcome to Speech Surrogates!</h1>
+
+        <p>This site is dedicated to sharing research and resources related to speech surrogates,especially musical surrogate
+          languages. <span> <a href={ROUTES.ABOUT} style={{ textDecoration: 'underline' }}>Read more here.</a> </span>
+        </p>
+        <p>
+          <a href={ROUTES.SPEECH_SURROGATES} className="homeLinks" style={{ textDecoration: 'underline' }}>What are speech surrogates? </a>
+        </p>
         <h1>Most recent blog post</h1>
         <div>
           {Object.keys(blog).length === 0 ? <div /> : <IndivBlog blog={blog} user={{ type: 'none' }} visible changeKeyword={changeKeyword} /> }
@@ -38,7 +40,24 @@ const Home = (props) => {
         <a href={ROUTES.BLOG} className="homeLinks" style={{ textDecoration: 'underline', fontSize: '1.25em' }}>See more blog posts...</a>
       </div>
       <div className="homeNews">
-        <p>News</p>
+        <h2>News</h2>
+        {props.news.map((n) => {
+          console.log(n.link);
+          return (
+            <div>
+              <p>{n.blurb}</p>
+              {n.link ? (
+                <div>
+                  <a href={n.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>More here.</a>
+                  <br />
+                  <br />
+                </div>
+              )
+                : <div />
+              }
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -47,6 +66,7 @@ const mapStateToProps = (state) => {
   return {
     blogs: state.blog.allBlogs,
     user: state.user.user,
+    news: state.news.news,
   };
 };
 
@@ -54,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllBlogs: () => {
       dispatch(getAllBlogs());
+    },
+    getAllNews: () => {
+      dispatch(getAllNews());
     },
   };
 };

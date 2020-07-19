@@ -18,8 +18,6 @@ const getAllNews = () => {
 
 const createNews = (news, user, token) => {
   return new Promise((resolve, reject) => {
-    console.log(news);
-    console.log(user);
     axios.post(URL, { news, user }, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         resolve(response);
@@ -30,9 +28,9 @@ const createNews = (news, user, token) => {
   });
 };
 
-const deleteNews = (news, user, token) => {
+const deleteNews = (news, token) => {
   return new Promise((resolve, reject) => {
-    axios.delete(`${URL}/${news._id}`, { news, user }, { headers: { Authorization: `Bearer ${token}` } })
+    axios.delete(`${URL}/${news._id}`, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => {
         resolve(response.data.response);
       })

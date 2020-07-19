@@ -32,9 +32,11 @@ class AdminPanel extends React.Component {
   }
 
   createNews = () => {
-    console.log(JSON.stringify({ blurb: this.state.currNewsBlurb, link: this.state.currNewsLink }));
-    console.log(this.props.user);
     this.props.createNews({ blurb: this.state.currNewsBlurb, link: this.state.currNewsLink }, this.props.user);
+    this.setState({
+      currNewsBlurb: '',
+      currNewsLink: '',
+    });
   }
 
   handleBlurbChange = (e) => {
@@ -94,9 +96,12 @@ class AdminPanel extends React.Component {
         <p style={{ fontWeight: 'bold', fontSize: '1.5em' }}> News </p>
         {this.props.news.map((n) => {
           return (
-            <div>
+            <div key={n._id}>
               <p> {n.blurb} </p>
               <p> {n.link} </p>
+              <Button className="button" onClick={() => this.props.deleteNews(n)} variant="danger">
+                Delete News
+              </Button>
             </div>
           );
         })}
@@ -138,8 +143,8 @@ const mapDispatchToProps = (dispatch) => {
     createNews: (news, user) => {
       dispatch(createNews(news, user));
     },
-    deleteNews: (news, user) => {
-      dispatch(deleteNews(news, user));
+    deleteNews: (news) => {
+      dispatch(deleteNews(news));
     },
   };
 };

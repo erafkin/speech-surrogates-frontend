@@ -27,6 +27,9 @@ const createNews = (news, user) => {
         newsRequests.getAllNews()
           .then((res) => {
             dispatch({ type: ActionTypes.SET_NEWS, payload: res });
+          })
+          .catch((err) => {
+            dispatch({ type: ActionTypes.API_ERROR, payload: err });
           });
       })
       .catch((error) => {
@@ -35,12 +38,18 @@ const createNews = (news, user) => {
   };
 };
 
-const deleteNews = (news, user) => {
+const deleteNews = (news) => {
   return (dispatch, getState) => {
     newsRequests
-      .deleteNews(news, user, getState().user.token)
+      .deleteNews(news, getState().user.token)
       .then((response) => {
-        dispatch({ type: ActionTypes.SET_NEWS, payload: response });
+        newsRequests.getAllNews()
+          .then((res) => {
+            dispatch({ type: ActionTypes.SET_NEWS, payload: res });
+          })
+          .catch((err) => {
+            dispatch({ type: ActionTypes.API_ERROR, payload: err });
+          });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });

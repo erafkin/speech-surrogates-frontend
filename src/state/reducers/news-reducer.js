@@ -7,7 +7,7 @@ const initialState = {
 const NewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_NEWS:
-      return { ...state, news: action.payload };
+      return { ...state, news: action.payload.reverse() };
     default:
       return state;
   }
