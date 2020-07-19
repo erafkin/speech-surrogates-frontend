@@ -36,6 +36,12 @@ import {
   updateGrantLanguage,
 
 } from './grant-languages-actions';
+import {
+  ActionTypes as newsActionTypes,
+  getAllNews,
+  createNews,
+  deleteNews,
+} from './news-actions';
 
 
 // combine all action types
@@ -50,7 +56,9 @@ Object.keys(blogActionTypes).forEach((key) => {
 Object.keys(grantLanguageActionTypes).forEach((key) => {
   ActionTypes[key] = grantLanguageActionTypes[key];
 });
-
+Object.keys(newsActionTypes).forEach((key) => {
+  ActionTypes[key] = newsActionTypes[key];
+});
 // export all action types in one object, as well as each action
 export {
   ActionTypes,
@@ -77,4 +85,7 @@ export {
   updateGrantLanguage,
   setUserBio,
   getUserBio,
+  createNews,
+  getAllNews,
+  deleteNews,
 };

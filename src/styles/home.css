@@ -3,7 +3,7 @@
     position: absolute;
     text-align: center;
     max-height: 250px;
-    width: 100vw;
+    width: 99vw;
     padding-top: 3%;
 }
 .homeTitle{
@@ -15,7 +15,7 @@
 }
 .homeImage{
     max-height: 250px;
-    width: 100vw;
+    width: 99vw;
     margin-top: -10px;
 
 }
