@@ -16,7 +16,7 @@ import SpeechSurrogates from './components/speech-surrogates';
 import LanguagePage from './components/language';
 import NewGrantLanguage from './components/new-grant-lang';
 import MyBio from './components/my-bio';
-import IndivBio from './components/indiv-bio';
+import Bios from './components/bios';
 
 
 const FallBack = () => {
@@ -50,7 +50,7 @@ class App extends React.Component {
             <Route path={ROUTES.LOGIN} component={SignIn} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.MY_BIO} component={MyBio} />
-            <Route path={ROUTES.BIOS} component={IndivBio} />
+            <Route path={ROUTES.BIOS} component={Bios} />
             <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}
             <Route component={FallBack} />
           </Switch>

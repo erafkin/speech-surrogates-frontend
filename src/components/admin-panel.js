@@ -105,6 +105,8 @@ class AdminPanel extends React.Component {
             </div>
           );
         })}
+        <br />
+        <p style={{ fontWeight: 'bold', fontSize: '1.25em' }}> Add News</p>
         <p>Blurb</p>
         <input type="text" name="blurb" value={this.state.currNewsBlurb} onChange={this.handleBlurbChange} className="title" />
         <p>Link</p>

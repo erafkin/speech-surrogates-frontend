@@ -44,21 +44,7 @@ const SSNavbar = (props) => {
             <NavDropdown title="Grant Languages" id="basic-nav-dropdown">
               <LanguageNav />
             </NavDropdown>
-            <NavDropdown title="Contributor Bios" id="basic-nav-dropdown">
-              {props.users.map((user) => {
-                if (user.bio === undefined) {
-                  return <div key={user._id} />;
-                } else {
-                  return (
-                    <NavDropdown.Item as={NavLink} to={`/bios/${user.username}`} key={user.username} onClick={() => { props.setUserBio(user); }}>
-                      {user.first_name} {user.last_name}
-                    </NavDropdown.Item>
-                  );
-                }
-              })}
-            </NavDropdown>
-
-
+            <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
           </Nav>
           <Nav className="mr-sm-2">
             {Object.keys(props.user).length === 0 ? <div /> : (

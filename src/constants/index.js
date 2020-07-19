@@ -1,5 +1,5 @@
-const API_URL = 'http://localhost:3000/api';
-// const API_URL = 'https://speech-surrogates-backend.herokuapp.com/api';
+// const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://speech-surrogates-backend.herokuapp.com/api';
 const LOCAL_STORAGE_TOKEN_KEY = 'token';
 const LOCAL_STORAGE_USERNAME_KEY = 'username';
 
@@ -16,7 +16,7 @@ const ROUTES = {
   LANGUAGES: '/languages/:lang_name',
   NEW_LANG: '/new-grant-language',
   MY_BIO: '/my-bio',
-  BIOS: '/bios/:username',
+  BIOS: '/bios',
 
 };
 
