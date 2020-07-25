@@ -43,7 +43,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
     "jodit-react": "^1.0.49",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "react": "^16.8.6",
     "react-bootstrap": "^1.2.1",
     "react-dom": "^16.8.6",
