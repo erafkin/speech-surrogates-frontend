@@ -40,12 +40,15 @@ const SSNavbar = (props) => {
               <NavDropdown.Item as={NavLink} to={ROUTES.SPEECH_SURROGATES}>
                 What are speech surrogates?
               </NavDropdown.Item>
+              <NavDropdown.Item as={NavLink} to={ROUTES.TYPOLOGICAL_QUESTIONS}>
+                Typological Questions About Surrogate Languages
+              </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Grant Languages" id="basic-nav-dropdown">
               <LanguageNav />
             </NavDropdown>
             <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
-            <Nav.Link href={ROUTES.MAP}>Map</Nav.Link>
+            {/* <Nav.Link href={ROUTES.MAP}>Map</Nav.Link> */}
 
           </Nav>
           <Nav className="mr-sm-2">
