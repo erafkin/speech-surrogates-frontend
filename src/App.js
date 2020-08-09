@@ -18,6 +18,7 @@ import NewGrantLanguage from './components/new-grant-lang';
 import MyBio from './components/my-bio';
 import Bios from './components/bios';
 import Map from './components/map';
+import NewMapEntry from './components/new-map-entry';
 import TypologicalQuestions from './components/typological-questions';
 
 const FallBack = () => {
@@ -54,6 +55,7 @@ class App extends React.Component {
             <Route path={ROUTES.BIOS} component={Bios} />
             <Route path={ROUTES.MAP} component={Map} />
             <Route path={ROUTES.TYPOLOGICAL_QUESTIONS} component={TypologicalQuestions} />
+            <Route path={ROUTES.NEW_MAP_LANG} component={NewMapEntry} />
             <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}
             <Route component={FallBack} />
           </Switch>

@@ -17,9 +17,12 @@ class AdminPanel extends React.Component {
     this.state = {
       currNewsBlurb: '',
       currNewsLink: '',
+      // password: '',
+
     };
     this.handleBlurbChange = this.handleBlurbChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
+    // this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   componentWillMount() {
@@ -42,6 +45,10 @@ class AdminPanel extends React.Component {
   handleBlurbChange = (e) => {
     this.setState({ currNewsBlurb: e.target.value });
   }
+
+  // handlePasswordChange = (e) => {
+  //   this.setState({ laurapass: e.target.value });
+  // }
 
   handleLinkChange = (e) => {
     this.setState({ currNewsLink: e.target.value });
@@ -115,6 +122,15 @@ class AdminPanel extends React.Component {
         <Button className="button" onClick={() => this.createNews()}>
           Submit
         </Button>
+
+        {/* <p>CHANGE PASSWORD</p>
+        <input type="text" name="link" value={this.state.laurapass} onChange={this.handlePasswordChange} className="title" />
+
+        <Button className="button" onClick={() => this.submitLauraPassword()}>
+          Submit
+        </Button> */}
+
+
       </div>
     );
   }

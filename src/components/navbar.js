@@ -48,7 +48,7 @@ const SSNavbar = (props) => {
               <LanguageNav />
             </NavDropdown>
             <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
-            {/* <Nav.Link href={ROUTES.MAP}>Map</Nav.Link> */}
+            <Nav.Link href={ROUTES.MAP}>Map</Nav.Link>
 
           </Nav>
           <Nav className="mr-sm-2">

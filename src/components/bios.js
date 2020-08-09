@@ -12,7 +12,7 @@ const Bios = (props) => {
   return (
     <div style={{ margin: '2vw' }}>
       {props.users.map((user) => {
-        if (user.bio === null || user.bio === undefined) {
+        if (user.bio === null || user.bio === undefined || user.bio === '') {
           return <div />;
         } else {
           return (

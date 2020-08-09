@@ -36,12 +36,23 @@ import {
   updateGrantLanguage,
 
 } from './grant-languages-actions';
+
 import {
   ActionTypes as newsActionTypes,
   getAllNews,
   createNews,
   deleteNews,
 } from './news-actions';
+
+import {
+  ActionTypes as mapActionTypes,
+  getIndivMapLang,
+  getAllMapLangs,
+  updateIndivMapLang,
+  createIndivMapLang,
+  setIndivMapLang,
+  deleteIndivMapLang,
+} from './map-actions';
 
 
 // combine all action types
@@ -58,6 +69,9 @@ Object.keys(grantLanguageActionTypes).forEach((key) => {
 });
 Object.keys(newsActionTypes).forEach((key) => {
   ActionTypes[key] = newsActionTypes[key];
+});
+Object.keys(mapActionTypes).forEach((key) => {
+  ActionTypes[key] = mapActionTypes[key];
 });
 // export all action types in one object, as well as each action
 export {
@@ -88,4 +102,10 @@ export {
   createNews,
   getAllNews,
   deleteNews,
+  getIndivMapLang,
+  getAllMapLangs,
+  updateIndivMapLang,
+  createIndivMapLang,
+  setIndivMapLang,
+  deleteIndivMapLang,
 };

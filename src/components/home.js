@@ -2,7 +2,7 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAllBlogs, getAllNews } from '../state/actions';
+import { getAllBlogs, getAllNews, getAllMapLangs } from '../state/actions';
 import IndivBlog from './indiv-blog';
 import { ROUTES } from '../constants';
 import '../styles/home.css';
@@ -14,6 +14,7 @@ const Home = (props) => {
   if (Object.keys(props.blogs).length === 0) {
     props.getAllBlogs();
     props.getAllNews();
+    props.getAllMapLangs();
   }
   let blog = {};
   props.blogs.forEach((b) => {
@@ -42,9 +43,8 @@ const Home = (props) => {
       <div className="homeNews">
         <h2>News</h2>
         {props.news.map((n) => {
-          console.log(n.link);
           return (
-            <div>
+            <div key={n._id}>
               <p>{n.blurb}</p>
               {n.link ? (
                 <div>
@@ -67,6 +67,7 @@ const mapStateToProps = (state) => {
     blogs: state.blog.allBlogs,
     user: state.user.user,
     news: state.news.news,
+    map: state.map.map,
   };
 };
 
@@ -77,6 +78,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getAllNews: () => {
       dispatch(getAllNews());
+    },
+    getAllMapLangs: () => {
+      dispatch(getAllMapLangs());
     },
   };
 };
