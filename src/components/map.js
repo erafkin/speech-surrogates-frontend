@@ -6,7 +6,10 @@ import * as am4maps from '@amcharts/amcharts4/maps';
 import am4geodataWorldLow from '@amcharts/amcharts4-geodata/worldLow';
 import am4themesAnimated from '@amcharts/amcharts4/themes/animated';
 import Button from 'react-bootstrap/Button';
-import { getAllMapLangs } from '../state/actions';
+import Modal from 'react-bootstrap/Modal';
+import ReactHtmlParser from 'react-html-parser';
+
+import { getAllMapLangs, setIndivMapLang } from '../state/actions';
 import { ROUTES } from '../constants';
 
 am4core.useTheme(am4themesAnimated);
@@ -18,6 +21,10 @@ class Map extends React.Component {
     super(props);
     this.state = {
       mountedGraph: false,
+      showModal: false,
+      selectedCountry: {},
+      selectedLanguage: {},
+      countryLangs: [],
     };
   }
 
@@ -31,7 +38,9 @@ class Map extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (Object.keys(nextProps.map).length > 0 && !this.state.mountedGraph) {
-      this.createMap(nextProps);
+      this.createMap(nextProps.map);
+    } else if (this.props.map.length === 0) {
+      this.props.getAllMapLangs();
     }
   }
 
@@ -41,7 +50,7 @@ class Map extends React.Component {
     }
   }
 
-  createMap = (passedInProps) => {
+  createMap = (passedInMap) => {
     // Create map instance
     const chart = am4core.create('chartdiv', am4maps.MapChart);
 
@@ -64,26 +73,38 @@ class Map extends React.Component {
     polygonSeries.useGeodata = true;
 
     const countryLangs = {};
-    passedInProps.map.forEach((lang) => {
+    passedInMap.forEach((lang) => {
       if (countryLangs[lang.country] === undefined) {
-        countryLangs[lang.country] = [lang.language];
+        countryLangs[lang.country] = {
+          countryLangsNameArray: [lang.language],
+          countryLangsArray: [lang],
+        };
       } else {
-        countryLangs[lang.country].push(lang.language);
+        countryLangs[lang.country].countryLangsNameArray.push(lang.language);
+        countryLangs[lang.country].countryLangsArray.push(lang);
       }
     });
     const countryData = [];
-    console.log(countryLangs);
     Object.keys(countryLangs).forEach((lang) => {
       countryData.push({
-        name: lang, langs: countryLangs[lang].join(', \n'), id: countryCodes[lang], fill: am4core.color('#74B266'),
+        name: lang, langNames: countryLangs[lang].countryLangsNameArray.join(', \n'), langArray: countryLangs[lang].countryLangsArray, id: countryCodes[lang], fill: am4core.color('#74B266'),
       });
     });
     polygonSeries.data = countryData;
-    console.log(countryData);
 
     // Configure series
     const polygonTemplate = polygonSeries.mapPolygons.template;
-    polygonTemplate.tooltipText = '{name}\n Languages:\n {langs}';
+    polygonTemplate.tooltipText = '{name}\n Languages:\n {langNames}';
+    polygonTemplate.events.on('hit', (event) => {
+      const countryName = event.target.dataItem.dataContext.name;
+      if (countryLangs[countryName].countryLangsNameArray.length > 1) {
+        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
+        // this.props.history.push(`/map/${countryName}`);
+      } else if (countryLangs[countryName].countryLangsNameArray.length === 1) {
+        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, selectedLanguage: event.target.dataItem.dataContext.langArray[0] });
+        // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+      }
+    });
 
     // this makes sure that only countries with a language are colored in
     polygonTemplate.propertyFields.fill = 'fill';
@@ -91,11 +112,14 @@ class Map extends React.Component {
 
 
   render() {
+    const {
+      showModal, selectedCountry, selectedLanguage, countryLangs,
+    } = this.state;
     return (
       <div>
         {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
           ? (
-            <NavLink to={ROUTES.NEW_MAP_LANG}>
+            <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
               <Button>
                 New Map Language
               </Button>
@@ -103,6 +127,69 @@ class Map extends React.Component {
           )
           : <div />}
         <div id="chartdiv" style={{ width: '100%', height: '500px' }} />
+        <Modal
+          show={showModal}
+          onHide={() => {
+            // this.props.history.push('/map');
+            this.setState({
+              showModal: false,
+              selectedCountry: {},
+              selectedLanguage: {},
+            });
+          }
+        }
+        >
+          <Modal.Header closeButton>
+            {Object.keys(selectedLanguage).length === 0
+              ? <Modal.Title>{selectedCountry.name}</Modal.Title>
+              : <Modal.Title>{selectedLanguage.language}</Modal.Title>
+                }
+          </Modal.Header>
+          {Object.keys(selectedLanguage).length === 0
+            ? (
+              <Modal.Body>
+                {countryLangs.map((lang) => {
+                  return (
+                    <div key={lang._id} style={{ textDecoration: 'underline' }} onClick={() => this.setState({ selectedLanguage: lang })} role="button" tabIndex={0}>
+                      {lang.language}
+                    </div>
+                  );
+                })}
+
+              </Modal.Body>
+            )
+            : (
+              <Modal.Body>
+                <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Instrument Family: </span><span>{selectedLanguage.instrument_family}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Instrument Type: </span><span>{selectedLanguage.instrument_type}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Contrasts Encoded: </span><span>{selectedLanguage.contrasts_encoded}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Depth of Encoding: </span><span>{selectedLanguage.depth_of_encoding}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Content: </span><span>{selectedLanguage.content}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Specialization: </span><span>{selectedLanguage.specialization}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Comprehension: </span><span>{selectedLanguage.comprehension}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Productivity: </span><span>{selectedLanguage.productivity}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
+                <p style={{ fontWeight: '700' }}>Summary:</p>
+                {/* eslint-disable-next-line new-cap */}
+                <div>{ReactHtmlParser(selectedLanguage.summary)}</div>
+                <p><span style={{ fontWeight: '700' }}>Source: </span><span>{selectedLanguage.source}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Mentions: </span><span>{selectedLanguage.mentions}</span></p>
+                {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
+                  ? (
+                    <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang(selectedLanguage)}>
+                      <Button>
+                        Edit Language
+                      </Button>
+                    </NavLink>
+                  )
+                  : <div />}
+              </Modal.Body>
+            )
+                }
+
+        </Modal>
 
       </div>
     );
@@ -120,6 +207,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllMapLangs: () => {
       dispatch(getAllMapLangs());
+    },
+    setIndivMapLang: (map) => {
+      dispatch(setIndivMapLang(map));
     },
   };
 };

@@ -12,13 +12,13 @@ class NewMapEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.indivMapLang.name === undefined ? '' : this.props.indivMapLang.name,
+      name: this.props.indivMapLang.language === undefined ? '' : this.props.indivMapLang.language,
       continent: this.props.indivMapLang.continent === undefined ? '' : this.props.indivMapLang.continent,
       country: this.props.indivMapLang.country === undefined ? '' : this.props.indivMapLang.country,
-      instrumentFamily: this.props.indivMapLang.instrumentFamily === undefined ? '' : this.props.indivMapLang.instrumentFamily,
-      instrumentType: this.props.indivMapLang.instrumentType === undefined ? '' : this.props.indivMapLang.instrumentType,
-      contrastsEncoded: this.props.indivMapLang.contrastsEncoded === undefined ? '' : this.props.indivMapLang.contrastsEncoded,
-      depthOfEncoding: this.props.indivMapLang.depthOfEncoding === undefined ? '' : this.props.indivMapLang.depthOfEncoding,
+      instrumentFamily: this.props.indivMapLang.instrument_family === undefined ? '' : this.props.indivMapLang.instrument_family,
+      instrumentType: this.props.indivMapLang.instrument_type === undefined ? '' : this.props.indivMapLang.instrument_type,
+      contrastsEncoded: this.props.indivMapLang.contrasts_encoded === undefined ? '' : this.props.indivMapLang.contrasts_encoded,
+      depthOfEncoding: this.props.indivMapLang.depth_of_encoding === undefined ? '' : this.props.indivMapLang.depth_of_encoding,
       content: this.props.indivMapLang.content === undefined ? '' : this.props.indivMapLang.content,
       specialization: this.props.indivMapLang.specialization === undefined ? '' : this.props.indivMapLang.specialization,
       comprehension: this.props.indivMapLang.comprehension === undefined ? '' : this.props.indivMapLang.comprehension,
@@ -112,7 +112,23 @@ class NewMapEntry extends React.Component {
     if (this.props.indivMapLang._id !== undefined) {
       // update page
       this.props.updateIndivMapLang(
-        map,
+        {
+          language: this.state.name,
+          continent: this.state.continent,
+          country: this.state.country,
+          instrument_family: this.state.instrumentFamily,
+          instrument_type: this.state.instrumentType,
+          contrasts_encoded: this.state.contrastsEncoded,
+          depth_of_encoding: this.state.depthOfEncoding,
+          content: this.state.content,
+          specialization: this.state.specialization,
+          comprehension: this.state.comprehension,
+          productivity: this.state.productivity,
+          source: this.state.source,
+          mentions: this.state.mentions,
+          summary: this.state.summary,
+          _id: this.props.indivMapLang._id,
+        },
         this.props.user,
         this.onSuccessCallback,
         this.onFailureCallback,

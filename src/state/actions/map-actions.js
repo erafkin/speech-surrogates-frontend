@@ -37,13 +37,22 @@ const getAllMapLangs = () => {
 const updateIndivMapLang = (m, u, success, failure) => {
   return (dispatch, getState) => {
     mapRequests
-      .updateIndivMapLang(getState().user.token, { id: m._id, map: m, user: u })
+      .updateIndivMapLang(getState().user.token, { id: m._id, language: m, user: u })
       .then((response) => {
         console.log(response);
-        dispatch({ type: ActionTypes.SET_INDIV_MAP, payload: response });
-        if (success !== undefined) {
-          success();
-        }
+        mapRequests.getAllMapLangs()
+          .then((resp) => {
+            dispatch({ type: ActionTypes.SET_MAP, payload: resp });
+            if (success !== undefined) {
+              success();
+            }
+          })
+          .catch((error) => {
+            dispatch({ type: ActionTypes.API_ERROR, payload: error });
+            if (failure) {
+              failure(error);
+            }
+          });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
@@ -92,9 +101,7 @@ const deleteIndivMapLang = (map) => {
 };
 
 const setIndivMapLang = (m) => {
-  return (dispatch) => {
-    dispatch({ type: ActionTypes.SET_BLOG, payload: m });
-  };
+  return ({ type: ActionTypes.SET_INDIV_MAP, payload: m });
 };
 
 export {
