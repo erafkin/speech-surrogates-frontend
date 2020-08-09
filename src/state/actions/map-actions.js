@@ -81,7 +81,7 @@ const createIndivMapLang = (m, u, success, failure) => {
       });
   };
 };
-const deleteIndivMapLang = (map) => {
+const deleteIndivMapLang = (map, success, failure) => {
   return (dispatch, getState) => {
     mapRequests
       .deleteIndivMapLang(map, getState().user.token)
@@ -89,13 +89,22 @@ const deleteIndivMapLang = (map) => {
         mapRequests.getAllMapLangs()
           .then((res) => {
             dispatch({ type: ActionTypes.SET_MAP, payload: res });
+            if (success !== undefined) {
+              success();
+            }
           })
           .catch((err) => {
             dispatch({ type: ActionTypes.API_ERROR, payload: err });
+            if (failure) {
+              failure(err);
+            }
           });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
       });
   };
 };

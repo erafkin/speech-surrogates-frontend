@@ -3,10 +3,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { createIndivMapLang, updateIndivMapLang } from '../state/actions';
+import Select from 'react-select';
+import { createIndivMapLang, updateIndivMapLang, deleteIndivMapLang } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
-
+import countryCodes from '../constants/country-to-code.json';
 
 class NewMapEntry extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class NewMapEntry extends React.Component {
     this.state = {
       name: this.props.indivMapLang.language === undefined ? '' : this.props.indivMapLang.language,
       continent: this.props.indivMapLang.continent === undefined ? '' : this.props.indivMapLang.continent,
-      country: this.props.indivMapLang.country === undefined ? '' : this.props.indivMapLang.country,
+      country: this.props.indivMapLang.country === undefined ? [] : this.props.indivMapLang.country,
       instrumentFamily: this.props.indivMapLang.instrument_family === undefined ? '' : this.props.indivMapLang.instrument_family,
       instrumentType: this.props.indivMapLang.instrument_type === undefined ? '' : this.props.indivMapLang.instrument_type,
       contrastsEncoded: this.props.indivMapLang.contrasts_encoded === undefined ? '' : this.props.indivMapLang.contrasts_encoded,
@@ -91,6 +92,28 @@ class NewMapEntry extends React.Component {
     this.toast.error(JSON.stringify(error));
   };
 
+  countries = () => {
+    const options = [];
+    Object.keys(countryCodes).forEach((country) => {
+      options.push({
+        value: country,
+        label: country,
+      });
+    });
+    return options;
+  }
+
+  values = () => {
+    const values = [];
+    this.state.country.forEach((word) => {
+      values.push({
+        value: word,
+        label: word,
+      });
+    });
+    return values;
+  }
+
   submit = () => {
     const map = {
       name: this.state.name,
@@ -108,7 +131,6 @@ class NewMapEntry extends React.Component {
       mentions: this.state.mentions,
       summary: this.state.summary,
     };
-    console.log(map);
     if (this.props.indivMapLang._id !== undefined) {
       // update page
       this.props.updateIndivMapLang(
@@ -144,17 +166,55 @@ class NewMapEntry extends React.Component {
     }
   }
 
+  handleSelectChange = (newValue) => {
+    const newCountries = [];
+    if (newValue === null) {
+      this.setState({
+        country: [],
+      });
+    } else {
+      newValue.forEach((val) => {
+        newCountries.push(val.value);
+      });
+      this.setState({
+        country: newCountries,
+      });
+    }
+  };
 
   render() {
     const { summary } = this.state;
+    const options = this.countries();
+    const values = this.values();
+    const continents = [{ value: 'Africa', label: 'Africa' },
+      { value: 'Asia', label: 'Asia' },
+      { value: 'Australia', label: 'Australia' },
+      { value: 'Europe', label: 'Europe' },
+      { value: 'North America', label: 'North America' },
+      { value: 'South America', label: 'South America' }];
     return (
       <div className="newPageContainer">
         <p>Language Name:</p>
         <input type="text" name="name" value={this.state.name} onChange={event => this.handleChange('name', event)} className="title" />
         <p>Continent of Origin</p>
-        <input type="text" name="title" value={this.state.continent} onChange={event => this.handleChange('continent', event)} className="title" />
+        <Select
+          defaultValue={this.state.continent}
+          name="continent"
+          options={continents}
+          className="basic"
+          classNamePrefix="select"
+          onChange={event => this.setState({ continent: event.value })}
+        />
         <p>Country of Origin</p>
-        <input type="text" name="title" value={this.state.country} onChange={event => this.handleChange('country', event)} className="title" />
+        <Select
+          defaultValue={values}
+          isMulti
+          name="countries"
+          options={options}
+          className="basic-multi-select"
+          classNamePrefix="select"
+          onChange={this.handleSelectChange}
+        />
         <p>Instrument Family</p>
         <input type="text" name="title" value={this.state.instrumentFamily} onChange={event => this.handleChange('instrumentFamily', event)} className="title" />
         <p>Instrument Type</p>
@@ -182,6 +242,14 @@ class NewMapEntry extends React.Component {
         <Button onMouseDown={() => { this.submit(); }}>
           Submit
         </Button>
+        {this.props.indivMapLang._id !== undefined
+          ? (
+            <Button onMouseDown={() => { this.props.deleteIndivMapLang(this.props.indivMapLang, this.onSuccessCallback, this.onFailureCallback); }} variant="danger">
+              Delete
+            </Button>
+          ) : <div />
+      }
+
       </div>
     );
   }
@@ -201,6 +269,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateIndivMapLang: (m, u, s, f) => {
       dispatch(updateIndivMapLang(m, u, s, f));
+    },
+    deleteIndivMapLang: (m, s, f) => {
+      dispatch(deleteIndivMapLang(m, s, f));
     },
   };
 };

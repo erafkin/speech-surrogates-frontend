@@ -13,8 +13,9 @@ const changeKeyword = () => {
 const Home = (props) => {
   if (Object.keys(props.blogs).length === 0) {
     props.getAllBlogs();
+  }
+  if (Object.keys(props.news).length === 0) {
     props.getAllNews();
-    props.getAllMapLangs();
   }
   let blog = {};
   props.blogs.forEach((b) => {

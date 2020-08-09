@@ -74,15 +74,17 @@ class Map extends React.Component {
 
     const countryLangs = {};
     passedInMap.forEach((lang) => {
-      if (countryLangs[lang.country] === undefined) {
-        countryLangs[lang.country] = {
-          countryLangsNameArray: [lang.language],
-          countryLangsArray: [lang],
-        };
-      } else {
-        countryLangs[lang.country].countryLangsNameArray.push(lang.language);
-        countryLangs[lang.country].countryLangsArray.push(lang);
-      }
+      lang.country.forEach((country) => {
+        if (countryLangs[country] === undefined) {
+          countryLangs[country] = {
+            countryLangsNameArray: [lang.language],
+            countryLangsArray: [lang],
+          };
+        } else {
+          countryLangs[country].countryLangsNameArray.push(lang.language);
+          countryLangs[country].countryLangsArray.push(lang);
+        }
+      });
     });
     const countryData = [];
     Object.keys(countryLangs).forEach((lang) => {
@@ -161,7 +163,7 @@ class Map extends React.Component {
             : (
               <Modal.Body>
                 <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country.join(', ')}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Family: </span><span>{selectedLanguage.instrument_family}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Type: </span><span>{selectedLanguage.instrument_type}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Contrasts Encoded: </span><span>{selectedLanguage.contrasts_encoded}</span></p>
