@@ -77,7 +77,7 @@ const deleteUser = (token, username) => {
  * @param {string} email username to retrieve
   * @param {string} user username to retrieve
  */
-const resetPassword = (token, e, u) => {
+const resetPassword = (e, u) => {
   return new Promise((resolve, reject) => {
     axios.post(`${URL}/reset-password`, { email: e, username: u })
       .then((response) => {

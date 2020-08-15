@@ -20,6 +20,8 @@ const ROUTES = {
   MAP: '/map',
   TYPOLOGICAL_QUESTIONS: '/typological-questions',
   NEW_MAP_LANG: '/new-map-language',
+  PROFILE: '/profile',
+
 };
 
 export {

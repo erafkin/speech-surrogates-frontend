@@ -20,6 +20,8 @@ import Bios from './components/bios';
 import Map from './components/map';
 import NewMapEntry from './components/new-map-entry';
 import TypologicalQuestions from './components/typological-questions';
+import ForgotPassword from './components/forgot-password';
+import Profile from './components/profile';
 
 const FallBack = () => {
   return <div>URL not found</div>;
@@ -42,6 +44,7 @@ class App extends React.Component {
         <div>
           <Navbar />
           <Switch>
+            <Route path={ROUTES.PROFILE} component={Profile} />
             <Route path={ROUTES.NEW_LANG} component={NewGrantLanguage} />
             <Route path={ROUTES.LANGUAGES} component={LanguagePage} />
             <Route path={ROUTES.SPEECH_SURROGATES} component={SpeechSurrogates} />
@@ -50,6 +53,7 @@ class App extends React.Component {
             <Route path={ROUTES.NEW_BLOG} component={IndivBlog} />
             <Route path={ROUTES.BLOG} component={Blog} />
             <Route path={ROUTES.LOGIN} component={SignIn} />
+            <Route path={ROUTES.RESET_PASSWORD} component={ForgotPassword} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.MY_BIO} component={MyBio} />
             <Route path={ROUTES.BIOS} component={Bios} />

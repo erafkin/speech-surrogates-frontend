@@ -38,7 +38,7 @@ const signIn = (username, password, success, failure) => {
 
             // call user failure callback
             if (failure) {
-              failure(error);
+              failure();
             }
           });
       })
@@ -140,7 +140,7 @@ const createUser = (fields, signInAfterCreate, success, failure) => {
 };
 
 // make an asyncronous request to the server to update user fields, then get the user data
-const updateUser = (user) => {
+const updateUser = (user, success, failure) => {
   return (dispatch, getState) => {
     userRequests
       .updateUser(getState().user.token, user)
@@ -149,13 +149,21 @@ const updateUser = (user) => {
           .getAllUsers(localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) || getState().user.token)
           .then((response) => {
             dispatch({ type: ActionTypes.SET_ALL_USERS, payload: response });
+            if (success) {
+              success();
+            }
           })
           .catch((error) => {
             dispatch({ type: ActionTypes.API_ERROR, payload: error });
+            if (failure) {
+              failure(error);
+            }
           });
       })
       .catch((error) => {
+        console.log(error);
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        failure(error);
       });
   };
 };
@@ -192,11 +200,22 @@ const clearUserData = () => {
   };
 };
 
-const resetPassword = (email, username) => {
+const resetPassword = (email, username, success, failure) => {
   return (dispatch) => {
-    userRequests.getAllUsers(email, username)
+    userRequests.resetPassword(email, username)
       .then((response) => {
+        console.log('success');
         dispatch({ type: ActionTypes.CLEAR_USER_DATA, payload: {} });
+        if (success) {
+          success();
+        }
+      })
+      .catch((error) => {
+        console.log('failure');
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure();
+        }
       });
   };
 };

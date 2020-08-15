@@ -52,39 +52,39 @@ const SSNavbar = (props) => {
 
           </Nav>
           <Nav className="mr-sm-2">
-            {Object.keys(props.user).length === 0 ? <div /> : (
-              <Navbar.Text>
-                Welcome, {props.user.first_name}
-              </Navbar.Text>
-            )}
-            {Object.keys(props.user).length !== 0 && props.user.type === 'admin'
-              ? (
-                <Nav.Link href={ROUTES.ADMIN}>
-                  Admin
+            {Object.keys(props.user).length === 0 ? (
+              <div>
+                <Nav.Link href={ROUTES.LOGIN} style={{ display: 'inline-block' }}>
+                  Sign In
                 </Nav.Link>
-              ) : <div style={{ display: 'inline-block' }} />}
-            {Object.keys(props.user).length !== 0 && (props.user.type === 'admin' || props.user.type === 'contributor')
-              ? (
-                <Nav.Link href={ROUTES.MY_BIO}>
-                  My Bio
+                <Nav.Link href={ROUTES.SIGN_UP} style={{ display: 'inline-block' }}>
+                  Sign Up
                 </Nav.Link>
-              ) : <div style={{ display: 'inline-block' }} />}
-            {Object.keys(props.user).length === 0
-              ? (
-                <div>
-                  <Nav.Link href={ROUTES.LOGIN} style={{ display: 'inline-block' }}>
-                    Sign In
-                  </Nav.Link>
-                  <Nav.Link href={ROUTES.SIGN_UP} style={{ display: 'inline-block' }}>
-                    Sign Up
-                  </Nav.Link>
-                </div>
-              )
-              : (
-                <Nav.Link href={ROUTES.HOME} onClick={props.signOut} role="button" tabIndex={0}>
+              </div>
+            ) : (
+
+              <NavDropdown title={`Welcome, ${props.user.first_name}`} id="basic-nav-dropdown">
+                {props.user.type === 'admin' || props.user.type === 'contributor'
+                  ? (
+                    <div>
+                      <NavDropdown.Item as={NavLink} to={ROUTES.ADMIN}>
+                        Add Content To Site
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to={ROUTES.MY_BIO}>
+                        My Bio
+                      </NavDropdown.Item>
+                    </div>
+
+                  ) : <div />}
+                <NavDropdown.Item as={NavLink} to={ROUTES.PROFILE}>
+                  Profile
+                </NavDropdown.Item>
+
+                <NavDropdown.Item as={NavLink} to={ROUTES.HOME} onClick={props.signOut} role="button" tabIndex={0}>
                   Sign Out
-                </Nav.Link>
-              )}
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

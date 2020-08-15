@@ -16,18 +16,11 @@ const SignIn = (props) => {
     props.history.push('/');
   };
 
-  const onFailureCallback = (error) => {
-    if (error.message) {
-      toast.error(error.message);
-    } else if (error.msg) {
-      toast.error(error.msg);
-    } else if (error.error && error.error.message) {
-      toast.error(error.error.message);
-    } else if (error.error && error.error.msg) {
-      toast.error(error.error.message);
-    } else {
-      toast.error(JSON.stringify(error));
-    }
+  const onFailureCallback = () => {
+    console.log('toast');
+    toast.error('login failed', {
+      position: toast.POSITION.TOP_CENTER,
+    });
   };
 
 
@@ -37,7 +30,7 @@ const SignIn = (props) => {
         <ToastContainer />
         <h3>Sign In</h3>
         <p id="signup-link">Don&apos;t have an account? Click <NavLink to={ROUTES.SIGN_UP}>here</NavLink> to sign up.</p>
-        <div>
+        <form>
           <p>Username:</p>
           <input value={username} onChange={e => setUsername(e.target.value)} />
           <p>Password:</p>
@@ -58,9 +51,9 @@ const SignIn = (props) => {
           >
             Sign In
           </Button>
-          {/* <p id="signup-link">Click <NavLink to={ROUTES.RESET_PASSWORD}>Forgot your password</NavLink></p> */}
+          <p id="signup-link"><NavLink to={ROUTES.RESET_PASSWORD}>Forgot your password?</NavLink></p>
 
-        </div>
+        </form>
       </div>
     </Fade>
   );
