@@ -15,7 +15,7 @@ import About from './components/about';
 import SpeechSurrogates from './components/speech-surrogates';
 import LanguagePage from './components/language';
 import NewGrantLanguage from './components/new-grant-lang';
-import MyBio from './components/my-bio';
+// import MyBio from './components/my-bio';
 import Bios from './components/bios';
 import Map from './components/map';
 import NewMapEntry from './components/new-map-entry';
@@ -55,7 +55,7 @@ class App extends React.Component {
             <Route path={ROUTES.LOGIN} component={SignIn} />
             <Route path={ROUTES.RESET_PASSWORD} component={ForgotPassword} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route path={ROUTES.MY_BIO} component={MyBio} />
+            {/* <Route path={ROUTES.MY_BIO} component={MyBio} /> */}
             <Route path={ROUTES.BIOS} component={Bios} />
             <Route path={ROUTES.MAP} component={Map} />
             <Route path={ROUTES.TYPOLOGICAL_QUESTIONS} component={TypologicalQuestions} />

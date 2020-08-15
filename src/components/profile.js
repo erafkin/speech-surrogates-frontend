@@ -4,7 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
-import { updateUser, signOut } from '../state/actions';
+import { updateUser, signOut, getAllUsers } from '../state/actions';
 import '../styles/admin.css';
 
 class Profile extends React.Component {
@@ -17,6 +17,10 @@ class Profile extends React.Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
     this.submitPassword = this.submitPassword.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getAllUsers();
   }
 
     handlePasswordChange = (e) => {
@@ -99,6 +103,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUser: (user, success, failure) => {
       dispatch(updateUser(user, success, failure));
+    },
+    getAllUsers: () => {
+      dispatch(getAllUsers());
     },
     signOut: () => {
       dispatch(signOut());

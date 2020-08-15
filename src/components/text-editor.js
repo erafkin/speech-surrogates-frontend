@@ -37,7 +37,6 @@ const TextEditor = (props) => {
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
   };
-
   return (
     <JoditEditor
       ref={editor}
@@ -45,11 +44,11 @@ const TextEditor = (props) => {
       config={config}
       onBlur={(newContent) => {
         if (props.sectionIndex === undefined) {
-          props.handleBodyChange(newContent);
+          props.handleBodyChange(newContent.srcElement.innerHTML);
         } else if (props.index === undefined) {
-          props.handleBodyChange(newContent, props.sectionIndex);
+          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex);
         } else {
-          props.handleBodyChange(newContent, props.sectionIndex, props.index);
+          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex, props.index);
         }
       }} // preferred to use only this option to update the content for performance reasons
       onChange={(newContent) => { }}

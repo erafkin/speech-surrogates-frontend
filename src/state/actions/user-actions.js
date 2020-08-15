@@ -10,6 +10,7 @@ const ActionTypes = {
   SET_TOKEN: 'SET_TOKEN',
   SET_ALL_USERS: 'SET_ALL_USERS',
   SET_USER_BIO: 'SET_USER_BIO',
+  UPDATE_USER: 'UPDATE_USER',
 
   // flag to handle any errors that arise
   API_ERROR: 'API_ERROR',
@@ -148,7 +149,7 @@ const updateUser = (user, success, failure) => {
         userRequests
           .getAllUsers(localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY) || getState().user.token)
           .then((response) => {
-            dispatch({ type: ActionTypes.SET_ALL_USERS, payload: response });
+            dispatch({ type: ActionTypes.UPDATE_USER, payload: [response, updatedUser] });
             if (success) {
               success();
             }

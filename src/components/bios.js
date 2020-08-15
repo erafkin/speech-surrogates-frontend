@@ -13,10 +13,10 @@ const Bios = (props) => {
     <div style={{ margin: '2vw' }}>
       {props.users.map((user) => {
         if (user.bio === null || user.bio === undefined || user.bio === '') {
-          return <div />;
+          return <div key={user._id} />;
         } else {
           return (
-            <div>
+            <div key={user._id} style={{ minHeight: '400px' }}>
               <h1 className="lang-title">{user.first_name} {user.last_name}</h1>
               { /* eslint-disable-next-line new-cap */ }
               <div>{ReactHtmlParser(user.bio)}</div>

@@ -44,14 +44,14 @@ const SSNavbar = (props) => {
                 Typological Questions About Surrogate Languages
               </NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title="Grant Languages" id="basic-nav-dropdown">
+            <NavDropdown title="Media" id="basic-nav-dropdown">
               <LanguageNav />
             </NavDropdown>
             <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
             <Nav.Link href={ROUTES.MAP}>Map</Nav.Link>
 
           </Nav>
-          <Nav className="mr-sm-2">
+          <Nav className="mr-sm-2" style={{ paddingRight: '3vw' }}>
             {Object.keys(props.user).length === 0 ? (
               <div>
                 <Nav.Link href={ROUTES.LOGIN} style={{ display: 'inline-block' }}>
@@ -70,17 +70,13 @@ const SSNavbar = (props) => {
                       <NavDropdown.Item as={NavLink} to={ROUTES.ADMIN}>
                         Add Content To Site
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={NavLink} to={ROUTES.MY_BIO}>
-                        My Bio
-                      </NavDropdown.Item>
                     </div>
 
                   ) : <div />}
                 <NavDropdown.Item as={NavLink} to={ROUTES.PROFILE}>
                   Profile
                 </NavDropdown.Item>
-
-                <NavDropdown.Item as={NavLink} to={ROUTES.HOME} onClick={props.signOut} role="button" tabIndex={0}>
+                <NavDropdown.Item as={NavLink} to={ROUTES.HOME} onClick={props.signOut}>
                   Sign Out
                 </NavDropdown.Item>
               </NavDropdown>

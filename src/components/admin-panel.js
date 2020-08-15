@@ -6,9 +6,10 @@ import { NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
 import {
-  getAllUsers, updateUser, setGrantLanguage, getAllNews, createNews, deleteNews,
+  getAllUsers, updateUser, setGrantLanguage, getAllNews, createNews, deleteNews, getUser,
 } from '../state/actions';
 import '../styles/admin.css';
+import MyBio from './my-bio';
 
 
 class AdminPanel extends React.Component {
@@ -17,17 +18,16 @@ class AdminPanel extends React.Component {
     this.state = {
       currNewsBlurb: '',
       currNewsLink: '',
-      // password: '',
 
     };
     this.handleBlurbChange = this.handleBlurbChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
-    // this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   componentWillMount() {
     if (this.props.users.length === 0) {
       this.props.getAllUsers();
+      this.props.getUser(this.props.user.username);
     }
     if (this.props.news.length === 0) {
       this.props.getAllNews();
@@ -46,10 +46,6 @@ class AdminPanel extends React.Component {
     this.setState({ currNewsBlurb: e.target.value });
   }
 
-  // handlePasswordChange = (e) => {
-  //   this.setState({ laurapass: e.target.value });
-  // }
-
   handleLinkChange = (e) => {
     this.setState({ currNewsLink: e.target.value });
   }
@@ -57,78 +53,83 @@ class AdminPanel extends React.Component {
   render() {
     return (
       <div style={{ margin: '2vw' }}>
-        <h2>Users</h2>
-        <table>
-          <tbody>
+        {this.props.user.type === 'admin'
+          ? (
+            <div>
+              <h2>Users</h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>username</th>
+                    <th>Role</th>
+                    <th>Change Role To</th>
+                  </tr>
+                  {this.props.users.map((user) => {
+                    let newRole = 'none';
+                    if (user.type === 'none') newRole = 'contributor';
+                    return (
+                      <tr key={user._id}>
+                        <td>{user.first_name}</td>
+                        <td>{user.last_name}</td>
+                        <td>{user.username}</td>
+                        <td>{user.type}</td>
+                        {user.type === 'admin' ? <td />
+                          : (
+                            <td>
+                              <div onClick={() => this.props.updateUser({ ...user, type: newRole })} role="button" tabIndex={0} className="button">
+                                {newRole}
+                              </div>
+                            </td>
+                          )}
 
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>username</th>
-              <th>Role</th>
-              <th>Change Role To</th>
-            </tr>
-            {this.props.users.map((user) => {
-              let newRole = 'none';
-              if (user.type === 'none') newRole = 'contributor';
-              return (
-                <tr key={user._id}>
-                  <td>{user.first_name}</td>
-                  <td>{user.last_name}</td>
-                  <td>{user.username}</td>
-                  <td>{user.type}</td>
-                  {user.type === 'admin' ? <td />
-                    : (
-                      <td>
-                        <div onClick={() => this.props.updateUser({ ...user, type: newRole })} role="button" tabIndex={0} className="button">
-                          {newRole}
-                        </div>
-                      </td>
-                    )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
 
-                </tr>
-              );
-            })}
-          </tbody>
+              </table>
+              <br />
+              <br />
+              <br />
+              <p style={{ fontWeight: 'bold', fontSize: '1.5em' }}> News </p>
+              {this.props.news.map((n) => {
+                return (
+                  <div key={n._id}>
+                    <p> {n.blurb} </p>
+                    <p> {n.link} </p>
+                    <Button className="button" onClick={() => this.props.deleteNews(n)} variant="danger">
+                      Delete News
+                    </Button>
+                  </div>
+                );
+              })}
+              <br />
+              <p style={{ fontWeight: 'bold', fontSize: '1.25em' }}> Add News</p>
+              <p>Blurb</p>
+              <input type="text" name="blurb" value={this.state.currNewsBlurb} onChange={this.handleBlurbChange} className="title" />
+              <p>Link</p>
+              <input type="text" name="link" value={this.state.currNewsLink} onChange={this.handleLinkChange} className="title" />
 
-        </table>
-        <br />
-        <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
-          <Button>
-            New Grant Language Page
-          </Button>
-        </NavLink>
-        <br />
-        <br />
-        <p style={{ fontWeight: 'bold', fontSize: '1.5em' }}> News </p>
-        {this.props.news.map((n) => {
-          return (
-            <div key={n._id}>
-              <p> {n.blurb} </p>
-              <p> {n.link} </p>
-              <Button className="button" onClick={() => this.props.deleteNews(n)} variant="danger">
-                Delete News
+              <Button className="button" onClick={() => this.createNews()}>
+                Submit
               </Button>
             </div>
-          );
-        })}
-        <br />
-        <p style={{ fontWeight: 'bold', fontSize: '1.25em' }}> Add News</p>
-        <p>Blurb</p>
-        <input type="text" name="blurb" value={this.state.currNewsBlurb} onChange={this.handleBlurbChange} className="title" />
-        <p>Link</p>
-        <input type="text" name="link" value={this.state.currNewsLink} onChange={this.handleLinkChange} className="title" />
+          )
+          : (
+            <div>
+              <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
+                <Button>
+                  Create a new media page
+                </Button>
+              </NavLink>
+              <br />
+              <MyBio history={this.props.history} />
+            </div>
+          )
 
-        <Button className="button" onClick={() => this.createNews()}>
-          Submit
-        </Button>
-
-        {/* <p>CHANGE PASSWORD</p>
-        <input type="text" name="link" value={this.state.laurapass} onChange={this.handlePasswordChange} className="title" />
-
-        <Button className="button" onClick={() => this.submitLauraPassword()}>
-          Submit
-        </Button> */}
+        }
 
 
       </div>
@@ -163,6 +164,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     deleteNews: (news) => {
       dispatch(deleteNews(news));
+    },
+    getUser: (id) => {
+      dispatch(getUser(id));
     },
   };
 };

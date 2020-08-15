@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import { updateUser } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
+import { ROUTES } from '../constants';
 
 class MyBio extends React.Component {
   constructor(props) {
@@ -22,7 +23,6 @@ class MyBio extends React.Component {
 
   // something weird is happening here...
   static getDerivedStateFromProps(p, state) {
-    console.log('!@#$!@#$');
     if (state.first_load < 2) {
       return {
         body: p.user.bio === undefined ? '' : p.user.bio,
@@ -38,7 +38,7 @@ class MyBio extends React.Component {
   }
 
   onSuccessCallback = () => {
-    this.props.history.push('/');
+    this.props.history.push(ROUTES.BIOS);
   };
 
 
@@ -55,11 +55,6 @@ class MyBio extends React.Component {
 
 
   render() {
-    console.log(JSON.stringify(this.props.user));
-    console.log(JSON.stringify(this.props.user.bio));
-
-    console.log(this.state.body);
-
     return (
       <div className="newPageContainer">
         <p>Format your bio in the box below:</p>
