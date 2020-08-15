@@ -76,7 +76,7 @@ const SSNavbar = (props) => {
                 <NavDropdown.Item as={NavLink} to={ROUTES.PROFILE}>
                   Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to={ROUTES.HOME} onClick={props.signOut}>
+                <NavDropdown.Item onClick={props.signOut}>
                   Sign Out
                 </NavDropdown.Item>
               </NavDropdown>
