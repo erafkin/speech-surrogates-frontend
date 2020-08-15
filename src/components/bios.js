@@ -16,8 +16,8 @@ const Bios = (props) => {
           return <div key={user._id} />;
         } else {
           return (
-            <div key={user._id} style={{ minHeight: '400px' }}>
-              <h1 className="lang-title">{user.first_name} {user.last_name}</h1>
+            <div key={user._id} style={{ minHeight: '450px' }}>
+              <h1 style={{ }}>{user.first_name} {user.last_name}</h1>
               { /* eslint-disable-next-line new-cap */ }
               <div>{ReactHtmlParser(user.bio)}</div>
             </div>
