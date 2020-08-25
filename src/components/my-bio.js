@@ -57,7 +57,7 @@ class MyBio extends React.Component {
   render() {
     return (
       <div className="newPageContainer">
-        <p>Format your bio in the box below:</p>
+        <h3>Format your bio in the box below:</h3>
         <TextEditor body={this.state.body} handleBodyChange={this.handleBodyChange} />
         <br />
         <Button className="button" onClick={() => this.submit()}>

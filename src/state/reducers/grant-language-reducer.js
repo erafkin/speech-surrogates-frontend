@@ -9,7 +9,6 @@ const BlogReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_GRANT_LANGUAGE:
       return { ...state, grantLanguage: action.payload };
-
     case ActionTypes.SET_GRANT_LANGUAGES:
       return { ...state, allGrantLanguages: action.payload };
     default:

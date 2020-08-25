@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 
 
-import { createGrantLanguage, updateGrantLanguage } from '../state/actions';
+import { createGrantLanguage, updateGrantLanguage, deleteIndivGrantLang } from '../state/actions';
 import '../styles/blog.css';
 import TextEditor from './text-editor';
 
@@ -22,6 +22,7 @@ class NewGrantLanguage extends React.Component {
     this.handleLinkBlurbChange = this.handleLinkBlurbChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
     this.onSuccessCallback = this.onSuccessCallback.bind(this);
+    this.onSuccessCallbackUpdate = this.onSuccessCallbackUpdate.bind(this);
     this.submit = this.submit.bind(this);
   }
 
@@ -57,6 +58,10 @@ class NewGrantLanguage extends React.Component {
     this.props.history.push('/');
   };
 
+  onSuccessCallbackUpdate =() => {
+    this.props.history.push(`/languages/${this.props.grantLanguage._id}`);
+  }
+
   onFailureCallback = (error) => {
     this.toast.error(JSON.stringify(error));
   };
@@ -64,7 +69,6 @@ class NewGrantLanguage extends React.Component {
   submit = () => {
     if (this.props.grantLanguage._id !== undefined) {
       // update page
-      console.log(this.state.links);
       this.props.updateGrantLanguage(
         {
           ...this.props.grantLanguage,
@@ -72,7 +76,7 @@ class NewGrantLanguage extends React.Component {
           sections: this.state.sections,
         },
         this.props.user,
-        this.onSuccessCallback,
+        this.onSuccessCallbackUpdate,
         this.onFailureCallback,
       );
     } else {
@@ -167,6 +171,15 @@ class NewGrantLanguage extends React.Component {
         <Button onMouseDown={() => { this.submit(); }}>
           Submit
         </Button>
+        <br />
+        <br />
+        {this.props.grantLanguage._id !== undefined
+          ? (
+            <Button onMouseDown={() => { this.props.deleteIndivGrantLang(this.props.grantLanguage, this.onSuccessCallback, this.onFailureCallback); }} variant="danger">
+              Delete Page
+            </Button>
+          ) : <div />
+      }
       </div>
     );
   }
@@ -186,6 +199,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateGrantLanguage: (lang, user, success, failure) => {
       dispatch(updateGrantLanguage(lang, user, success, failure));
+    },
+    deleteIndivGrantLang: (lang, success, failure) => {
+      dispatch(deleteIndivGrantLang(lang, success, failure));
     },
   };
 };

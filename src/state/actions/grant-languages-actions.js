@@ -35,7 +35,9 @@ const getAllGrantLanguages = () => {
 };
 
 const setGrantLanguage = (lang) => {
-  return { type: ActionTypes.SET_GRANT_LANGUAGE, payload: lang };
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: lang });
+  };
 };
 
 const createGrantLanguage = (g, u, success, failure) => {
@@ -43,10 +45,14 @@ const createGrantLanguage = (g, u, success, failure) => {
     grantLanguageRequests
       .createGrantLanguage({ token: getState().user.token, grantLanguage: g, user: u })
       .then((response) => {
-        dispatch({ type: ActionTypes.SET_GRANT_LANGUAGE, payload: response });
-        if (success !== undefined) {
-          success();
-        }
+        grantLanguageRequests
+          .getAllGrantLanguages()
+          .then((resp) => {
+            dispatch({ type: ActionTypes.SET_GRANT_LANGUAGES, payload: resp });
+            if (success !== undefined) {
+              success();
+            }
+          });
       })
       .catch((error) => {
         dispatch({ type: ActionTypes.API_ERROR, payload: error });
@@ -76,6 +82,34 @@ const updateGrantLanguage = (g, u, success, failure) => {
       });
   };
 };
+const deleteIndivGrantLang = (gl, success, failure) => {
+  return (dispatch, getState) => {
+    grantLanguageRequests
+      .deleteIndivGrantLang(gl, getState().user.token)
+      .then((response) => {
+        grantLanguageRequests.getAllGrantLanguages()
+          .then((res) => {
+            dispatch({ type: ActionTypes.SET_GRANT_LANGUAGES, payload: res });
+            if (success !== undefined) {
+              success();
+            }
+          })
+          .catch((err) => {
+            dispatch({ type: ActionTypes.API_ERROR, payload: err });
+            if (failure) {
+              failure(err);
+            }
+          });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+        if (failure) {
+          failure(error);
+        }
+      });
+  };
+};
+
 export {
   ActionTypes,
   getGrantLanguage,
@@ -83,4 +117,5 @@ export {
   setGrantLanguage,
   createGrantLanguage,
   updateGrantLanguage,
+  deleteIndivGrantLang,
 };

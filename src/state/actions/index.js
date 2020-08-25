@@ -34,6 +34,7 @@ import {
   setGrantLanguage,
   createGrantLanguage,
   updateGrantLanguage,
+  deleteIndivGrantLang,
 
 } from './grant-languages-actions';
 
@@ -108,4 +109,5 @@ export {
   createIndivMapLang,
   setIndivMapLang,
   deleteIndivMapLang,
+  deleteIndivGrantLang,
 };

@@ -44,11 +44,11 @@ const TextEditor = (props) => {
       config={config}
       onBlur={(newContent) => {
         if (props.sectionIndex === undefined) {
-          props.handleBodyChange(newContent.srcElement.innerHTML);
+          props.handleBodyChange(newContent);
         } else if (props.index === undefined) {
-          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex);
+          props.handleBodyChange(newContent, props.sectionIndex);
         } else {
-          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex, props.index);
+          props.handleBodyChange(newContent, props.sectionIndex, props.index);
         }
       }} // preferred to use only this option to update the content for performance reasons
       onChange={(newContent) => { }}

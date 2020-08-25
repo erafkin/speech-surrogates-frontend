@@ -27,7 +27,6 @@ class LanguagePage extends React.Component {
 
   render() {
     return (
-
       <div>
         <h1 className="lang-title">{this.props.grantLanguage.name}</h1>
         <div className="keywords">
@@ -44,7 +43,7 @@ class LanguagePage extends React.Component {
           <p>Sections:</p>
           {this.props.grantLanguage.sections !== undefined ? this.props.grantLanguage.sections.map((section) => {
             return (
-              <div>
+              <div key={section.title}>
                 <a href={`#${section.title}`} style={{ textDecoration: 'underline', color: 'blue' }}>{section.title}</a>
                 <br />
               </div>
@@ -54,13 +53,13 @@ class LanguagePage extends React.Component {
         <div className="postContainer">
           {this.props.grantLanguage.sections !== undefined ? this.props.grantLanguage.sections.map((section) => {
             return (
-              <div id={section.title}>
+              <div key={section.title}>
                 <h2>{section.title}</h2>
                 {/* eslint-disable-next-line new-cap */}
                 <div>{ReactHtmlParser(section.blurb)}</div>
                 {section.multimedia.map((link) => {
                   return (
-                    <div>
+                    <div key={link.link}>
                       {/* eslint-disable-next-line new-cap */}
                       <div>{ReactHtmlParser(link.blurb)}</div>
                       <ReactPlayer url={link.link} key={link.link} controls />

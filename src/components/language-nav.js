@@ -10,9 +10,10 @@ import '../styles/navbar.css';
 
 
 class LanguageNav extends React.Component {
-  componentWillMount() {
-    this.props.getAllGrantLanguages();
-    console.log(this.props.allGrantLanguages);
+  componentDidMount() {
+    if (Object.keys(this.props.allGrantLanguages).length === 0) {
+      this.props.getAllGrantLanguages();
+    }
   }
 
   render() {
@@ -20,7 +21,7 @@ class LanguageNav extends React.Component {
       <div>
         {this.props.allGrantLanguages.map((lang) => {
           return (
-            <div>
+            <div key={lang._id}>
               <NavDropdown.Item as={NavLink} to={`/languages/${lang._id}`} key={lang._id} onClick={() => { this.props.setGrantLanguage(lang); }}>
                 {lang.name}
               </NavDropdown.Item>
@@ -43,7 +44,9 @@ const mapDispatchToProps = (dispatch) => {
     getAllGrantLanguages: () => {
       dispatch(getAllGrantLanguages());
     },
-    setGrantLanguage,
+    setGrantLanguage: (lang) => {
+      dispatch(setGrantLanguage(lang));
+    },
   };
 };
 

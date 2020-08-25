@@ -53,6 +53,13 @@ class AdminPanel extends React.Component {
   render() {
     return (
       <div style={{ margin: '2vw' }}>
+        <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
+          <Button>
+            Create a new media page
+          </Button>
+        </NavLink>
+        <br />
+        <br />
         {this.props.user.type === 'admin'
           ? (
             <div>
@@ -115,23 +122,16 @@ class AdminPanel extends React.Component {
               <Button className="button" onClick={() => this.createNews()}>
                 Submit
               </Button>
-            </div>
-          )
-          : (
-            <div>
-              <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
-                <Button>
-                  Create a new media page
-                </Button>
-              </NavLink>
               <br />
-              <MyBio history={this.props.history} />
+              <br />
             </div>
           )
+          : <div />}
 
-        }
-
-
+        <div>
+          <br />
+          <MyBio history={this.props.history} />
+        </div>
       </div>
     );
   }
