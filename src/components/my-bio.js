@@ -2,7 +2,6 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
 import { connect } from 'react-redux';
-// import { withRouter } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { updateUser } from '../state/actions';
 import '../styles/blog.css';

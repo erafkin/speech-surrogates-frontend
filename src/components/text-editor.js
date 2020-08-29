@@ -5,34 +5,16 @@ const TextEditor = (props) => {
   const editor = useRef(null);
 
   const config = {
-    zIndex: 0,
+    zIndex: 1,
     readonly: false,
-    activeButtonsInReadOnly: ['source', 'fullsize', 'print', 'about'],
-    toolbarButtonSize: 'middle',
-    theme: 'default',
     enableDragAndDropFileToEditor: true,
-    saveModeInCookie: false,
     spellcheck: true,
-    editorCssClass: false,
-    triggerChangeEvent: true,
-    height: 220,
-    direction: 'ltr',
-    language: 'en',
-    debugLanguage: false,
-    i18n: 'en',
+    height: 300,
     tabIndex: -1,
-    toolbar: true,
-    enter: 'P',
-    useSplitMode: false,
-    colorPickerDefaultTab: 'background',
-    imageDefaultWidth: 100,
     removeButtons: ['source', 'fullsize', 'about', 'outdent', 'indent', 'video', 'print', 'file', 'cut', 'selectall'],
-    events: {},
-    textIcons: false,
     uploader: {
       insertImageAsBase64URI: true,
     },
-    placeholder: '',
     showXPathInStatusbar: false,
     askBeforePasteHTML: false,
     askBeforePasteFromWord: false,
@@ -44,11 +26,11 @@ const TextEditor = (props) => {
       config={config}
       onBlur={(newContent) => {
         if (props.sectionIndex === undefined) {
-          props.handleBodyChange(newContent);
+          props.handleBodyChange(newContent.srcElement.innerHTML);
         } else if (props.index === undefined) {
-          props.handleBodyChange(newContent, props.sectionIndex);
+          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex);
         } else {
-          props.handleBodyChange(newContent, props.sectionIndex, props.index);
+          props.handleBodyChange(newContent.srcElement.innerHTML, props.sectionIndex, props.index);
         }
       }} // preferred to use only this option to update the content for performance reasons
       onChange={(newContent) => { }}

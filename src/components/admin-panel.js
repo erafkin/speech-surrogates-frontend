@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
 import {
-  getAllUsers, updateUser, setGrantLanguage, getAllNews, createNews, deleteNews, getUser,
+  getAllUsers, updateUser, setGrantLanguage, getAllNews, createNews, deleteNews, getUser, setAboutPage,
 } from '../state/actions';
 import '../styles/admin.css';
 import MyBio from './my-bio';
@@ -63,6 +63,13 @@ class AdminPanel extends React.Component {
         {this.props.user.type === 'admin'
           ? (
             <div>
+              <NavLink to={ROUTES.NEW_ABOUT} onClick={() => { this.props.setAboutPage({}); }}>
+                <Button>
+                  Create a new about page
+                </Button>
+              </NavLink>
+              <br />
+              <br />
               <h2>Users</h2>
               <table>
                 <tbody>
@@ -155,6 +162,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setGrantLanguage: (lang) => {
       dispatch(setGrantLanguage(lang));
+    },
+    setAboutPage: (lang) => {
+      dispatch(setAboutPage(lang));
     },
     getAllNews: () => {
       dispatch(getAllNews());

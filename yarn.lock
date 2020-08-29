@@ -1754,6 +1754,11 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+autobind-decorator@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
+  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
+
 autoprefixer@^9.5.1:
   version "9.8.0"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.8.0.tgz#68e2d2bef7ba4c3a65436f662d0a56a741e56511"
@@ -5079,16 +5084,18 @@ isstream@~0.1.2:
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
 jodit-react@^1.0.49:
-  version "1.0.49"
-  resolved "https://registry.yarnpkg.com/jodit-react/-/jodit-react-1.0.49.tgz#68a563162b80e0db985726e35a16056b2b04d219"
-  integrity sha512-XYsBlX9AFFF4qW9oQ5f2VlkAu2AZVoHx7E7IHGgywFbPacPHjwlbmCNDP/UTyTzTyOsrLbn9V8zEo+ite3HOfA==
+  version "1.0.59"
+  resolved "https://registry.yarnpkg.com/jodit-react/-/jodit-react-1.0.59.tgz#70b6cd139aff2b62800a33b0b51059e507721364"
+  integrity sha512-JAFU41Un4ChArjFvycfkB3aL895+rW6SZ0zykekdONBea7KUsOW+JRhghTp5L9G0I+h6SdGb1f6ShyIqPVnkbA==
   dependencies:
-    jodit "^3.4.8"
+    jodit "^3.4.23"
 
-jodit@^3.4.8:
-  version "3.4.11"
-  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.4.11.tgz#1cf837022217b8e1f6dbdabf7cd4fc21263fbdbe"
-  integrity sha512-boHVxtNBojPynzA1lkBM61XTRzyVcyEjhjfzx8z6YgBJiEx8rsZ6jaSWYrSVgd4XhY9KjMA40AuxqjZzpM/59A==
+jodit@^3.4.23:
+  version "3.4.23"
+  resolved "https://registry.yarnpkg.com/jodit/-/jodit-3.4.23.tgz#f0771ab20bfdc617c06f99966f62114add0a14fa"
+  integrity sha512-rJ7SUZsSDRicYfABZt+LS2fDXRnMPE4JR6RxRN74YMts+iiwwPhKgmddh3QJZ012+iYyH38UqpxSdciVUkzcVw==
+  dependencies:
+    autobind-decorator "^2.4.0"
 
 js-base64@^2.1.8:
   version "2.5.2"

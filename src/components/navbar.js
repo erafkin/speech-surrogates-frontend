@@ -34,18 +34,10 @@ const SSNavbar = (props) => {
             <Nav.Link href={ROUTES.HOME}>Home</Nav.Link>
             <Nav.Link href={ROUTES.BLOG}>Blog</Nav.Link>
             <NavDropdown title="About" id="basic-nav-dropdown">
-              <NavDropdown.Item as={NavLink} to={ROUTES.ABOUT}>
-                About this website
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to={ROUTES.SPEECH_SURROGATES}>
-                What are speech surrogates?
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to={ROUTES.TYPOLOGICAL_QUESTIONS}>
-                Typological Questions About Surrogate Languages
-              </NavDropdown.Item>
+              <LanguageNav dropdownType="about-pages" />
             </NavDropdown>
             <NavDropdown title="Media" id="basic-nav-dropdown">
-              <LanguageNav />
+              <LanguageNav dropdownType="grant-languages" />
             </NavDropdown>
             <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
             <Nav.Link href={ROUTES.MAP}>Map</Nav.Link>

@@ -55,6 +55,15 @@ import {
   deleteIndivMapLang,
 } from './map-actions';
 
+import {
+  ActionTypes as aboutActonTypes,
+  getAllAboutPages,
+  getAboutPage,
+  updateAboutPage,
+  createAboutPage,
+  setAboutPage,
+  deleteAboutPage,
+} from './about-actions';
 
 // combine all action types
 const ActionTypes = {};
@@ -73,6 +82,9 @@ Object.keys(newsActionTypes).forEach((key) => {
 });
 Object.keys(mapActionTypes).forEach((key) => {
   ActionTypes[key] = mapActionTypes[key];
+});
+Object.keys(aboutActonTypes).forEach((key) => {
+  ActionTypes[key] = aboutActonTypes[key];
 });
 // export all action types in one object, as well as each action
 export {
@@ -110,4 +122,10 @@ export {
   setIndivMapLang,
   deleteIndivMapLang,
   deleteIndivGrantLang,
+  getAllAboutPages,
+  getAboutPage,
+  createAboutPage,
+  updateAboutPage,
+  deleteAboutPage,
+  setAboutPage,
 };

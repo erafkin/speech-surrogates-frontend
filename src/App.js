@@ -12,16 +12,14 @@ import Blog from './components/blog';
 import IndivBlog from './components/new-blog';
 import AdminPanel from './components/admin-panel';
 import About from './components/about';
-import SpeechSurrogates from './components/speech-surrogates';
 import LanguagePage from './components/language';
 import NewGrantLanguage from './components/new-grant-lang';
-// import MyBio from './components/my-bio';
 import Bios from './components/bios';
 import Map from './components/map';
 import NewMapEntry from './components/new-map-entry';
-import TypologicalQuestions from './components/typological-questions';
 import ForgotPassword from './components/forgot-password';
 import Profile from './components/profile';
+import NewAbout from './components/new-about';
 
 const FallBack = () => {
   return <div>URL not found</div>;
@@ -47,7 +45,6 @@ class App extends React.Component {
             <Route path={ROUTES.PROFILE} component={Profile} />
             <Route path={ROUTES.NEW_LANG} component={NewGrantLanguage} />
             <Route path={ROUTES.LANGUAGES} component={LanguagePage} />
-            <Route path={ROUTES.SPEECH_SURROGATES} component={SpeechSurrogates} />
             <Route path={ROUTES.ABOUT} component={About} />
             <Route path={ROUTES.ADMIN} component={AdminPanel} />
             <Route path={ROUTES.NEW_BLOG} component={IndivBlog} />
@@ -55,11 +52,10 @@ class App extends React.Component {
             <Route path={ROUTES.LOGIN} component={SignIn} />
             <Route path={ROUTES.RESET_PASSWORD} component={ForgotPassword} />
             <Route path={ROUTES.SIGN_UP} component={SignUp} />
-            {/* <Route path={ROUTES.MY_BIO} component={MyBio} /> */}
             <Route path={ROUTES.BIOS} component={Bios} />
             <Route path={ROUTES.MAP} component={Map} />
-            <Route path={ROUTES.TYPOLOGICAL_QUESTIONS} component={TypologicalQuestions} />
             <Route path={ROUTES.NEW_MAP_LANG} component={NewMapEntry} />
+            <Route path={ROUTES.NEW_ABOUT} component={NewAbout} />
             <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}
             <Route component={FallBack} />
           </Switch>

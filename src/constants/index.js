@@ -11,17 +11,15 @@ const ROUTES = {
   BLOG: '/blog',
   NEW_BLOG: '/new-blog',
   RESET_PASSWORD: '/reset-password',
-  ABOUT: '/about',
-  SPEECH_SURROGATES: '/speech-surrogates',
   LANGUAGES: '/languages/:lang_name',
   NEW_LANG: '/new-grant-language',
   MY_BIO: '/my-bio',
   BIOS: '/bios',
   MAP: '/map',
-  TYPOLOGICAL_QUESTIONS: '/typological-questions',
   NEW_MAP_LANG: '/new-map-language',
   PROFILE: '/profile',
-
+  ABOUT: '/about/:about_title',
+  NEW_ABOUT: '/new-about',
 };
 
 export {

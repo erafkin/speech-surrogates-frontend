@@ -5,7 +5,7 @@ const initialState = {
   allGrantLanguages: [],
 };
 
-const BlogReducer = (state = initialState, action) => {
+const GrantLanguageReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_GRANT_LANGUAGE:
       return { ...state, grantLanguage: action.payload };
@@ -16,4 +16,4 @@ const BlogReducer = (state = initialState, action) => {
   }
 };
 
-export default BlogReducer;
+export default GrantLanguageReducer;
