@@ -3,9 +3,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { createAboutPage, updateAboutPage, deleteAboutPage } from '../state/actions';
 import '../styles/blog.css';
-import TextEditor from './text-editor';
+
 import { ROUTES } from '../constants';
 
 class NewAbout extends React.Component {
@@ -74,7 +76,28 @@ class NewAbout extends React.Component {
         <p>Title:</p>
         <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
         <p>Body:</p>
-        <TextEditor body={this.state.blurb} handleBodyChange={this.handleBlurbChange} />
+        <SunEditor onChange={this.handleBlurbChange}
+          setContents={this.state.blurb}
+          setOptions={{
+            height: 300,
+            buttonList: [
+              ['undo', 'redo'],
+              ['font', 'fontSize', 'formatBlock'],
+              ['paragraphStyle', 'blockquote'],
+              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+              ['fontColor', 'hiliteColor', 'textStyle'],
+              ['removeFormat'],
+              '/', // Line break
+              ['outdent', 'indent'],
+              ['align', 'horizontalRule', 'list', 'lineHeight'],
+              ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+              /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+              ['fullScreen', 'showBlocks', 'codeView'],
+              ['preview', 'print'],
+              ['save', 'template'],
+            ],
+          }}
+        />
         <br />
         <Button className="button" onClick={() => this.submit()}>
           Submit

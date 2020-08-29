@@ -3,9 +3,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { updateUser } from '../state/actions';
 import '../styles/blog.css';
-import TextEditor from './text-editor';
 import { ROUTES } from '../constants';
 
 class MyBio extends React.Component {
@@ -13,23 +14,10 @@ class MyBio extends React.Component {
     super(props);
     this.state = {
       body: this.props.user.bio === undefined ? '' : this.props.user.bio,
-      first_load: 0,
     };
     this.handleBodyChange = this.handleBodyChange.bind(this);
     this.onSuccessCallback = this.onSuccessCallback.bind(this);
     this.submit = this.submit.bind(this);
-  }
-
-  // something weird is happening here...
-  static getDerivedStateFromProps(p, state) {
-    if (state.first_load < 2) {
-      return {
-        body: p.user.bio === undefined ? '' : p.user.bio,
-        first_load: state.first_load + 1,
-      };
-    } else {
-      return {};
-    }
   }
 
   handleBodyChange = (e) => {
@@ -57,8 +45,28 @@ class MyBio extends React.Component {
     return (
       <div className="newPageContainer">
         <h3>Format your bio in the box below:</h3>
-        <TextEditor body={this.state.body} handleBodyChange={this.handleBodyChange} />
-        <br />
+        <SunEditor onChange={this.handleBodyChange}
+          setContents={this.state.body}
+          setOptions={{
+            height: 300,
+            buttonList: [
+              ['undo', 'redo'],
+              ['font', 'fontSize', 'formatBlock'],
+              ['paragraphStyle', 'blockquote'],
+              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+              ['fontColor', 'hiliteColor', 'textStyle'],
+              ['removeFormat'],
+              '/', // Line break
+              ['outdent', 'indent'],
+              ['align', 'horizontalRule', 'list', 'lineHeight'],
+              ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+              /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+              ['fullScreen', 'showBlocks', 'codeView'],
+              ['preview', 'print'],
+              ['save', 'template'],
+            ],
+          }}
+        />        <br />
         <Button className="button" onClick={() => this.submit()}>
           Submit
         </Button>

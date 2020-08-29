@@ -3,11 +3,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-
-
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { createGrantLanguage, updateGrantLanguage, deleteIndivGrantLang } from '../state/actions';
 import '../styles/blog.css';
-import TextEditor from './text-editor';
 
 
 class NewGrantLanguage extends React.Component {
@@ -101,18 +100,60 @@ class NewGrantLanguage extends React.Component {
         <p>Title:</p>
         <input type="text" name="name" value={this.state.name} onChange={this.handleNameChange} className="title" />
         {sections.map((section, index) => {
+          console.log(section);
           return (
             <div key={section.blurb}>
               <p>Section Title:</p>
               <input type="text" name="title" value={section.title} onChange={event => this.handleTitleChange(event, index)} className="title" />
               <p>Section Blurb:</p>
-              <TextEditor body={section.blurb} handleBodyChange={this.handleBlurbChange} sectionIndex={index} />
+              <SunEditor onChange={e => this.handleBlurbChange(e, index)}
+                setContents={section.blurb}
+                setOptions={{
+                  height: 200,
+                  buttonList: [
+                    ['undo', 'redo'],
+                    ['font', 'fontSize', 'formatBlock'],
+                    ['paragraphStyle', 'blockquote'],
+                    ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                    ['fontColor', 'hiliteColor', 'textStyle'],
+                    ['removeFormat'],
+                    '/', // Line break
+                    ['outdent', 'indent'],
+                    ['align', 'horizontalRule', 'list', 'lineHeight'],
+                    ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+                    /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+                    ['fullScreen', 'showBlocks', 'codeView'],
+                    ['preview', 'print'],
+                    ['save', 'template'],
+                  ],
+                }}
+              />
               {section.multimedia.map((link, i) => {
                 return (
                   <div key={`${section.blurb}link`}>
                     <p>Multimedia Blurb:</p>
-                    <TextEditor body={link.blurb} handleBodyChange={this.handleLinkBlurbChange} sectionIndex={index} index={i} />
-                    <p>URL:</p>
+                    <SunEditor onChange={e => this.handleLinkBlurbChange(e, index, i)}
+                      setContents={link.blurb}
+                      setOptions={{
+                        height: 100,
+                        buttonList: [
+                          ['undo', 'redo'],
+                          ['font', 'fontSize', 'formatBlock'],
+                          ['paragraphStyle', 'blockquote'],
+                          ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                          ['fontColor', 'hiliteColor', 'textStyle'],
+                          ['removeFormat'],
+                          '/', // Line break
+                          ['outdent', 'indent'],
+                          ['align', 'horizontalRule', 'list', 'lineHeight'],
+                          ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+                          /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+                          ['fullScreen', 'showBlocks', 'codeView'],
+                          ['preview', 'print'],
+                          ['save', 'template'],
+                        ],
+                      }}
+                    />                    <p>URL:</p>
                     <input type="text" name="link" value={link.link} onChange={event => this.handleLinkChange(event, index, i)} className="title" />
                     <br />
                     <Button variant="danger"

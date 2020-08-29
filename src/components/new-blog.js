@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CreatableSelect from 'react-select/creatable';
 import Button from 'react-bootstrap/Button';
-
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { createBlog, updateBlog } from '../state/actions';
 import '../styles/blog.css';
-import TextEditor from './text-editor';
 
 class NewBlog extends React.Component {
   constructor(props) {
@@ -108,8 +108,28 @@ class NewBlog extends React.Component {
           <input type="text" name="title" value={this.state.title} onChange={this.handleTitleChange} className="title" />
 
           <p>Body:</p>
-          <TextEditor body={this.state.body} handleBodyChange={this.handleBodyChange} />
-          <br />
+          <SunEditor onChange={this.handleBodyChange}
+            setContents={this.state.body}
+            setOptions={{
+              height: 300,
+              buttonList: [
+                ['undo', 'redo'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                '/', // Line break
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+                /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+                ['fullScreen', 'showBlocks', 'codeView'],
+                ['preview', 'print'],
+                ['save', 'template'],
+              ],
+            }}
+          />          <br />
           <p>Keywords:</p>
           <CreatableSelect
             isMulti

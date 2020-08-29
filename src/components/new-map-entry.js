@@ -4,9 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Select from 'react-select';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { createIndivMapLang, updateIndivMapLang, deleteIndivMapLang } from '../state/actions';
 import '../styles/blog.css';
-import TextEditor from './text-editor';
 import countryCodes from '../constants/country-to-code.json';
 
 class NewMapEntry extends React.Component {
@@ -232,8 +233,28 @@ class NewMapEntry extends React.Component {
         <p>Productivity</p>
         <input type="text" name="title" value={this.state.productivity} onChange={event => this.handleChange('productivity', event)} className="title" />
         <p>Summary:</p>
-        <TextEditor body={summary} handleBodyChange={this.handleBodyChange} />
-        <p>Source</p>
+        <SunEditor onChange={this.handleBodyChange}
+          setContents={summary}
+          setOptions={{
+            height: 300,
+            buttonList: [
+              ['undo', 'redo'],
+              ['font', 'fontSize', 'formatBlock'],
+              ['paragraphStyle', 'blockquote'],
+              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+              ['fontColor', 'hiliteColor', 'textStyle'],
+              ['removeFormat'],
+              '/', // Line break
+              ['outdent', 'indent'],
+              ['align', 'horizontalRule', 'list', 'lineHeight'],
+              ['table', 'link', 'image', 'video', 'audio'], // You must add the 'katex' library at options to use the 'math' plugin.
+              /** ['imageGallery'] */ // You must add the "imageGalleryUrl".
+              ['fullScreen', 'showBlocks', 'codeView'],
+              ['preview', 'print'],
+              ['save', 'template'],
+            ],
+          }}
+        />        <p>Source</p>
         <input type="text" name="title" value={this.state.source} onChange={event => this.handleChange('source', event)} className="title" />
         <p>Mentions</p>
         <input type="text" name="title" value={this.state.mentions} onChange={event => this.handleChange('mentions', event)} className="title" />
