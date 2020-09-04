@@ -13,7 +13,6 @@ import LanguageNav from './language-nav';
 import '../styles/home.css';
 import home from '../assets/home.jpg';
 
-
 const SSNavbar = (props) => {
   return (
     <div>

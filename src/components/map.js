@@ -29,10 +29,12 @@ class Map extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getAllMapLangs();
+
     if (Object.keys(this.props.map).length > 0 && !this.state.mountedGraph) {
       this.createMap(this.props.map);
     } else if (this.props.map.length === 0) {
-      this.props.getAllMapLangs();
+      // this.props.getAllMapLangs();
     }
   }
 
@@ -40,7 +42,7 @@ class Map extends React.Component {
     if (Object.keys(nextProps.map).length > 0 && !this.state.mountedGraph) {
       this.createMap(nextProps.map);
     } else if (this.props.map.length === 0) {
-      this.props.getAllMapLangs();
+      // this.props.getAllMapLangs();
     }
   }
 
