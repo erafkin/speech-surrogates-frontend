@@ -454,7 +454,7 @@ class NewMapEntry extends React.Component {
         <input type="text" name="name" value={this.state.name} onChange={event => this.handleChange('name', event)} className="title" />
         <p>Continent of Origin</p>
         <Select
-          defaultValue={this.state.continent}
+          defaultValue={{ value: this.state.continent, label: this.state.continent }}
           name="continent"
           options={continentValues}
           className="basic"
@@ -477,7 +477,7 @@ class NewMapEntry extends React.Component {
           options={instrumentFamilyOptions}
           className="basic"
           classNamePrefix="select"
-          defaultValue={this.state.instrumentFamily}
+          defaultValue={{ value: this.state.instrumentFamily, label: this.state.instrumentFamily }}
         />
         {/* <input type="text" name="title" value={this.state.instrumentFamily} onChange={event => this.handleChange('instrumentFamily', event)} className="title" /> */}
         <p>Instrument Type</p>
@@ -486,7 +486,7 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           onChange={event => this.setState({ instrumentType: event.value })}
           options={instrumentTypeOptions}
-          defaultValue={this.state.instrumentType}
+          defaultValue={{ value: this.state.instrumentType, label: this.state.instrumentType }}
         />
         {/* <input type="text" name="title" value={this.state.instrumentType} onChange={event => this.handleChange('instrumentType', event)} className="title" /> */}
         <p>Encoding Medium</p>
@@ -530,7 +530,7 @@ class NewMapEntry extends React.Component {
         {/* <input type="text" name="title" value={this.state.specialization} onChange={event => this.handleChange('specialization', event)} className="title" /> */}
         <p>Comprehension</p>
         <Select
-          defaultValue={this.state.comprehension}
+          defaultValue={{ value: this.state.comprehension, label: this.state.comprehension }}
           name="continent"
           options={comprehensionValues}
           className="basic"
@@ -540,7 +540,7 @@ class NewMapEntry extends React.Component {
         {/* <input type="text" name="title" value={this.state.comprehension} onChange={event => this.handleChange('comprehension', event)} className="title" /> */}
         <p>Productivity</p>
         <Select
-          defaultValue={this.state.productivity}
+          defaultValue={{ value: this.state.productivity, label: this.state.productivity }}
           name="continent"
           options={productivityValues}
           className="basic"
@@ -550,7 +550,7 @@ class NewMapEntry extends React.Component {
         {/* <input type="text" name="title" value={this.state.productivity} onChange={event => this.handleChange('productivity', event)} className="title" /> */}
         <p>Current Status</p>
         <Select
-          defaultValue={this.state.currentStatus}
+          defaultValue={{ value: this.state.currentStatus, label: this.state.currentStatus }}
           name="continent"
           options={currentStatusValues}
           className="basic"

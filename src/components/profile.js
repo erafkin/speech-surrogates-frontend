@@ -76,12 +76,13 @@ class Profile extends React.Component {
           <br />
           <p><span style={{ fontWeight: '700' }}>Username:</span> {this.props.user.username}</p>
           <p><span style={{ fontWeight: '700' }}>Permissions:</span> {this.props.user.type}</p>
-          <p>CHANGE PASSWORD</p>
+          <p style={{ fontWeight: '700' }}>Change Password:</p>
           <p>old password</p>
           <input type="text" name="link" value={this.state.oldPassword} onChange={this.handlePasswordChange} className="title" />
           <p>new password</p>
           <input type="text" name="link" value={this.state.newpassword} onChange={this.handleNewPasswordChange} className="title" />
-
+          <br />
+          <br />
           <Button className="button" onClick={() => this.submitPassword()}>
             Submit
           </Button>
