@@ -8,13 +8,13 @@ import am4themesAnimated from '@amcharts/amcharts4/themes/animated';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import ReactHtmlParser from 'react-html-parser';
-
+import { CSVLink } from 'react-csv';
 import { getAllMapLangs, setIndivMapLang } from '../state/actions';
+import { CsvHeaders } from '../constants/constant_map_params';
 import { ROUTES } from '../constants';
 
 am4core.useTheme(am4themesAnimated);
 const countryCodes = require('../constants/country-to-code.json');
-
 
 class Map extends React.Component {
   constructor(props) {
@@ -116,6 +116,18 @@ class Map extends React.Component {
   }
 
 
+  // adapted From https://gist.github.com/towfiqpiash/d6b51e97120adbea5a4581edc6094219
+  fixForHtmlInSummary = () => {
+    const newMap = [];
+    this.props.map.forEach((lang) => {
+      const tag = document.createElement('div');
+      tag.innerHTML = lang.summary;
+      newMap.push({ ...lang, summary: tag.innerText });
+    });
+    return newMap;
+  }
+
+
   render() {
     const {
       showModal, selectedCountry, selectedLanguage, countryLangs, selectedLanguagesSameName,
@@ -148,7 +160,9 @@ class Map extends React.Component {
             </NavLink>
           )
           : <div />}
-
+        <CSVLink data={this.fixForHtmlInSummary()} headers={CsvHeaders} filename="speech-surrogates-data.csv">
+          <p style={{ textDecoration: 'underline' }}>Download as a CSV</p>
+        </CSVLink>
         {/* this renders the map itself */}
         <div id="chartdiv" style={{ width: '100%', height: '500px' }} />
         <Modal
