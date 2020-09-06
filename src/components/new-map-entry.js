@@ -21,6 +21,7 @@ class NewMapEntry extends React.Component {
       name: this.props.indivMapLang.language === undefined ? '' : this.props.indivMapLang.language,
       continent: this.props.indivMapLang.continent === undefined ? '' : this.props.indivMapLang.continent,
       country: this.props.indivMapLang.country === undefined ? [] : this.props.indivMapLang.country,
+      instrumentName: this.props.indivMapLang.instrument_name === undefined ? '' : this.props.indivMapLang.instrument_name,
       instrumentFamily: this.props.indivMapLang.instrument_family === undefined ? '' : this.props.indivMapLang.instrument_family,
       instrumentType: this.props.indivMapLang.instrument_type === undefined ? '' : this.props.indivMapLang.instrument_type,
       encodingMedium: this.props.indivMapLang.encoding_medium === undefined ? [] : this.props.indivMapLang.encoding_medium,
@@ -52,6 +53,9 @@ class NewMapEntry extends React.Component {
         break;
       case 'country':
         this.setState({ country: e.target.value });
+        break;
+      case 'instrumentName':
+        this.setState({ instrumentName: e.target.value });
         break;
       case 'instrumentFamily':
         this.setState({ instrumentFamily: e.target.value });
@@ -242,6 +246,7 @@ class NewMapEntry extends React.Component {
       name: this.state.name,
       continent: this.state.continent,
       country: this.state.country,
+      instrumentName: this.state.instrumentName,
       instrumentFamily: this.state.instrumentFamily,
       instrumentType: this.state.instrumentType,
       contrastsEncoded: this.state.contrastsEncoded,
@@ -264,6 +269,7 @@ class NewMapEntry extends React.Component {
           language: this.state.name,
           continent: this.state.continent,
           country: this.state.country,
+          instrument_name: this.state.instrumentName,
           instrument_family: this.state.instrumentFamily,
           instrument_type: this.state.instrumentType,
           contrasts_encoded: this.state.contrastsEncoded,
@@ -370,8 +376,11 @@ class NewMapEntry extends React.Component {
     const { summary } = this.state;
     const options = this.countries();
     const values = this.values();
-    // multi select categories
-    // intrument type, intstrument family, content, specialization, encoding medium, contrasts encoded, depth of encoding
+    // extra option categories
+    // single select:
+    // intrument type, intstrument family,
+    // multi select
+    // content, specialization, encoding medium, contrasts encoded, depth of encoding
     const contentOptions = [];
     const specializationOptions = [];
     const encodingMediumOptions = [];
@@ -471,6 +480,8 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           onChange={this.handleSelectChange}
         />
+        <p>Instrument/Surrogate Name:</p>
+        <input type="text" name="name" value={this.state.instrumentName} onChange={event => this.handleChange('instrumentName', event)} className="title" />
         <p>Instrument Family</p>
         <CreatableSelect
           onChange={event => this.setState({ instrumentFamily: event.value })}
@@ -479,7 +490,6 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           defaultValue={{ value: this.state.instrumentFamily, label: this.state.instrumentFamily }}
         />
-        {/* <input type="text" name="title" value={this.state.instrumentFamily} onChange={event => this.handleChange('instrumentFamily', event)} className="title" /> */}
         <p>Instrument Type</p>
         <CreatableSelect
           className="basic"
@@ -488,7 +498,6 @@ class NewMapEntry extends React.Component {
           options={instrumentTypeOptions}
           defaultValue={{ value: this.state.instrumentType, label: this.state.instrumentType }}
         />
-        {/* <input type="text" name="title" value={this.state.instrumentType} onChange={event => this.handleChange('instrumentType', event)} className="title" /> */}
         <p>Encoding Medium</p>
         <CreatableSelect
           isMulti
@@ -503,7 +512,6 @@ class NewMapEntry extends React.Component {
           options={contrastsEncodedOptions}
           value={contrastsEncodedValues}
         />
-        {/* <input type="text" name="title" value={this.state.contrastsEncoded} onChange={event => this.handleChange('contrastsEncoded', event)} className="title" /> */}
         <p>Depth of Encoding</p>
         <CreatableSelect
           isMulti
@@ -511,7 +519,6 @@ class NewMapEntry extends React.Component {
           options={depthOfEncodingOptions}
           value={depthOfEncodingValues}
         />
-        {/* <input type="text" name="title" value={this.state.depthOfEncoding} onChange={event => this.handleChange('depthOfEncoding', event)} className="title" /> */}
         <p>Content</p>
         <CreatableSelect
           isMulti
@@ -519,7 +526,6 @@ class NewMapEntry extends React.Component {
           options={contentOptions}
           value={contentValues}
         />
-        {/* <input type="text" name="title" value={this.state.content} onChange={event => this.handleChange('content', event)} className="title" /> */}
         <p>Specialization</p>
         <CreatableSelect
           isMulti
@@ -527,7 +533,6 @@ class NewMapEntry extends React.Component {
           options={specializationOptions}
           value={specializationValues}
         />
-        {/* <input type="text" name="title" value={this.state.specialization} onChange={event => this.handleChange('specialization', event)} className="title" /> */}
         <p>Comprehension</p>
         <Select
           defaultValue={{ value: this.state.comprehension, label: this.state.comprehension }}
@@ -537,7 +542,6 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           onChange={event => this.setState({ comprehension: event.value })}
         />
-        {/* <input type="text" name="title" value={this.state.comprehension} onChange={event => this.handleChange('comprehension', event)} className="title" /> */}
         <p>Productivity</p>
         <Select
           defaultValue={{ value: this.state.productivity, label: this.state.productivity }}
@@ -547,7 +551,6 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           onChange={event => this.setState({ productivity: event.value })}
         />
-        {/* <input type="text" name="title" value={this.state.productivity} onChange={event => this.handleChange('productivity', event)} className="title" /> */}
         <p>Current Status</p>
         <Select
           defaultValue={{ value: this.state.currentStatus, label: this.state.currentStatus }}

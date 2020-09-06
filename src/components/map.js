@@ -24,17 +24,16 @@ class Map extends React.Component {
       showModal: false,
       selectedCountry: {},
       selectedLanguage: {},
+      selectedLanguagesSameName: [],
       countryLangs: [],
     };
   }
 
   componentDidMount() {
-    this.props.getAllMapLangs();
-
     if (Object.keys(this.props.map).length > 0 && !this.state.mountedGraph) {
       this.createMap(this.props.map);
     } else if (this.props.map.length === 0) {
-      // this.props.getAllMapLangs();
+      this.props.getAllMapLangs();
     }
   }
 
@@ -42,7 +41,7 @@ class Map extends React.Component {
     if (Object.keys(nextProps.map).length > 0 && !this.state.mountedGraph) {
       this.createMap(nextProps.map);
     } else if (this.props.map.length === 0) {
-      // this.props.getAllMapLangs();
+      this.props.getAllMapLangs();
     }
   }
 
@@ -83,7 +82,9 @@ class Map extends React.Component {
             countryLangsArray: [lang],
           };
         } else {
-          countryLangs[country].countryLangsNameArray.push(lang.language);
+          if (!countryLangs[country].countryLangsNameArray.includes(lang.language)) {
+            countryLangs[country].countryLangsNameArray.push(lang.language);
+          }
           countryLangs[country].countryLangsArray.push(lang);
         }
       });
@@ -117,8 +118,25 @@ class Map extends React.Component {
 
   render() {
     const {
-      showModal, selectedCountry, selectedLanguage, countryLangs,
+      showModal, selectedCountry, selectedLanguage, countryLangs, selectedLanguagesSameName,
     } = this.state;
+    const langsSameName = {};
+    const langsDiffName = {};
+    if (selectedLanguagesSameName.length === 0) {
+      countryLangs.forEach((lang) => {
+        if (Object.keys(langsDiffName).includes(lang.language)) {
+          if (Object.keys(langsSameName).includes(lang.language)) {
+            langsSameName[lang.language] = [lang];
+          } else {
+            langsSameName[lang.language] = [lang];
+            langsSameName[lang.language].push(langsDiffName[lang.language]);
+          }
+        } else {
+          langsDiffName[lang.language] = lang;
+        }
+      });
+    }
+    const langsToDisplay = selectedLanguagesSameName.length === 0 ? Object.values(langsDiffName) : selectedLanguagesSameName;
     return (
       <div>
         {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
@@ -130,6 +148,8 @@ class Map extends React.Component {
             </NavLink>
           )
           : <div />}
+
+        {/* this renders the map itself */}
         <div id="chartdiv" style={{ width: '100%', height: '500px' }} />
         <Modal
           show={showModal}
@@ -152,10 +172,22 @@ class Map extends React.Component {
           {Object.keys(selectedLanguage).length === 0
             ? (
               <Modal.Body>
-                {countryLangs.map((lang) => {
+                {langsToDisplay.map((lang) => {
                   return (
-                    <div key={lang._id} style={{ textDecoration: 'underline' }} onClick={() => this.setState({ selectedLanguage: lang })} role="button" tabIndex={0}>
-                      {lang.language}
+                    <div key={lang._id}
+                      style={{ textDecoration: 'underline' }}
+                      onClick={() => {
+                        if (Object.keys(langsSameName).includes(lang.language)) {
+                          this.setState({ selectedLanguagesSameName: langsSameName[lang.language] });
+                        } else {
+                          this.setState({ selectedLanguage: lang, selectedLanguagesSameName: [] });
+                        }
+                      }
+                    }
+                      role="button"
+                      tabIndex={0}
+                    >
+                      {selectedLanguagesSameName.length === 0 ? lang.language : `${lang.language} (${lang.instrument_name})`}
                     </div>
                   );
                 })}
@@ -166,20 +198,25 @@ class Map extends React.Component {
               <Modal.Body>
                 <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country.join(', ')}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Instrument Name: </span><span>{selectedLanguage.instrument_name}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Family: </span><span>{selectedLanguage.instrument_family}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Type: </span><span>{selectedLanguage.instrument_type}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Encoding Medium: </span><span>{selectedLanguage.encoding_mendium}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Contrasts Encoded: </span><span>{selectedLanguage.contrasts_encoded}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Depth of Encoding: </span><span>{selectedLanguage.depth_of_encoding}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Content: </span><span>{selectedLanguage.content}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Specialization: </span><span>{selectedLanguage.specialization}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Comprehension: </span><span>{selectedLanguage.comprehension}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Productivity: </span><span>{selectedLanguage.productivity}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Current Status: </span><span>{selectedLanguage.current_status}</span></p>
+
                 <p style={{ fontWeight: '700' }}>Summary:</p>
                 {/* eslint-disable-next-line new-cap */}
                 <div>{ReactHtmlParser(selectedLanguage.summary)}</div>
                 <p><span style={{ fontWeight: '700' }}>Source: </span><span>{selectedLanguage.source}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Mentions: </span><span>{selectedLanguage.mentions}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Entry Authors: </span><span>{selectedLanguage.entry_authors}</span></p>
+
                 {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
                   ? (
                     <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang(selectedLanguage)}>

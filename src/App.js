@@ -1,3 +1,4 @@
+// Written by Emma Rafkin 2020
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
