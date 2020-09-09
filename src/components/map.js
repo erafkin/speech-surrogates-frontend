@@ -102,11 +102,16 @@ class Map extends React.Component {
     polygonTemplate.tooltipText = '{name}\n Languages:\n {langNames}';
     polygonTemplate.events.on('hit', (event) => {
       const countryName = event.target.dataItem.dataContext.name;
-      if (countryLangs[countryName].countryLangsNameArray.length > 1) {
+      if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
         this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
         // this.props.history.push(`/map/${countryName}`);
-      } else if (countryLangs[countryName].countryLangsNameArray.length === 1) {
-        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, selectedLanguage: event.target.dataItem.dataContext.langArray[0] });
+      } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length === 1) {
+        this.setState({
+          showModal: true,
+          selectedCountry: event.target.dataItem.dataContext,
+          selectedLanguage: event.target.dataItem.dataContext.langArray[0],
+          countryLangs: event.target.dataItem.dataContext.langArray,
+        });
         // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
       }
     });
@@ -148,6 +153,7 @@ class Map extends React.Component {
         }
       });
     }
+    console.log(selectedLanguagesSameName);
     const langsToDisplay = selectedLanguagesSameName.length === 0 ? Object.values(langsDiffName) : selectedLanguagesSameName;
     return (
       <div>
@@ -173,6 +179,7 @@ class Map extends React.Component {
               showModal: false,
               selectedCountry: {},
               selectedLanguage: {},
+              selectedLanguagesSameName: [],
             });
           }
         }
@@ -183,7 +190,7 @@ class Map extends React.Component {
               : <Modal.Title>{selectedLanguage.language}</Modal.Title>
                 }
           </Modal.Header>
-          {Object.keys(selectedLanguage).length === 0
+          {(Object.keys(selectedLanguage).length === 0)
             ? (
               <Modal.Body>
                 {langsToDisplay.map((lang) => {
@@ -192,6 +199,7 @@ class Map extends React.Component {
                       style={{ textDecoration: 'underline' }}
                       onClick={() => {
                         if (Object.keys(langsSameName).includes(lang.language)) {
+                          console.log('selected Langs same name changed');
                           this.setState({ selectedLanguagesSameName: langsSameName[lang.language] });
                         } else {
                           this.setState({ selectedLanguage: lang, selectedLanguagesSameName: [] });
@@ -205,7 +213,6 @@ class Map extends React.Component {
                     </div>
                   );
                 })}
-
               </Modal.Body>
             )
             : (
