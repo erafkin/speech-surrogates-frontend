@@ -30,16 +30,16 @@ const SSNavbar = (props) => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href={ROUTES.HOME}>Home</Nav.Link>
-            <Nav.Link href={ROUTES.BLOG}>Blog</Nav.Link>
+            <Nav.Link as={NavLink} to={ROUTES.HOME}>Home</Nav.Link>
+            <Nav.Link as={NavLink} to={ROUTES.BLOG}>Blog</Nav.Link>
             <NavDropdown title="About" id="basic-nav-dropdown">
               <LanguageNav dropdownType="about-pages" />
             </NavDropdown>
             <NavDropdown title="Media" id="basic-nav-dropdown">
               <LanguageNav dropdownType="grant-languages" />
             </NavDropdown>
-            <Nav.Link href={ROUTES.BIOS}>Contributor Bios</Nav.Link>
-            <Nav.Link href={ROUTES.MAP}>Map</Nav.Link>
+            <Nav.Link as={NavLink} to={ROUTES.BIOS}>Contributor Bios</Nav.Link>
+            <Nav.Link as={NavLink} to={ROUTES.MAP}>Map</Nav.Link>
 
           </Nav>
           <Nav className="mr-sm-2" style={{ paddingRight: '3vw' }}>

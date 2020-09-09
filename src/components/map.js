@@ -153,7 +153,6 @@ class Map extends React.Component {
         }
       });
     }
-    console.log(selectedLanguagesSameName);
     const langsToDisplay = selectedLanguagesSameName.length === 0 ? Object.values(langsDiffName) : selectedLanguagesSameName;
     return (
       <div>
@@ -199,7 +198,6 @@ class Map extends React.Component {
                       style={{ textDecoration: 'underline' }}
                       onClick={() => {
                         if (Object.keys(langsSameName).includes(lang.language)) {
-                          console.log('selected Langs same name changed');
                           this.setState({ selectedLanguagesSameName: langsSameName[lang.language] });
                         } else {
                           this.setState({ selectedLanguage: lang, selectedLanguagesSameName: [] });

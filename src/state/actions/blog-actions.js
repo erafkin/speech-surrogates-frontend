@@ -4,7 +4,7 @@ const ActionTypes = {
   SET_BLOG: 'SET_BLOG',
   SET_BLOGS: 'SET_BLOGS',
   SET_KEYWORDS: 'SET_KEYWORDS',
-
+  SET_MOST_RECENT_BLOG: 'SET_MOST_RECENT_BLOG',
 
   // flag to handle any errors that arise
   API_ERROR: 'API_ERROR',
@@ -24,6 +24,19 @@ const getBlog = (id) => {
       });
   };
 };
+const getMostRecentBlog = () => {
+  return (dispatch, getState) => {
+    blogRequests
+      .getMostRecentBlog()
+      .then((response) => {
+        dispatch({ type: ActionTypes.SET_MOST_RECENT_BLOG, payload: response[0] });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      });
+  };
+};
+
 
 // make an asyncronous request to the server to get all the blogs
 const getAllBlogs = () => {
@@ -126,5 +139,5 @@ export {
   setBlog,
   getAllKeywords,
   commentBlog,
-
+  getMostRecentBlog,
 };

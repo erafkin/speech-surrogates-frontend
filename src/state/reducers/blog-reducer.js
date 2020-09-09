@@ -4,6 +4,7 @@ const initialState = {
   blog: {},
   allBlogs: [],
   keywords: [],
+  mostRecentBlog: [],
 };
 
 function compare(a, b) {
@@ -23,14 +24,13 @@ function compare(a, b) {
 const BlogReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.SET_BLOG:
-      console.log(action.payload);
       return { ...state, blog: action.payload };
-
     case ActionTypes.SET_BLOGS:
       return { ...state, allBlogs: action.payload.reverse() };
     case ActionTypes.SET_KEYWORDS:
       return { ...state, keywords: action.payload.sort(compare) };
-
+    case ActionTypes.SET_MOST_RECENT_BLOG:
+      return { ...state, mostRecentBlog: action.payload };
     default:
       return state;
   }

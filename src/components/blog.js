@@ -109,7 +109,7 @@ class Blog extends React.Component {
             )
 
           }
-
+          {this.props.blogs.length === 0 ? <h1>Loading blog...</h1> : <div />}
           {this.props.blogs.map((b) => {
             if (this.state.keyword === '' || b.keywords.includes(this.state.keyword)) {
               if ((this.props.user.type === 'admin' || this.props.user.type === 'contributor') || b.visible) {

@@ -18,6 +18,17 @@ const getAllBlogs = () => {
       });
   });
 };
+const getMostRecentBlog = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${URL}/recent`)
+      .then((response) => {
+        resolve(response.data.response);
+      })
+      .catch((error) => {
+        reject(error.response.data);
+      });
+  });
+};
 /**
  * retrieve all keyword objects in the database
  */
@@ -103,4 +114,5 @@ export {
   createBlog,
   getAllKeywords,
   comment,
+  getMostRecentBlog,
 };

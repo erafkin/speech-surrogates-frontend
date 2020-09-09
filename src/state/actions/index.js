@@ -24,7 +24,7 @@ import {
   setBlog,
   getAllKeywords,
   commentBlog,
-
+  getMostRecentBlog,
 } from './blog-actions';
 
 import {
@@ -128,4 +128,5 @@ export {
   updateAboutPage,
   deleteAboutPage,
   setAboutPage,
+  getMostRecentBlog,
 };
