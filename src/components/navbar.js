@@ -97,7 +97,7 @@ class SSNavbar extends React.Component {
           <DialogTitle id="form-dialog-title">We need your email!</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Oops! We don`&apos;t have an email associated with this account. Please submit your email.
+              Oops! We don`&apos;t have an email attached to this account. Please submit your email.
             </DialogContentText>
             <TextField
               autoFocus
