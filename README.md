@@ -45,6 +45,7 @@ The rich text editor used throughtout this project is [SunEditor](http://sunedit
 ## Deploy
 This project is depolyed through [surge](https://surge.sh/)
 The backend is deployed on [heroku](https://www.heroku.com/) and can be found [here](https://speech-surrogates-backend.herokuapp.com/)
+The backend repo can be found [here](https://github.com/erafkin/speech-surrogates-backend).
 For access contact Emma Rafkin or Laura McPherson for the .env file and the username and password.
 
 ## Live
