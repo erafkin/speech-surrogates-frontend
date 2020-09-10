@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Button from 'react-bootstrap/Button';
 import { updateUser, signOut, getAllUsers } from '../state/actions';
 import '../styles/admin.css';
+import MyBio from './my-bio';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -13,10 +14,13 @@ class Profile extends React.Component {
     this.state = {
       oldPassword: '',
       password: '',
+      email: '',
     };
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleNewPasswordChange = this.handleNewPasswordChange.bind(this);
     this.submitPassword = this.submitPassword.bind(this);
+    this.submitEmail = this.submitEmail.bind(this);
   }
 
   componentDidMount() {
@@ -31,8 +35,16 @@ class Profile extends React.Component {
       this.setState({ password: e.target.value });
     }
 
+    handleEmailChange = (e) => {
+      this.setState({ email: e.target.value });
+    }
+
     submitPassword = () => {
       this.props.updateUser({ ...this.props.user, password: this.state.password, oldPassword: this.state.oldPassword }, this.onSuccessCallback, this.onFailureCallback);
+    }
+
+    submitEmail = () => {
+      this.props.updateUser({ ...this.props.user, email: this.state.email }, this.onSuccessCallbackEmail, this.onFailureCallback);
     }
 
     onFailureCallback = (error) => {
@@ -67,6 +79,12 @@ class Profile extends React.Component {
       });
     };
 
+    onSuccessCallbackEmail = () => {
+      toast('Email was successfully reset', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    };
+
 
     render() {
       return (
@@ -76,15 +94,26 @@ class Profile extends React.Component {
           <br />
           <p><span style={{ fontWeight: '700' }}>Username:</span> {this.props.user.username}</p>
           <p><span style={{ fontWeight: '700' }}>Permissions:</span> {this.props.user.type}</p>
+          <p><span style={{ fontWeight: '700' }}>Email:</span> {this.props.user.email}</p>
+          <p>Change email</p>
+          <input type="text" name="link" value={this.state.email} onChange={this.handleEmailChange} className="title" />
+          <br />
+          <br />
+          <Button className="button" onClick={() => this.submitEmail()}>
+            Change Email
+          </Button>
+          {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
+            ? <MyBio history={this.props.history} />
+            : <div />}
           <p style={{ fontWeight: '700' }}>Change Password:</p>
-          <p>old password</p>
+          <p>Old password</p>
           <input type="text" name="link" value={this.state.oldPassword} onChange={this.handlePasswordChange} className="title" />
-          <p>new password</p>
+          <p>New password</p>
           <input type="text" name="link" value={this.state.newpassword} onChange={this.handleNewPasswordChange} className="title" />
           <br />
           <br />
           <Button className="button" onClick={() => this.submitPassword()}>
-            Submit
+            Change Password
           </Button>
 
 

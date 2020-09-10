@@ -9,7 +9,6 @@ import {
   getAllUsers, updateUser, setGrantLanguage, getAllNews, createNews, deleteNews, getUser, setAboutPage,
 } from '../state/actions';
 import '../styles/admin.css';
-import MyBio from './my-bio';
 
 
 class AdminPanel extends React.Component {
@@ -136,11 +135,6 @@ class AdminPanel extends React.Component {
             </div>
           )
           : <div />}
-
-        <div>
-          <br />
-          <MyBio history={this.props.history} />
-        </div>
       </div>
     );
   }
