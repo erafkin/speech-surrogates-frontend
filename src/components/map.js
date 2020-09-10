@@ -201,7 +201,6 @@ class Map extends React.Component {
     imageSeriesTemplate.events.on('hit', (event) => {
       const countryName = event.target.dataItem.dataContext.name;
       if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
-        console.log(countryLangs[countryName]);
         this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
         // this.props.history.push(`/map/${countryName}`);
       } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length === 1) {

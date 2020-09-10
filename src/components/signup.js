@@ -10,6 +10,8 @@ import { createUser } from '../state/actions';
 
 const SignUp = (props) => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -30,6 +32,7 @@ const SignUp = (props) => {
       const fields = {
         username,
         password,
+        email,
         first_name: firstName,
         last_name: lastName,
       };
@@ -44,6 +47,8 @@ const SignUp = (props) => {
         <ToastContainer />
         <h3>Sign Up</h3>
         <div>
+          <p>Email:</p>
+          <input value={email} onChange={e => setEmail(e.target.value)} />
           <p>Username:</p>
           <input value={username} onChange={e => setUsername(e.target.value)} />
           <p>Password:</p>

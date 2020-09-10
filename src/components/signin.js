@@ -17,7 +17,6 @@ const SignIn = (props) => {
   };
 
   const onFailureCallback = () => {
-    console.log('toast');
     toast.error('login failed', {
       position: toast.POSITION.TOP_CENTER,
     });

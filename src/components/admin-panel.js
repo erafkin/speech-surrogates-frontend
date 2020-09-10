@@ -76,7 +76,8 @@ class AdminPanel extends React.Component {
                   <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>username</th>
+                    <th>Username</th>
+                    <th>Email</th>
                     <th>Role</th>
                     <th>Change Role To</th>
                   </tr>
@@ -88,6 +89,7 @@ class AdminPanel extends React.Component {
                         <td>{user.first_name}</td>
                         <td>{user.last_name}</td>
                         <td>{user.username}</td>
+                        <td>{user.email ? user.email : 'none submitted'}</td>
                         <td>{user.type}</td>
                         {user.type === 'admin' ? <td />
                           : (
