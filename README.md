@@ -31,7 +31,7 @@ In production
 
 ### Map
 The map uses [Amcharts'](https://www.amcharts.com/) [am4core package](https://www.amcharts.com/docs/v4/chart-types/map/) with the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) country code labeling. Coordinates for the countries can be found [here](https://drive.google.com/file/d/12moxdLpDxnMZufvkA3qZXvFjga3BkOh5/view).
-The map
+The map is meant to be an open source database for surrogate languages. A CSV of the data can be downloaded directly from the site.
 
 ### Home page
 The home page features the news on the right side which can be edited by the admins. It prominently features the most recent blog post and links to the about pages. 
