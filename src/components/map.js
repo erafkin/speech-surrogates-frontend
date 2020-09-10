@@ -92,14 +92,97 @@ class Map extends React.Component {
     const countryData = [];
     Object.keys(countryLangs).forEach((lang) => {
       countryData.push({
-        name: lang, langNames: countryLangs[lang].countryLangsNameArray.join(', \n'), langArray: countryLangs[lang].countryLangsArray, id: countryCodes[lang], fill: am4core.color('#74B266'),
+        name: lang,
+        langNames: countryLangs[lang].countryLangsNameArray.join(', \n'),
+        langArray: countryLangs[lang].countryLangsArray,
+        id: countryCodes[lang],
+
       });
     });
+    const imageSeriesData = [];
     polygonSeries.data = countryData;
+    // the following HOT MESS calculates the average longitude and latitude so i can theoretically drop the point in the center
+    // the PROBLEM is that now this is setup to just put it in the center of the biggeset shape (think non adjacent countries like america with alaska and hawaii)
+    am4geodataWorldLow.features.forEach((country) => {
+      if (countryLangs[country.properties.name]) {
+        let latitude = 0;
+        let longitude = 0;
+        let countryBoundaries = country.geometry.coordinates[0];
+        if (country.geometry.coordinates[0].length === 1) {
+          country.geometry.coordinates.forEach((island) => {
+            // eslint-disable-next-line prefer-destructuring
+            if (island[0].length > countryBoundaries.length) countryBoundaries = island[0];
+          });
+          countryBoundaries.forEach((point) => {
+            longitude += point[0];
+            latitude += point[1];
+          });
+          latitude /= countryBoundaries.length;
+          longitude /= countryBoundaries.length;
+          imageSeriesData.push({
+            latitude,
+            longitude,
+            name: country.properties.name,
+            langNames: countryLangs[country.properties.name].countryLangsNameArray.join(', \n'),
+            langArray: countryLangs[country.properties.name].countryLangsArray,
+          });
 
+          // THIS COMMENTED OUT CODE IS IF WE WANT TO DROP THE DOT IN THE CENTER INCLUDING ALL OF THE LAND FORMS
+
+          // let islandLengthsSums = 0;
+          // country.geometry.coordinates.forEach((island) => {
+          //   island[0].forEach((point) => {
+          //     longitude += point[0];
+          //     latitude += point[1];
+          //   });
+          //   islandLengthsSums += island[0].length;
+          // });
+          // latitude /= islandLengthsSums;
+          // longitude /= islandLengthsSums;
+          // imageSeriesData.push({
+          //   latitude,
+          //   longitude,
+          //   name: country.properties.name,
+          //   langNames: countryLangs[country.properties.name].countryLangsNameArray.join(', \n'),
+          //   langArray: countryLangs[country.properties.name].countryLangsArray,
+          // });
+        } else {
+          countryBoundaries.forEach((point) => {
+            longitude += point[0];
+            latitude += point[1];
+          });
+          latitude /= countryBoundaries.length;
+          longitude /= countryBoundaries.length;
+          imageSeriesData.push({
+            latitude,
+            longitude,
+            name: country.properties.name,
+            langNames: countryLangs[country.properties.name].countryLangsNameArray.join(', \n'),
+            langArray: countryLangs[country.properties.name].countryLangsArray,
+          });
+        }
+      }
+    });
+
+    // Create a circle image in image series template so it gets replicated to all new images
+    const imageSeries = chart.series.push(new am4maps.MapImageSeries());
+    const imageSeriesTemplate = imageSeries.mapImages.template;
+    const circle = imageSeriesTemplate.createChild(am4core.Circle);
+    circle.radius = 4;
+    circle.fill = am4core.color('#ff0000');
+    circle.stroke = am4core.color('#FFFFFF');
+    circle.strokeWidth = 2;
+    circle.nonScaling = true;
+
+    // Set property fields
+    imageSeriesTemplate.propertyFields.latitude = 'latitude';
+    imageSeriesTemplate.propertyFields.longitude = 'longitude';
+    imageSeries.data = imageSeriesData;
     // Configure series
     const polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.tooltipText = '{name}\n Languages:\n {langNames}';
+    circle.tooltipText = '{name}\n Languages:\n {langNames}';
+    polygonTemplate.fill = am4core.color('#74B266');
     polygonTemplate.events.on('hit', (event) => {
       const countryName = event.target.dataItem.dataContext.name;
       if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
@@ -115,9 +198,22 @@ class Map extends React.Component {
         // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
       }
     });
-
-    // this makes sure that only countries with a language are colored in
-    polygonTemplate.propertyFields.fill = 'fill';
+    imageSeriesTemplate.events.on('hit', (event) => {
+      const countryName = event.target.dataItem.dataContext.name;
+      if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
+        console.log(countryLangs[countryName]);
+        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
+        // this.props.history.push(`/map/${countryName}`);
+      } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length === 1) {
+        this.setState({
+          showModal: true,
+          selectedCountry: event.target.dataItem.dataContext,
+          selectedLanguage: event.target.dataItem.dataContext.langArray[0],
+          countryLangs: event.target.dataItem.dataContext.langArray,
+        });
+        // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+      }
+    });
   }
 
 
@@ -169,7 +265,7 @@ class Map extends React.Component {
           <p style={{ textDecoration: 'underline' }}>Download as a CSV</p>
         </CSVLink>
         {/* this renders the map itself */}
-        <div id="chartdiv" style={{ width: '100%', height: '500px' }} />
+        <div id="chartdiv" style={{ width: '70%', height: '500px', marginLeft: '12%' }} />
         <Modal
           show={showModal}
           onHide={() => {
