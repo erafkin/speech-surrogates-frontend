@@ -196,7 +196,7 @@ class Map extends React.Component {
     }
     const langsToDisplay = selectedLanguagesSameName.length === 0 ? Object.values(langsDiffName) : selectedLanguagesSameName;
     return (
-      <div>
+      <div style={{ margin: '2vw' }}>
         {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
           ? (
             <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
