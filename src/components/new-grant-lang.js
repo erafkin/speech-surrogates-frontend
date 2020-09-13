@@ -153,7 +153,8 @@ class NewGrantLanguage extends React.Component {
                           ['save', 'template'],
                         ],
                       }}
-                    />                    <p>URL:</p>
+                    />
+                    <p>URL:</p>
                     <input type="text" name="link" value={link.link} onChange={event => this.handleLinkChange(event, index, i)} className="title" />
                     <br />
                     <Button variant="danger"

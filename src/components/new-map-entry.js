@@ -32,7 +32,7 @@ class NewMapEntry extends React.Component {
       comprehension: this.props.indivMapLang.comprehension === undefined ? '' : this.props.indivMapLang.comprehension,
       productivity: this.props.indivMapLang.productivity === undefined ? '' : this.props.indivMapLang.productivity,
       currentStatus: this.props.indivMapLang.current_status === undefined ? '' : this.props.indivMapLang.current_status,
-      source: this.props.indivMapLang.source === undefined ? '' : this.props.indivMapLang.source,
+      source: this.props.indivMapLang.source === undefined || this.props.indivMapLang.source.length === 0 ? [] : this.props.indivMapLang.source,
       mentions: this.props.indivMapLang.mentions === undefined ? '' : this.props.indivMapLang.mentions,
       summary: this.props.indivMapLang.summary === undefined ? '' : this.props.indivMapLang.summary,
       entryAuthors: this.props.indivMapLang.entry_authors === undefined ? '' : this.props.indivMapLang.entry_authors,
@@ -43,7 +43,8 @@ class NewMapEntry extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  handleChange = (type, e) => {
+  handleChange = (type, e, index) => {
+    const newSources = this.state.source;
     switch (type) {
       case 'name':
         this.setState({ name: e.target.value });
@@ -85,7 +86,20 @@ class NewMapEntry extends React.Component {
         this.setState({ productivity: e.target.value });
         break;
       case 'source':
-        this.setState({ source: e.target.value });
+        if (index === newSources.length) {
+          newSources.push(e.target.value);
+        } else {
+          newSources[index] = e.target.value;
+        }
+        this.setState({ source: newSources });
+        break;
+      case 'deleteSource':
+        newSources.splice(index, 1);
+        this.setState({ source: newSources });
+        break;
+      case 'addSource':
+        newSources.push('');
+        this.setState({ source: newSources });
         break;
       case 'mentions':
         this.setState({ mentions: e.target.value });
@@ -465,10 +479,15 @@ class NewMapEntry extends React.Component {
         <Select
           defaultValue={{ value: this.state.continent, label: this.state.continent }}
           name="continent"
+          isClearable
           options={continentValues}
           className="basic"
           classNamePrefix="select"
-          onChange={event => this.setState({ continent: event.value })}
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ continent: value });
+          }
+        }
         />
         <p>Country of Origin</p>
         <Select
@@ -484,8 +503,12 @@ class NewMapEntry extends React.Component {
         <input type="text" name="name" value={this.state.instrumentName} onChange={event => this.handleChange('instrumentName', event)} className="title" />
         <p>Instrument Family</p>
         <CreatableSelect
-          onChange={event => this.setState({ instrumentFamily: event.value })}
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ instrumentFamily: value });
+          }}
           options={instrumentFamilyOptions}
+          isClearable
           className="basic"
           classNamePrefix="select"
           defaultValue={{ value: this.state.instrumentFamily, label: this.state.instrumentFamily }}
@@ -494,7 +517,11 @@ class NewMapEntry extends React.Component {
         <CreatableSelect
           className="basic"
           classNamePrefix="select"
-          onChange={event => this.setState({ instrumentType: event.value })}
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ instrumentType: value });
+          }}
+          isClearable
           options={instrumentTypeOptions}
           defaultValue={{ value: this.state.instrumentType, label: this.state.instrumentType }}
         />
@@ -540,7 +567,11 @@ class NewMapEntry extends React.Component {
           options={comprehensionValues}
           className="basic"
           classNamePrefix="select"
-          onChange={event => this.setState({ comprehension: event.value })}
+          isClearable
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ comprehension: value });
+          }}
         />
         <p>Productivity</p>
         <Select
@@ -549,7 +580,11 @@ class NewMapEntry extends React.Component {
           options={productivityValues}
           className="basic"
           classNamePrefix="select"
-          onChange={event => this.setState({ productivity: event.value })}
+          isClearable
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ productivity: value });
+          }}
         />
         <p>Current Status</p>
         <Select
@@ -558,10 +593,28 @@ class NewMapEntry extends React.Component {
           options={currentStatusValues}
           className="basic"
           classNamePrefix="select"
-          onChange={event => this.setState({ currentStatus: event.value })}
+          isClearable
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ currentStatus: value });
+          }}
         />
-        <p>Source</p>
-        <input type="text" name="title" value={this.state.source} onChange={event => this.handleChange('source', event)} className="title" />
+        <p>Bibliography</p>
+        {this.state.source.map((source, index) => {
+          return (
+            // eslint-disable-next-line react/no-array-index-key
+            <div key={index}>
+              <input type="text" name="source" value={this.state.source[index]} onChange={event => this.handleChange('source', event, index)} className="title" />
+              <Button variant="danger" onClick={event => this.handleChange('deleteSource', event, index)}>
+                Delete Source
+              </Button>
+            </div>
+          );
+        })}
+        <Button variant="success" onClick={event => this.handleChange('addSource')}>
+          Add Source
+        </Button>
+
         <p>Mentions</p>
         <input type="text" name="title" value={this.state.mentions} onChange={event => this.handleChange('mentions', event)} className="title" />
         <p>Entry Authors</p>

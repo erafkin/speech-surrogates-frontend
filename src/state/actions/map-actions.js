@@ -39,7 +39,6 @@ const updateIndivMapLang = (m, u, success, failure) => {
     mapRequests
       .updateIndivMapLang(getState().user.token, { id: m._id, language: m, user: u })
       .then((response) => {
-        console.log(response);
         mapRequests.getAllMapLangs()
           .then((resp) => {
             dispatch({ type: ActionTypes.SET_MAP, payload: resp });

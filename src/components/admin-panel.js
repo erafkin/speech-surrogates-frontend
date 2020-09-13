@@ -52,16 +52,17 @@ class AdminPanel extends React.Component {
   render() {
     return (
       <div style={{ margin: '2vw' }}>
-        <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
-          <Button>
-            Create a new media page
-          </Button>
-        </NavLink>
-        <br />
-        <br />
         {this.props.user.type === 'admin'
           ? (
+
             <div>
+              <NavLink to={ROUTES.NEW_LANG} onClick={() => { this.props.setGrantLanguage({}); }}>
+                <Button>
+                  Create a new media page
+                </Button>
+              </NavLink>
+              <br />
+              <br />
               <NavLink to={ROUTES.NEW_ABOUT} onClick={() => { this.props.setAboutPage({}); }}>
                 <Button>
                   Create a new about page

@@ -55,7 +55,7 @@ export const CsvHeaders = [{
   label: 'Summary',
 }, {
   key: 'source',
-  label: 'Source',
+  label: 'Bibliography',
 }, {
   key: 'mentions',
   label: 'Mentions',

@@ -201,7 +201,7 @@ class Map extends React.Component {
           ? (
             <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
               <Button>
-                New Map Language
+                New Entry
               </Button>
             </NavLink>
           )
@@ -213,6 +213,7 @@ class Map extends React.Component {
         <div id="chartdiv" style={{ width: '70%', height: '500px', marginLeft: '12%' }} />
         <Modal
           show={showModal}
+          size="lg"
           onHide={() => {
             // this.props.history.push('/map');
             this.setState({
@@ -273,7 +274,19 @@ class Map extends React.Component {
                 <p style={{ fontWeight: '700' }}>Summary:</p>
                 {/* eslint-disable-next-line new-cap */}
                 <div>{ReactHtmlParser(selectedLanguage.summary)}</div>
-                <p><span style={{ fontWeight: '700' }}>Source: </span><span>{selectedLanguage.source}</span></p>
+                <div><span style={{ fontWeight: '700' }}>Bibliography: </span>
+                  {
+                selectedLanguage.source.map((source) => {
+                  return (
+                    <div key={source}>
+                      <span>{source}</span>
+                      <br />
+                    </div>
+                  );
+                })
+                }
+                </div>
+
                 <p><span style={{ fontWeight: '700' }}>Mentions: </span><span>{selectedLanguage.mentions}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Entry Authors: </span><span>{selectedLanguage.entry_authors}</span></p>
 
