@@ -153,9 +153,13 @@ class Map extends React.Component {
     });
     imageSeriesTemplate.events.on('hit', (event) => {
       const countryName = event.target.dataItem.dataContext.name;
-      if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
-        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
-        // this.props.history.push(`/map/${countryName}`);
+      if (countryLangs[countryName] && countryLangs[countryName].countryLangsNameArray.length === 1 && event.target.dataItem.dataContext.langArray.length > 1) {
+        this.setState({
+          showModal: true,
+          selectedCountry: event.target.dataItem.dataContext,
+          selectedLanguagesSameName: event.target.dataItem.dataContext.langArray,
+          countryLangs: event.target.dataItem.dataContext.langArray,
+        });
       } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length === 1) {
         this.setState({
           showModal: true,
@@ -164,6 +168,9 @@ class Map extends React.Component {
           countryLangs: event.target.dataItem.dataContext.langArray,
         });
         // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+      } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
+        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
+        // this.props.history.push(`/map/${countryName}`);
       }
     });
   }
@@ -187,6 +194,7 @@ class Map extends React.Component {
     } = this.state;
     const langsSameName = {};
     const langsDiffName = {};
+    console.log(selectedLanguagesSameName);
     if (selectedLanguagesSameName.length === 0) {
       countryLangs.forEach((lang) => {
         if (Object.keys(langsDiffName).includes(lang.language)) {
