@@ -184,7 +184,7 @@ class Map extends React.Component {
       countryLangs.forEach((lang) => {
         if (Object.keys(langsDiffName).includes(lang.language)) {
           if (Object.keys(langsSameName).includes(lang.language)) {
-            langsSameName[lang.language] = [lang];
+            langsSameName[lang.language].push(lang);
           } else {
             langsSameName[lang.language] = [lang];
             langsSameName[lang.language].push(langsDiffName[lang.language]);
