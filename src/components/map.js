@@ -131,9 +131,13 @@ class Map extends React.Component {
     polygonTemplate.fill = am4core.color('#74B266');
     polygonTemplate.events.on('hit', (event) => {
       const countryName = event.target.dataItem.dataContext.name;
-      if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
-        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
-        // this.props.history.push(`/map/${countryName}`);
+      if (countryLangs[countryName] && countryLangs[countryName].countryLangsNameArray.length === 1 && event.target.dataItem.dataContext.langArray.length > 1) {
+        this.setState({
+          showModal: true,
+          selectedCountry: event.target.dataItem.dataContext,
+          selectedLanguagesSameName: event.target.dataItem.dataContext.langArray,
+          countryLangs: event.target.dataItem.dataContext.langArray,
+        });
       } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length === 1) {
         this.setState({
           showModal: true,
@@ -142,6 +146,9 @@ class Map extends React.Component {
           countryLangs: event.target.dataItem.dataContext.langArray,
         });
         // this.props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+      } else if (countryLangs[countryName] && countryLangs[countryName].countryLangsArray.length > 1) {
+        this.setState({ showModal: true, selectedCountry: event.target.dataItem.dataContext, countryLangs: event.target.dataItem.dataContext.langArray });
+        // this.props.history.push(`/map/${countryName}`);
       }
     });
     imageSeriesTemplate.events.on('hit', (event) => {
@@ -194,7 +201,8 @@ class Map extends React.Component {
         }
       });
     }
-    const langsToDisplay = selectedLanguagesSameName.length === 0 ? Object.values(langsDiffName) : selectedLanguagesSameName;
+    const oneLanguageManyVersions = Object.keys(langsDiffName).length === 1 && Object.values(langsSameName).length > 0 ? Object.values(langsSameName)[0] : Object.values(langsDiffName);
+    const langsToDisplay = selectedLanguagesSameName.length === 0 ? oneLanguageManyVersions : selectedLanguagesSameName;
     return (
       <div style={{ margin: '2vw' }}>
         {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
@@ -249,7 +257,7 @@ class Map extends React.Component {
                       role="button"
                       tabIndex={0}
                     >
-                      {selectedLanguagesSameName.length === 0 ? lang.language : `${lang.language} (${lang.instrument_name})`}
+                      {selectedLanguagesSameName.length === 0 && Object.keys(langsDiffName).length > 1 ? lang.language : `${lang.language} (${lang.instrument_name})`}
                     </div>
                   );
                 })}
@@ -258,15 +266,15 @@ class Map extends React.Component {
             : (
               <Modal.Body>
                 <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country.join(', ')}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country ? selectedLanguage.country.join(', ') : ''}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Name: </span><span>{selectedLanguage.instrument_name}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Family: </span><span>{selectedLanguage.instrument_family}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Instrument Type: </span><span>{selectedLanguage.instrument_type}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Encoding Medium: </span><span>{selectedLanguage.encoding_mendium}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Contrasts Encoded: </span><span>{selectedLanguage.contrasts_encoded}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Depth of Encoding: </span><span>{selectedLanguage.depth_of_encoding}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Content: </span><span>{selectedLanguage.content}</span></p>
-                <p><span style={{ fontWeight: '700' }}>Specialization: </span><span>{selectedLanguage.specialization}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Encoding Medium: </span><span>{selectedLanguage.encoding_mendium ? selectedLanguage.encoding_mendium.join(', ') : ''}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Contrasts Encoded: </span><span>{selectedLanguage.contrasts_encoded ? selectedLanguage.contrasts_encoded.join(', ') : ''}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Depth of Encoding: </span><span>{selectedLanguage.depth_of_encoding ? selectedLanguage.depth_of_encoding.join(', ') : ''}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Content: </span><span>{selectedLanguage.content ? selectedLanguage.content.join(', ') : ''}</span></p>
+                <p><span style={{ fontWeight: '700' }}>Specialization: </span><span>{selectedLanguage.specialization ? selectedLanguage.specialization.join(', ') : ''}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Comprehension: </span><span>{selectedLanguage.comprehension}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Productivity: </span><span>{selectedLanguage.productivity}</span></p>
                 <p><span style={{ fontWeight: '700' }}>Current Status: </span><span>{selectedLanguage.current_status}</span></p>
