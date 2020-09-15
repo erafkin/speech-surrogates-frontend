@@ -27,6 +27,8 @@ class Map extends React.Component {
       selectedLanguage: {},
       selectedLanguagesSameName: [],
       countryLangs: [],
+      search: '',
+      searchedMap: [],
     };
   }
 
@@ -187,14 +189,38 @@ class Map extends React.Component {
     return newMap;
   }
 
+  search = () => {
+    const { search } = this.state;
+    const newMap = [];
+    if (search !== '') {
+      this.props.map.forEach((lang) => {
+        let added = false;
+        Object.keys(lang).forEach((field) => {
+          if (!added && lang[field] !== '' && !Number.isInteger(lang[field])) {
+            if (Array.isArray(lang[field])) {
+              if (lang[field].includes(search)) {
+                newMap.push(lang);
+                added = true;
+              }
+            } else if (lang[field].split(' ').includes(search)) {
+              newMap.push(lang);
+              added = true;
+            }
+          }
+        });
+      });
+    }
+    this.setState({ searchedMap: newMap });
+    const element = document.getElementById('mapSearch');
+    window.scrollTo(0, element.offsetTop);
+  }
 
   render() {
     const {
-      showModal, selectedCountry, selectedLanguage, countryLangs, selectedLanguagesSameName,
+      showModal, selectedCountry, selectedLanguage, countryLangs, selectedLanguagesSameName, search, searchedMap,
     } = this.state;
     const langsSameName = {};
     const langsDiffName = {};
-    console.log(selectedLanguagesSameName);
     if (selectedLanguagesSameName.length === 0) {
       countryLangs.forEach((lang) => {
         if (Object.keys(langsDiffName).includes(lang.language)) {
@@ -212,7 +238,7 @@ class Map extends React.Component {
     const oneLanguageManyVersions = Object.keys(langsDiffName).length === 1 && Object.values(langsSameName).length > 0 ? Object.values(langsSameName)[0] : Object.values(langsDiffName);
     const langsToDisplay = selectedLanguagesSameName.length === 0 ? oneLanguageManyVersions : selectedLanguagesSameName;
     return (
-      <div style={{ margin: '2vw' }}>
+      <div style={{ margin: '1vw' }}>
         {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
           ? (
             <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
@@ -320,7 +346,49 @@ class Map extends React.Component {
                 }
 
         </Modal>
+        <div style={{ margin: '2vw', minHeight: '80vh', textAlign: 'center' }} id="mapSearch">
+          <div style={{ display: 'inline-block' }}>
+            <h2>Search:</h2>
+          </div>
+          <div style={{ display: 'inline-block' }}>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              value={search}
+              onChange={e => this.setState({ search: e.target.value })}
+              className="title"
+              onKeyPress={(event) => { if (event.key === 'Enter') { this.search(); } }}
+            />
+            <Button onClick={this.search}>
+              Search
+            </Button>
+            <Button variant="danger"
+              onClick={() => {
+                this.setState({ search: '', searchedMap: [] });
+                window.scrollTo(0, 0);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+          <div style={{ textAlign: 'left', marginLeft: '20vw' }}>
+            {searchedMap.map((lang) => {
+              return (
+                <div key={lang._id}
+                  style={{ textDecoration: 'underline' }}
+                  onClick={() => { this.setState({ selectedLanguage: lang, showModal: true }); }}
+                  role="button"
+                  tabIndex={0}
+                >
+                  <p>{lang.language} ({lang.instrument_name})</p>
+                </div>
+              );
+            })}
+          </div>
 
+
+        </div>
       </div>
     );
   }
