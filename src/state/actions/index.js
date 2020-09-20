@@ -25,6 +25,7 @@ import {
   getAllKeywords,
   commentBlog,
   getMostRecentBlog,
+  getBlogCount,
 } from './blog-actions';
 
 import {
@@ -129,4 +130,5 @@ export {
   deleteAboutPage,
   setAboutPage,
   getMostRecentBlog,
+  getBlogCount,
 };

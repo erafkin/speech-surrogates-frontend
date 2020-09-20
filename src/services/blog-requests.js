@@ -29,6 +29,18 @@ const getMostRecentBlog = () => {
       });
   });
 };
+
+const getBlogCount = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${URL}/count`)
+      .then((response) => {
+        resolve(response.data.response);
+      })
+      .catch((error) => {
+        reject(error.response.data);
+      });
+  });
+};
 /**
  * retrieve all keyword objects in the database
  */
@@ -115,4 +127,5 @@ export {
   getAllKeywords,
   comment,
   getMostRecentBlog,
+  getBlogCount,
 };

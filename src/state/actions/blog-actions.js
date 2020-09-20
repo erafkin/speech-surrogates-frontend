@@ -5,6 +5,7 @@ const ActionTypes = {
   SET_BLOGS: 'SET_BLOGS',
   SET_KEYWORDS: 'SET_KEYWORDS',
   SET_MOST_RECENT_BLOG: 'SET_MOST_RECENT_BLOG',
+  SET_BLOG_COUNT: 'SET_BLOG_COUNT',
 
   // flag to handle any errors that arise
   API_ERROR: 'API_ERROR',
@@ -123,7 +124,18 @@ const createBlog = (b, u, success, failure) => {
       });
   };
 };
-
+const getBlogCount = () => {
+  return (dispatch, getState) => {
+    blogRequests
+      .getBlogCount()
+      .then((response) => {
+        dispatch({ type: ActionTypes.SET_BLOG_COUNT, payload: response });
+      })
+      .catch((error) => {
+        dispatch({ type: ActionTypes.API_ERROR, payload: error });
+      });
+  };
+};
 const setBlog = (b) => {
   return (dispatch) => {
     dispatch({ type: ActionTypes.SET_BLOG, payload: b });
@@ -140,4 +152,5 @@ export {
   getAllKeywords,
   commentBlog,
   getMostRecentBlog,
+  getBlogCount,
 };
