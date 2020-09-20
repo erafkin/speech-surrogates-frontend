@@ -48,6 +48,12 @@ class Map extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (this.state.search !== '') {
+      document.getElementById('mapSearch').scrollIntoView(true);
+    }
+  }
+
   componentWillUnmount() {
     if (this.chart) {
       this.chart.dispose();
@@ -71,6 +77,8 @@ class Map extends React.Component {
     this.polygonSeries = polygonSeries;
 
     this.chart.zoomControl = new am4maps.ZoomControl();
+    this.chart.chartContainer.wheelable = false;
+
 
     // Make map load polygon (like county names) data from GeoJSON
 
@@ -211,8 +219,6 @@ class Map extends React.Component {
       });
     }
     this.setState({ searchedMap: newMap });
-    const element = document.getElementById('mapSearch');
-    window.scrollTo(0, element.offsetTop);
   }
 
   render() {
@@ -239,20 +245,52 @@ class Map extends React.Component {
     const langsToDisplay = selectedLanguagesSameName.length === 0 ? oneLanguageManyVersions : selectedLanguagesSameName;
     return (
       <div style={{ margin: '1vw' }}>
-        {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
-          ? (
-            <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
-              <Button>
-                New Entry
-              </Button>
-            </NavLink>
-          )
-          : <div />}
-        <CSVLink data={this.fixForHtmlInSummary()} headers={CsvHeaders} filename="speech-surrogates-data.csv">
-          <p style={{ textDecoration: 'underline' }}>Download as a CSV</p>
-        </CSVLink>
+        <div style={{ display: 'inline-block' }}>
+          {this.props.user.type === 'admin' || this.props.user.type === 'contributor'
+            ? (
+              <NavLink to={ROUTES.NEW_MAP_LANG} onClick={this.props.setIndivMapLang({})}>
+                <Button>
+                  New Entry
+                </Button>
+              </NavLink>
+            )
+            : <div />}
+          <CSVLink data={this.fixForHtmlInSummary()} headers={CsvHeaders} filename="speech-surrogates-data.csv">
+            <p style={{ textDecoration: 'underline' }}>Download as a CSV</p>
+          </CSVLink>
+        </div>
+
+        <div style={{ width: '80%', textAlign: 'center', display: 'inline-block' }}>
+          <div style={{ display: 'inline-block' }}>
+            <h4>Search:</h4>
+          </div>
+          <div style={{ display: 'inline-block' }}>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              value={search}
+              onChange={e => this.setState({ search: e.target.value })}
+              className="title"
+              onKeyPress={(event) => { if (event.key === 'Enter') { this.search(); } }}
+            />
+            <Button onClick={this.search} style={{ margin: '1vw' }}>
+              Search
+            </Button>
+            <Button variant="danger"
+              onClick={() => {
+                this.setState({ search: '', searchedMap: [] });
+                window.scrollTo(0, 0);
+              }}
+            >
+              Clear
+            </Button>
+          </div>
+        </div>
+        <br />
+
         {/* this renders the map itself */}
-        <div id="chartdiv" style={{ width: '70%', height: '500px', marginLeft: '12%' }} />
+        <div id="chartdiv" style={{ width: '90%', height: '550px' }} />
         <Modal
           show={showModal}
           size="lg"
@@ -346,32 +384,9 @@ class Map extends React.Component {
                 }
 
         </Modal>
-        <div style={{ margin: '2vw', minHeight: '80vh', textAlign: 'center' }} id="mapSearch">
-          <div style={{ display: 'inline-block' }}>
-            <h2>Search:</h2>
-          </div>
-          <div style={{ display: 'inline-block' }}>
-            <input
-              type="text"
-              name="search"
-              id="search"
-              value={search}
-              onChange={e => this.setState({ search: e.target.value })}
-              className="title"
-              onKeyPress={(event) => { if (event.key === 'Enter') { this.search(); } }}
-            />
-            <Button onClick={this.search}>
-              Search
-            </Button>
-            <Button variant="danger"
-              onClick={() => {
-                this.setState({ search: '', searchedMap: [] });
-                window.scrollTo(0, 0);
-              }}
-            >
-              Clear
-            </Button>
-          </div>
+        <div style={{ margin: '2vw', textAlign: 'center' }}
+          id="mapSearch"
+        >
           <div style={{ textAlign: 'left', marginLeft: '20vw' }}>
             {searchedMap.map((lang) => {
               return (
