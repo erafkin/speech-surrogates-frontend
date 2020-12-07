@@ -164,7 +164,6 @@ class NewGrantLanguage extends React.Component {
                         sections[index].multimedia = l2;
                         this.setState({ sections });
                       }}
-
                       style={{ display: 'inline-block' }}
                     >
                       Remove Multimedia
@@ -190,7 +189,6 @@ class NewGrantLanguage extends React.Component {
                   const s2 = sections.filter(x => x !== section);
                   this.setState({ sections: s2 });
                 }}
-
                 style={{ display: 'inline-block' }}
               >
                 Remove Section

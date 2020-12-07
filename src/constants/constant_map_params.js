@@ -33,7 +33,7 @@ export const CsvHeaders = [{
   key: 'encoding_medium',
   label: 'Encoding Medium',
 }, {
-  key: 'constrasts_encoded',
+  key: 'contrasts_encoded',
   label: 'Constrasts Encoded',
 }, {
   key: 'depth_of_encoding',
