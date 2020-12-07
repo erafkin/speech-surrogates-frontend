@@ -173,7 +173,6 @@ const Map = (props) => {
   useEffect(() => {
     if (Object.keys(map).length > 0) {
       const urlArray = window.location.href.split('/');
-      console.log(urlArray.length);
       if (urlArray.length > 4) {
         let country = urlArray[4];
         const countryArray = country.split('%20');
