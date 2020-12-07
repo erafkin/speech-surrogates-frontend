@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-param-reassign */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
@@ -11,79 +11,69 @@ import {
 } from '../state/actions';
 import IndivBlog from './indiv-blog';
 
-class Blog extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      keyword: '',
-      comment: '',
-      page: 1,
-    };
-    this.changeKeyword = this.changeKeyword.bind(this);
-    this.handleCommentChange = this.handleCommentChange.bind(this);
-  }
+const Blog = (props) => {
+  const [keyword, changeKeyword] = useState('');
+  const [comment, changeComment] = useState('');
+  const [page, changePage] = useState(1);
+  const [currBlogs, changeCurrBlogs] = useState(props.blogs);
 
-  componentWillMount() {
-    this.props.getAllBlogs();
-    this.props.getAllKeywords();
+  if (props.blogs.length === 0) {
+    props.getAllBlogs();
   }
+  if (props.keywords.length === 0) {
+    props.getAllKeywords();
+  }
+  useEffect(() => {
+    changeCurrBlogs(props.blogs);
+  }, [props.blogs]);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.blog !== this.props.blog) {
-      window.location.reload(false);
+  useEffect(() => {
+    if (keyword === '') {
+      changeCurrBlogs(props.blogs);
+    } else {
+      const newCurrBlogs = props.blogs.filter(b => b.keywords.includes(keyword));
+      changeCurrBlogs(newCurrBlogs);
     }
-  }
+  }, [keyword]);
 
-  changeKeyword = (word) => {
-    if (this.state.keyword === '') {
-      this.props.getAllBlogs();
-    }
-    this.setState({
-      keyword: word,
-    });
-  }
 
-  handleCommentChange = (e) => {
-    this.setState({ comment: e.target.value });
-  }
-
-  fillPaginationItems = () => {
-    const active = this.state.page;
+  const fillPaginationItems = () => {
+    const active = page;
     const items = [];
     items.push(
-      <Pagination.First key={-1} onClick={() => { this.setState({ page: 1 }); }} />,
+      <Pagination.First key={-1} onClick={() => { changePage(1); }} />,
     );
     items.push(
-      <Pagination.Prev key={0} onClick={() => { if (active !== 1) this.setState({ page: active - 1 }); }} />,
+      <Pagination.Prev key={0} onClick={() => { if (active !== 1) changePage(active - 1); }} />,
 
     );
-    for (let number = 1; number <= this.props.blogCount; number += 1) {
+    for (let number = 1; number <= currBlogs.length; number += 1) {
       items.push(
-        <Pagination.Item key={number} active={number === active} onClick={() => { this.setState({ page: number }); }}>
+        <Pagination.Item key={number} active={number === active} onClick={() => { changePage(number); }}>
           {number}
         </Pagination.Item>,
       );
     }
     items.push(
-      <Pagination.Next key={this.props.blogCount + 1} onClick={() => { if (active !== this.props.blogCount) this.setState({ page: active + 1 }); }} />,
+      <Pagination.Next key={props.blogCount + 1} onClick={() => { if (active !== props.blogCount) changePage(active + 1); }} />,
 
     );
     items.push(
-      <Pagination.Last key={this.props.blogCount + 2} onClick={() => { this.setState({ page: this.props.blogCount }); }} />,
+      <Pagination.Last key={props.blogCount + 2} onClick={() => { changePage(currBlogs.length); }} />,
     );
     return items;
-  }
+  };
 
-  displayBlogPost = (post) => {
-    if (this.state.keyword === '' || post.keywords.includes(this.state.keyword)) {
-      if ((this.props.user.type === 'admin' || this.props.user.type === 'contributor') || post.visible) {
+  const displayBlogPost = (post) => {
+    if (keyword === '' || post.keywords.includes(keyword)) {
+      if ((props.user.type === 'admin' || props.user.type === 'contributor') || post.visible) {
         return (
           <div key={`${post._id}main`} className="post">
-            <IndivBlog blog={post} key={post._id} user={this.props.user} visible={post.visible} changeKeyword={this.changeKeyword} />
-            {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
+            <IndivBlog blog={post} key={post._id} user={props.user} visible={post.visible} changeKeyword={changeKeyword} />
+            {(props.user.type === 'admin' || props.user.type === 'contributor')
               ? (
                 <div key={`${post._id}div`}>
-                  <NavLink to={ROUTES.NEW_BLOG} onClick={() => { this.props.setBlog(post); }}>
+                  <NavLink to={ROUTES.NEW_BLOG} onClick={() => { props.setBlog(post); }}>
                     <Button>
                       Edit post
                     </Button>
@@ -92,9 +82,9 @@ class Blog extends React.Component {
                   <Button
                     variant={post.visible ? 'danger' : 'success'}
                     onClick={() => {
-                      this.props.updateBlog(
+                      props.updateBlog(
                         { ...post, visible: !post.visible },
-                        this.props.user,
+                        props.user,
                       );
                     }}
                   >
@@ -106,61 +96,61 @@ class Blog extends React.Component {
               : <div key={`${post._id}div`} />
               }
             <p>Comment:</p>
-            <textarea type="text" name="comment" value={this.state.comment} onChange={this.handleCommentChange} className="comment" />
+            <textarea type="text" name="comment" value={comment} onChange={e => changeComment(e.target.value)} className="comment" />
             <Button
               onClick={() => {
                 const newComments = post.comments;
                 let name = 'Anonymous';
-                if (Object.keys(this.props.user).length !== 0) {
-                  name = `${this.props.user.first_name} ${this.props.user.last_name}`;
+                if (Object.keys(props.user).length !== 0) {
+                  name = `${props.user.first_name} ${props.user.last_name}`;
                 }
                 newComments.splice(0, 0, {
                   author: name,
-                  body: this.state.comment,
+                  body: comment,
                   date: Date.now(),
                   visible: true,
                 });
-                this.props.commentBlog({
+                props.commentBlog({
                   ...post,
                   comments: newComments,
                 },
-                this.props.user);
+                props.user);
               }}
             >
               Submit
             </Button>
-            {post.comments.map((comment, index) => {
-              if ((this.props.user.type === 'none' || Object.keys(this.props.user).length === 0) && comment.visible) {
+            {post.comments.map((c, index) => {
+              if ((props.user.type === 'none' || Object.keys(props.user).length === 0) && c.visible) {
                 return (
-                  <div key={comment.body} className="comment-container">
-                    <p>{comment.author}</p>
-                    <p className="date">{new Date(comment.date).toDateString()}</p>
-                    <p>{comment.body}</p>
+                  <div key={c.body} className="comment-container">
+                    <p>{changeComment.author}</p>
+                    <p className="date">{new Date(c.date).toDateString()}</p>
+                    <p>{c.body}</p>
                   </div>
                 );
-              } else if (this.props.user.type === 'contributor' || this.props.user.type === 'admin') {
+              } else if (props.user.type === 'contributor' || props.user.type === 'admin') {
                 return (
                   <div>
-                    <div key={comment.body} className="comment-container" id="admin">
-                      <p>{comment.author}</p>
-                      <p className="date">{new Date(comment.date).toDateString()}</p>
-                      <p>{comment.body}</p>
+                    <div key={c.body} className="comment-container" id="admin">
+                      <p>{c.author}</p>
+                      <p className="date">{new Date(c.date).toDateString()}</p>
+                      <p>{changeCurrBlogs.body}</p>
                     </div>
                     <div onClick={() => {
-                      post.comments.splice(index, 1, { ...comment, visible: !comment.visible });
-                      this.props.updateBlog(post,
-                        this.props.user);
+                      post.comments.splice(index, 1, { ...c, visible: !c.visible });
+                      props.updateBlog(post,
+                        props.user);
                     }}
                       role="button"
                       tabIndex={0}
                       className="button"
                     >
-                      {comment.visible ? 'Hide comment' : 'Show comment'}
+                      {c.visible ? 'Hide comment' : 'Show comment'}
                     </div>
                   </div>
                 );
               } else {
-                return <div key={comment.body} />;
+                return <div key={c.body} />;
               }
             })}
           </div>
@@ -169,23 +159,40 @@ class Blog extends React.Component {
         );
       } else return (<div key={`${post._id}div`} />);
     } else return (<div key={`${post._id}div`} />);
-  }
+  };
+  return (
+    <div className="container">
+      {(props.user.type === 'admin' || props.user.type === 'contributor')
+        ? (
+          <div className="keywords">
+            <NavLink to={ROUTES.NEW_BLOG}>
+              <Button>
+                new post
+              </Button>
+            </NavLink>
+            <p>Keywords:</p>
+            {props.keywords.map((kw) => {
+              return (
+                <div onClick={() => { changeKeyword(kw.name); }}
+                  role="button"
+                  tabIndex={0}
+                  key={kw.name}
+                  style={{ textDecoration: 'underline', color: 'blue' }}
+                >
+                  {kw.name}
+                </div>
+              );
+            })}
+          </div>
 
-  render() {
-    return (
-      <div className="container">
-        {(this.props.user.type === 'admin' || this.props.user.type === 'contributor')
-          ? (
-            <div className="keywords">
-              <NavLink to={ROUTES.NEW_BLOG}>
-                <Button>
-                  new post
-                </Button>
-              </NavLink>
-              <p>Keywords:</p>
-              {this.props.keywords.map((kw) => {
+        )
+        : (
+          <div className="keywords">
+            <p>Keywords:</p>
+            {props.keywords.map((kw) => {
+              if (kw.postCount !== 0) {
                 return (
-                  <div onClick={() => { this.changeKeyword(kw.name); }}
+                  <div onClick={() => { changeKeyword(kw.name); }}
                     role="button"
                     tabIndex={0}
                     key={kw.name}
@@ -193,60 +200,39 @@ class Blog extends React.Component {
                   >
                     {kw.name}
                   </div>
+
                 );
-              })}
-            </div>
+              } else {
+                return <div key={kw.name} />;
+              }
+            })}
+          </div>
+        )
+          }
 
-          )
+      <div className="postContainer">
+
+        {keyword === '' ? <div />
           : (
-            <div className="keywords">
-              <p>Keywords:</p>
-              {this.props.keywords.map((kw) => {
-                if (kw.postCount !== 0) {
-                  return (
-                    <div onClick={() => { this.changeKeyword(kw.name); }}
-                      role="button"
-                      tabIndex={0}
-                      key={kw.name}
-                      style={{ textDecoration: 'underline', color: 'blue' }}
-
-                    >
-                      {kw.name}
-                    </div>
-
-                  );
-                } else {
-                  return <div key={kw.name} />;
-                }
-              })}
+            <div>
+              <p style={{ display: 'inline-block', margin: '5px' }}>Keyword selected: {keyword}</p>
+              <Button onClick={() => changeKeyword('')}>
+                clear
+              </Button>
             </div>
           )
-          }
-
-        <div className="postContainer">
-
-          {this.state.keyword === '' ? <div />
-            : (
-              <div>
-                <p style={{ display: 'inline-block', margin: '5px' }}>Keyword selected: {this.state.keyword}</p>
-                <Button onClick={() => this.changeKeyword('')}>
-                  clear
-                </Button>
-              </div>
-            )
 
           }
-          {this.props.blogs.length === 0 ? <h1>Loading blog...</h1> : this.displayBlogPost(this.props.blogs[this.state.page - 1])}
-          <br />
-          <br />
-          <Pagination>{this.fillPaginationItems()}</Pagination>
-          <br />
-          <br />
-        </div>
+        {currBlogs.length === 0 ? <h1>Loading blog...</h1> : displayBlogPost(currBlogs[page - 1])}
+        <br />
+        <br />
+        <Pagination>{fillPaginationItems()}</Pagination>
+        <br />
+        <br />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

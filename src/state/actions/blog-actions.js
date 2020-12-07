@@ -111,6 +111,7 @@ const createBlog = (b, u, success, failure) => {
     blogRequests
       .createBlog({ token: getState().user.token, blog: b, user: u })
       .then((response) => {
+        dispatch(getAllBlogs());
         dispatch({ type: ActionTypes.SET_BLOG, payload: response });
         if (success !== undefined) {
           success();
