@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import am4geodataWorldLow from '@amcharts/amcharts4-geodata/worldLow';
@@ -30,6 +30,8 @@ const Map = (props) => {
   const [searchedMap, setSearchedMap] = useState([]);
   const [langDisplayEnum, changeLangDisplayEnum] = useState('MANY LANG');
   const { map } = props;
+
+  const history = useHistory();
 
   const createMap = (passedInMap) => {
     // Create map instance
@@ -115,21 +117,21 @@ const Map = (props) => {
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
         changeLangDisplayEnum('ONE LANG');
-        props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}/${event.target.dataItem.dataContext.langArray[0].instrument_name}`);
+        history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}/${event.target.dataItem.dataContext.langArray[0].instrument_name}`);
       } else if (countryLanguages[countryName] && countryLanguages[countryName].countryLangsNameArray.length === 1) {
         changeLangDisplayEnum('ONE LANG MANY SUB');
         setSelectedLanguagesSameName(countryLanguages[countryName].countryLangsArray);
         setSelectedCountry(event.target.dataItem.dataContext);
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
-        props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+        history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
       } else if (countryLanguages[countryName] && countryLanguages[countryName].countryLangsArray.length > 1) {
         setSelectedLanguagesSameName([]);
         changeLangDisplayEnum('MANY LANG');
         setSelectedCountry(event.target.dataItem.dataContext);
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
-        props.history.push(`/map/${countryName}`);
+        history.push(`/map/${countryName}`);
       }
     });
     imageSeriesTemplate.events.on('hit', (event) => {
@@ -141,21 +143,21 @@ const Map = (props) => {
         setSelectedLanguage(event.target.dataItem.dataContext.langArray[0]);
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
-        props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}/${event.target.dataItem.dataContext.langArray[0].instrument_name}`);
+        history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}/${event.target.dataItem.dataContext.langArray[0].instrument_name}`);
       } else if (countryLanguages[countryName] && countryLanguages[countryName].countryLangsNameArray.length === 1) {
         setSelectedLanguagesSameName(event.target.dataItem.dataContext.langArray);
         changeLangDisplayEnum('ONE LANG MANY SUB');
         setSelectedCountry(event.target.dataItem.dataContext);
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
-        props.history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
+        history.push(`/map/${countryName}/${event.target.dataItem.dataContext.langArray[0].language}`);
       } else if (countryLanguages[countryName] && countryLanguages[countryName].countryLangsArray.length > 1) {
         changeLangDisplayEnum('MANY LANG');
         setSelectedLanguagesSameName([]);
         setSelectedCountry(event.target.dataItem.dataContext);
         setCountryLangs(event.target.dataItem.dataContext.langArray);
         setShowModal(true);
-        props.history.push(`/map/${countryName}`);
+        history.push(`/map/${countryName}`);
       }
     });
     setMountedGraph(true);
@@ -167,9 +169,11 @@ const Map = (props) => {
     props.getAllMapLangs();
   }
 
+  // this is for handling routing (back/forward buttons and load at specific url)
   useEffect(() => {
     if (Object.keys(map).length > 0) {
       const urlArray = window.location.href.split('/');
+      console.log(urlArray.length);
       if (urlArray.length > 4) {
         let country = urlArray[4];
         const countryArray = country.split('%20');
@@ -184,13 +188,13 @@ const Map = (props) => {
           const instrumentArray = instrument.split('%20');
           if (instrumentArray.length > 1) instrument = instrumentArray.join(' ');
         }
-        const newSelectedCountry = { name: country, langArray: [] };
-        newSelectedCountry[country] = [];
+        const newSelectedCountry = { name: country, langArray: [], country: [] };
         let newSelectedLanguage = {};
         const newSelectedLanguagesSameName = [];
         const newCountryLangs = [];
-        map.forEach((lang) => {
-          if (lang.country.includes(country.trim())) {
+        if (country) {
+          const filteredMap = map.filter(lang => lang.country.includes(country.trim()));
+          filteredMap.forEach((lang) => {
             newSelectedCountry.langArray.push(lang);
             newCountryLangs.push(lang);
             if (language && lang.language.trim() === language.trim()) {
@@ -213,17 +217,25 @@ const Map = (props) => {
             } else if (instrument && lang.instrument_name.trim() === instrument.trim()) {
               newSelectedLanguage = lang;
             }
-          }
-        });
+          });
+        }
+
+        if (newSelectedLanguagesSameName.length === 1) {
+          changeLangDisplayEnum('ONE LANG');
+        } else if (newSelectedLanguagesSameName.length > 1) {
+          changeLangDisplayEnum('ONE LANG MANY SUB');
+        } else {
+          changeLangDisplayEnum('MANY LANG');
+        }
         setSelectedCountry(newSelectedCountry);
         setCountryLangs(newCountryLangs);
         setSelectedLanguage(newSelectedLanguage);
         setSelectedLanguagesSameName(newSelectedLanguagesSameName);
-        setShowModal(true);
-      }
+        if (country) setShowModal(true);
+      } else if (showModal) setShowModal(false);
       createMap(map);
     }
-  }, [map]);
+  }, [map, history.location]);
 
   useEffect(() => {
     if (search !== '') {
@@ -357,7 +369,7 @@ const Map = (props) => {
           setSelectedLanguage({});
           setSelectedLanguagesSameName([]);
           setShowModal(false);
-          props.history.push('/map');
+          history.push('/map');
         }
         }
       >
@@ -378,12 +390,12 @@ const Map = (props) => {
                       if (Object.keys(langsSameName).includes(lang.language)) {
                         changeLangDisplayEnum('ONE LANG MANY SUB');
                         setSelectedLanguagesSameName(langsSameName[lang.language]);
-                        props.history.push(`/map/${lang.country[0]}/${lang.language}`);
+                        history.push(`/map/${lang.country[0]}/${lang.language}`);
                       } else {
                         setSelectedLanguagesSameName([]);
                         changeLangDisplayEnum('MANY LANG');
                         setSelectedLanguage(lang);
-                        props.history.push(`/map/${lang.country[0]}/${lang.language}/${lang.instrument_name}`);
+                        history.push(`/map/${lang.country[0]}/${lang.language}/${lang.instrument_name}`);
                       }
                     }
                     }
