@@ -27,7 +27,9 @@ const BlogReducer = (state = initialState, action) => {
     case ActionTypes.SET_BLOG:
       return { ...state, blog: action.payload };
     case ActionTypes.SET_BLOGS:
-      return { ...state, allBlogs: action.payload.reverse(), blogCount: action.payload.length };
+      return {
+        ...state, allBlogs: action.payload.reverse(), blogCount: action.payload.length, mostRecentBlog: action.payload[0],
+      };
     case ActionTypes.SET_KEYWORDS:
       return { ...state, keywords: action.payload.sort(compare) };
     case ActionTypes.SET_MOST_RECENT_BLOG:

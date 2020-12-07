@@ -6,7 +6,6 @@ import { withRouter, NavLink } from 'react-router-dom';
 import '../styles/navbar.css';
 import '../styles/blog.css';
 import ReactPlayer from 'react-player';
-import ReactHtmlParser from 'react-html-parser';
 import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
 import { getGrantLanguage } from '../state/actions';
@@ -55,13 +54,13 @@ class LanguagePage extends React.Component {
             return (
               <div key={section.title}>
                 <h2>{section.title}</h2>
-                {/* eslint-disable-next-line new-cap */}
-                <div>{ReactHtmlParser(section.blurb)}</div>
+                {/* eslint-disable-next-line react/no-danger */}
+                <div dangerouslySetInnerHTML={{ __html: section.blurb }} />
                 {section.multimedia.map((link) => {
                   return (
                     <div key={link.link}>
-                      {/* eslint-disable-next-line new-cap */}
-                      <div>{ReactHtmlParser(link.blurb)}</div>
+                      {/* eslint-disable-next-line react/no-danger */}
+                      <div dangerouslySetInnerHTML={{ __html: link.blurb }} />
                       <ReactPlayer url={link.link} key={link.link} controls />
                     </div>
                   );

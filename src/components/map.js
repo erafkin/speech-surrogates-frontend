@@ -7,7 +7,6 @@ import am4geodataWorldLow from '@amcharts/amcharts4-geodata/worldLow';
 import am4themesAnimated from '@amcharts/amcharts4/themes/animated';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import ReactHtmlParser from 'react-html-parser';
 import { CSVLink } from 'react-csv';
 import { getAllMapLangs, setIndivMapLang } from '../state/actions';
 import { CsvHeaders } from '../constants/constant_map_params';
@@ -424,8 +423,8 @@ const Map = (props) => {
               <p><span style={{ fontWeight: '700' }}>Current Status: </span><span>{selectedLanguage.current_status}</span></p>
 
               <p style={{ fontWeight: '700' }}>Summary:</p>
-              {/* eslint-disable-next-line new-cap */}
-              <div>{ReactHtmlParser(selectedLanguage.summary)}</div>
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: selectedLanguage.summary }} />
               <div><span style={{ fontWeight: '700' }}>Bibliography: </span>
                 {
                 selectedLanguage.source.map((source) => {

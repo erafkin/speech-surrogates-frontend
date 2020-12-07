@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  getAllNews, getAllMapLangs, getMostRecentBlog, getAllAboutPages,
+  getAllNews, getAllMapLangs, getMostRecentBlog, getAllAboutPages, getAllBlogs,
 } from '../state/actions';
 import IndivBlog from './indiv-blog';
 import { ROUTES } from '../constants';
@@ -15,6 +15,7 @@ const changeKeyword = {
 const Home = (props) => {
   if (props.mostRecentBlog.length === 0) {
     props.getMostRecentBlog();
+    props.getAllBlogs();
   }
   if (Object.keys(props.news).length === 0) {
     props.getAllNews();
@@ -92,6 +93,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getMostRecentBlog: () => {
       dispatch(getMostRecentBlog());
+    },
+    getAllBlogs: () => {
+      dispatch(getAllBlogs());
     },
     getAllAboutPages: () => {
       dispatch(getAllAboutPages());

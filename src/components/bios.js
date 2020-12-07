@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import '../styles/navbar.css';
 import '../styles/blog.css';
-import ReactHtmlParser from 'react-html-parser';
-
 
 const Bios = (props) => {
   return (
@@ -18,8 +16,8 @@ const Bios = (props) => {
           return (
             <div key={user._id} style={{ minHeight: '450px' }}>
               <h1 style={{ }}>{user.first_name} {user.last_name}</h1>
-              { /* eslint-disable-next-line new-cap */ }
-              <div>{ReactHtmlParser(user.bio)}</div>
+              {/* eslint-disable-next-line react/no-danger */}
+              <div dangerouslySetInnerHTML={{ __html: user.bio }} />
             </div>
           );
         }

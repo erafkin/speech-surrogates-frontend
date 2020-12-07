@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/navbar.css';
-import ReactHtmlParser from 'react-html-parser';
 
 const IndivBlog = (props) => {
   return (
@@ -32,8 +31,9 @@ const IndivBlog = (props) => {
         );
       })}
       </div>
-      {/* eslint-disable-next-line new-cap */}
-      <div>{ReactHtmlParser(props.blog.body)}</div>
+      {/* eslint-disable-next-line react/no-danger */}
+      <div dangerouslySetInnerHTML={{ __html: props.blog.body }} />
+
     </div>
   );
 };

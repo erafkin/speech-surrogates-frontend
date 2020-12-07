@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
 import Button from 'react-bootstrap/Button';
 import { ROUTES } from '../constants';
 import { getAboutPage } from '../state/actions';
@@ -33,8 +32,8 @@ class About extends React.Component {
           : <div />
           }
         <h1 className="lang-title">{this.props.about.title}</h1>
-        {/* eslint-disable-next-line new-cap */}
-        <div>{ReactHtmlParser(this.props.about.blurb)}</div>
+        {/* eslint-disable-next-line react/no-danger */}
+        <div dangerouslySetInnerHTML={{ __html: this.props.about.blurb }} />
       </div>
     );
   }
