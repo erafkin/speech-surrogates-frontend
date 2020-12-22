@@ -259,15 +259,19 @@ const Map = (props) => {
         let added = false;
         Object.keys(lang).forEach((field) => {
           if (!added && lang[field] !== '' && !Number.isInteger(lang[field])) {
+            let lowerCaseFieldContents;
             if (Array.isArray(lang[field])) {
-              if (lang[field].includes(search)) {
+              lowerCaseFieldContents = lang[field].map(f => f.toLowerCase());
+            } else {
+              const fieldContents = lang[field].split(' ');
+              lowerCaseFieldContents = fieldContents.map(f => f.toLowerCase());
+            }
+            lowerCaseFieldContents.forEach((fieldContent) => {
+              if (fieldContent.includes(search.toLowerCase()) && !added) {
                 newMap.push(lang);
                 added = true;
               }
-            } else if (lang[field].split(' ').includes(search)) {
-              newMap.push(lang);
-              added = true;
-            }
+            });
           }
         });
       });
@@ -459,22 +463,30 @@ const Map = (props) => {
       <div style={{ margin: '2vw', textAlign: 'center' }}
         id="mapSearch"
       >
-        <div style={{ textAlign: 'left', marginLeft: '20vw' }}>
-          {searchedMap.map((lang) => {
-            return (
-              <div key={lang._id}
-                style={{ textDecoration: 'underline' }}
-                onClick={() => { setSelectedLanguage(lang); setShowModal(true); }}
-                role="button"
-                tabIndex={0}
-              >
-                <p>{lang.language} ({lang.instrument_name})</p>
-              </div>
-            );
-          })}
-        </div>
-
-
+        {searchedMap.length === 0 ? null
+          : (
+            <div style={{ textAlign: 'left', marginLeft: '20vw' }}>
+              {searchedMap.map((lang) => {
+                return (
+                  <div key={lang._id}
+                    style={{ textDecoration: 'underline' }}
+                    onClick={() => {
+                      setSelectedLanguage(lang);
+                      setShowModal(true);
+                      setSelectedLanguagesSameName([]);
+                      changeLangDisplayEnum('ONE LANG');
+                      history.push(`/map/${lang.country[0]}/${lang.language}/${lang.instrument_name}`);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <p>{lang.language} ({lang.instrument_name})</p>
+                  </div>
+                );
+              })}
+            </div>
+          )
+        }
       </div>
     </div>
   );
