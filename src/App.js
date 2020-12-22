@@ -21,6 +21,8 @@ import NewMapEntry from './components/new-map-entry';
 import ForgotPassword from './components/forgot-password';
 import Profile from './components/profile';
 import NewAbout from './components/new-about';
+import Podcasts from './components/podcasts';
+
 
 const FallBack = () => {
   return <div>URL not found</div>;
@@ -57,6 +59,8 @@ class App extends React.Component {
             <Route path={ROUTES.MAP} component={Map} />
             <Route path={ROUTES.NEW_MAP_LANG} component={NewMapEntry} />
             <Route path={ROUTES.NEW_ABOUT} component={NewAbout} />
+            <Route path={ROUTES.PODCASTS} component={Podcasts} />
+
             <Route path={ROUTES.HOME} component={Home} /> {/* home always has to be at the bottom of this stack */}
             <Route component={FallBack} />
           </Switch>

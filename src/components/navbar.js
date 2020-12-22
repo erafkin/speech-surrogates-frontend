@@ -130,8 +130,8 @@ class SSNavbar extends React.Component {
                 <LanguageNav dropdownType="grant-languages" />
               </NavDropdown>
               <Nav.Link as={NavLink} to={ROUTES.BIOS}>Contributor Bios</Nav.Link>
+              {/* <Nav.Link as={NavLink} to={ROUTES.PODCASTS}>Podcasts</Nav.Link> */}
               <Nav.Link as={NavLink} to={ROUTES.MAP}>Map</Nav.Link>
-
             </Nav>
             <Nav className="mr-sm-2" style={{ paddingRight: '3vw' }}>
               {Object.keys(this.props.user).length === 0 ? (
