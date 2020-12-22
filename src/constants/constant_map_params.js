@@ -1,9 +1,5 @@
 export const comprehensionValues = [{ value: 'Widespread', label: 'Widespread' }, { value: 'Uncommon', label: 'Uncommon' }, { value: 'Users-only', label: 'Users-only' }];
 export const productivityValues = [{ value: 'Fully productive', label: 'Fully productive' }, { value: 'Intermediate', label: 'Intermediate' }, { value: 'Unproductive', label: 'Unproductive' }];
-export const currentStatusValues = [{ value: 'Extinct', label: 'Extinct' },
-  { value: 'Extant', label: 'Extant' },
-  { value: 'Marginal', label: 'Marginal' },
-  { value: 'Neotraditional', label: 'Neotraditional' }];
 export const continentValues = [{ value: 'Africa', label: 'Africa' },
   { value: 'Asia', label: 'Asia' },
   { value: 'Oceania', label: 'Oceania' },
@@ -17,6 +13,12 @@ export const CsvHeaders = [{
 }, {
   key: 'country',
   label: 'Country',
+}, {
+  key: 'macrofamily',
+  label: 'Language macrofamily',
+}, {
+  key: 'iso_code',
+  label: 'Language ISO code',
 }, {
   key: 'language',
   label: 'Language',
@@ -56,9 +58,6 @@ export const CsvHeaders = [{
 }, {
   key: 'source',
   label: 'Bibliography',
-}, {
-  key: 'mentions',
-  label: 'Mentions',
 }, {
   key: 'current_status',
   label: 'Current Status',

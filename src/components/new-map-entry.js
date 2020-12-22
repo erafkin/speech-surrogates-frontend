@@ -11,7 +11,7 @@ import { createIndivMapLang, updateIndivMapLang, deleteIndivMapLang } from '../s
 import '../styles/blog.css';
 import countryCodes from '../constants/country-to-code.json';
 import {
-  continentValues, comprehensionValues, productivityValues, currentStatusValues,
+  continentValues, comprehensionValues, productivityValues,
 } from '../constants/constant_map_params';
 
 class NewMapEntry extends React.Component {
@@ -33,9 +33,11 @@ class NewMapEntry extends React.Component {
       productivity: this.props.indivMapLang.productivity === undefined ? '' : this.props.indivMapLang.productivity,
       currentStatus: this.props.indivMapLang.current_status === undefined ? '' : this.props.indivMapLang.current_status,
       source: this.props.indivMapLang.source === undefined || this.props.indivMapLang.source.length === 0 ? [] : this.props.indivMapLang.source,
-      mentions: this.props.indivMapLang.mentions === undefined ? '' : this.props.indivMapLang.mentions,
       summary: this.props.indivMapLang.summary === undefined ? '' : this.props.indivMapLang.summary,
       entryAuthors: this.props.indivMapLang.entry_authors === undefined ? '' : this.props.indivMapLang.entry_authors,
+      isoCode: this.props.indivMapLang.iso_code === undefined ? '' : this.props.indivMapLang.iso_code,
+      macrofamily: this.props.indivMapLang.macrofamily === undefined ? '' : this.props.indivMapLang.macrofamily,
+
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
@@ -101,14 +103,17 @@ class NewMapEntry extends React.Component {
         newSources.push('');
         this.setState({ source: newSources });
         break;
-      case 'mentions':
-        this.setState({ mentions: e.target.value });
-        break;
       case 'entryAuthors':
         this.setState({ entryAuthors: e.target.value });
         break;
       case 'currentStatus':
         this.setState({ currentStatus: e.target.value });
+        break;
+      case 'macrofamily':
+        this.setState({ macrofamily: e.target.value });
+        break;
+      case 'isoCode':
+        this.setState({ isoCode: e.target.value });
         break;
       default:
         break;
@@ -271,10 +276,11 @@ class NewMapEntry extends React.Component {
       comprehension: this.state.comprehension,
       productivity: this.state.productivity,
       source: this.state.source,
-      mentions: this.state.mentions,
       summary: this.state.summary,
       entryAuthors: this.state.entryAuthors,
       currentStatus: this.state.currentStatus,
+      isoCode: this.state.isoCode,
+      macrofamily: this.state.macrofamily,
     };
     if (this.props.indivMapLang._id !== undefined) {
       // update page
@@ -294,10 +300,11 @@ class NewMapEntry extends React.Component {
           comprehension: this.state.comprehension,
           productivity: this.state.productivity,
           source: this.state.source,
-          mentions: this.state.mentions,
           summary: this.state.summary,
           entry_authors: this.state.entryAuthors,
           current_status: this.state.currentStatus,
+          iso_code: this.state.isoCode,
+          macrofamily: this.state.macrofamily,
           _id: this.props.indivMapLang._id,
         },
         this.props.user,
@@ -402,6 +409,7 @@ class NewMapEntry extends React.Component {
     const depthOfEncodingOptions = [];
     const instrumentFamilyOptions = [];
     const instrumentTypeOptions = [];
+    const macrofamilyOptions = [];
 
     const contentValues = this.contentValues();
     const specializationValues = this.specializationValues();
@@ -422,6 +430,14 @@ class NewMapEntry extends React.Component {
         case 'instrument_family':
           parameter.values.forEach((value) => {
             instrumentFamilyOptions.push({
+              value,
+              label: value,
+            });
+          });
+          break;
+        case 'macrofamily':
+          parameter.values.forEach((value) => {
+            macrofamilyOptions.push({
               value,
               label: value,
             });
@@ -499,6 +515,20 @@ class NewMapEntry extends React.Component {
           classNamePrefix="select"
           onChange={this.handleSelectChange}
         />
+        <p>Language Macrofamily</p>
+        <CreatableSelect
+          onChange={(event) => {
+            const value = event === null ? '' : event.value;
+            this.setState({ macrofamily: value });
+          }}
+          options={macrofamilyOptions}
+          isClearable
+          className="basic"
+          classNamePrefix="select"
+          defaultValue={{ value: this.state.macrofamily, label: this.state.macrofamily }}
+        />
+        <p>Language ISO Code</p>
+        <input type="text" name="name" value={this.state.isoCode} onChange={event => this.handleChange('isoCode', event)} className="title" />
         <p>Instrument/Surrogate Name:</p>
         <input type="text" name="name" value={this.state.instrumentName} onChange={event => this.handleChange('instrumentName', event)} className="title" />
         <p>Instrument Family</p>
@@ -587,18 +617,7 @@ class NewMapEntry extends React.Component {
           }}
         />
         <p>Current Status</p>
-        <Select
-          defaultValue={{ value: this.state.currentStatus, label: this.state.currentStatus }}
-          name="continent"
-          options={currentStatusValues}
-          className="basic"
-          classNamePrefix="select"
-          isClearable
-          onChange={(event) => {
-            const value = event === null ? '' : event.value;
-            this.setState({ currentStatus: value });
-          }}
-        />
+        <input type="text" name="name" value={this.state.currentStatus} onChange={event => this.handleChange('currentStatus', event)} className="title" />
         <p>Bibliography</p>
         {this.state.source.map((source, index) => {
           return (
@@ -614,9 +633,6 @@ class NewMapEntry extends React.Component {
         <Button variant="success" onClick={event => this.handleChange('addSource')}>
           Add Source
         </Button>
-
-        <p>Mentions</p>
-        <input type="text" name="title" value={this.state.mentions} onChange={event => this.handleChange('mentions', event)} className="title" />
         <p>Entry Authors</p>
         <input type="text" name="title" value={this.state.entryAuthors} onChange={event => this.handleChange('entryAuthors', event)} className="title" />
         <p>Summary:</p>

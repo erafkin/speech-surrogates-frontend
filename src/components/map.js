@@ -410,6 +410,8 @@ const Map = (props) => {
             <Modal.Body>
               <p><span style={{ fontWeight: '700' }}>Continent: </span><span>{selectedLanguage.continent}</span></p>
               <p><span style={{ fontWeight: '700' }}>Country: </span><span>{selectedLanguage.country ? selectedLanguage.country.join(', ') : ''}</span></p>
+              <p><span style={{ fontWeight: '700' }}>Language Macrofamily: </span><span>{selectedLanguage.macrofamily || ''}</span></p>
+              <p><span style={{ fontWeight: '700' }}>Language ISO Code: </span><span>{selectedLanguage.iso_code || ''}</span></p>
               <p><span style={{ fontWeight: '700' }}>Instrument Name: </span><span>{selectedLanguage.instrument_name}</span></p>
               <p><span style={{ fontWeight: '700' }}>Instrument Family: </span><span>{selectedLanguage.instrument_family}</span></p>
               <p><span style={{ fontWeight: '700' }}>Instrument Type: </span><span>{selectedLanguage.instrument_type}</span></p>
@@ -438,7 +440,6 @@ const Map = (props) => {
                 }
               </div>
 
-              <p><span style={{ fontWeight: '700' }}>Mentions: </span><span>{selectedLanguage.mentions}</span></p>
               <p><span style={{ fontWeight: '700' }}>Entry Authors: </span><span>{selectedLanguage.entry_authors}</span></p>
 
               {props.user.type === 'admin' || props.user.type === 'contributor'
