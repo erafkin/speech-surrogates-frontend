@@ -173,15 +173,9 @@ const Map = (props) => {
     if (Object.keys(map).length > 0) {
       const urlArray = window.location.href.split('/');
       if (urlArray.length > 4) {
-        let country = urlArray[4];
-        const countryArray = country.split('%20');
-        if (countryArray.length > 1) country = countryArray.join(' ');
-        let language = urlArray.length > 5 ? urlArray[5] : null;
-        if (language) {
-          const languageArray = language.split('%20');
-          if (languageArray.length > 1) language = languageArray.join(' ');
-        }
-        let instrument = urlArray.length > 6 ? urlArray[6] : null;
+        const country = decodeURI(urlArray[4]);
+        const language = urlArray.length > 5 ? decodeURI(urlArray[5]) : null;
+        let instrument = urlArray.length > 6 ? decodeURI(urlArray[6]) : null;
         if (instrument) {
           const instrumentArray = instrument.split('%20');
           if (instrumentArray.length > 1) instrument = instrumentArray.join(' ');
