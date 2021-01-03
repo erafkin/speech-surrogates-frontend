@@ -195,19 +195,14 @@ const Map = (props) => {
                 const instrumentList = instrument.split(',');
                 let sameInstrumentName = true;
                 instrumentList.forEach((inst) => {
-                  // if the instrument name does not have a special character
-                  if (!inst.includes('%')) {
-                    if (!lang.instrument_name.includes(inst.trim())) {
-                      sameInstrumentName = false;
-                    }
+                  if (!lang.instrument_name.includes(decodeURI(inst))) {
+                    sameInstrumentName = false;
                   }
                 });
                 if (sameInstrumentName) {
                   newSelectedLanguage = lang;
                 }
               }
-            } else if (instrument && lang.instrument_name.trim() === instrument.trim()) {
-              newSelectedLanguage = lang;
             }
           });
         }
@@ -219,6 +214,7 @@ const Map = (props) => {
         } else {
           changeLangDisplayEnum('MANY LANG');
         }
+
         setSelectedCountry(newSelectedCountry);
         setCountryLangs(newCountryLangs);
         setSelectedLanguage(newSelectedLanguage);
